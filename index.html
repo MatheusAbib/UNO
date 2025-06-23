@@ -142,23 +142,36 @@
   100% { transform: translateX(0) rotate(0deg); }
 }
 
+@keyframes bubble-appear {
+  0% {
+    transform: translateY(10px) scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+.speech-bubble.show {
+  animation: bubble-appear 0.3s ease-out forwards;
+}
+
 .deck-shuffle {
   animation: deck-shuffle 0.5s ease-in-out;
 }
 
  html, body {
     width: 100%;
-    height: 100%;
+    height: 101%;
     overflow: auto;
   }
-
 
   body {
     margin: 0;
     font-family: 'Bungee', cursive;
     background-color: var(--dark-bg);
     color: white;
-    height: 100%;
     overflow: hidden;
     position: relative;
     background-image: 
@@ -167,26 +180,9 @@
       radial-gradient(circle at 80% 70%, rgba(5, 217, 232, 0.1) 0%, transparent 30%),
       radial-gradient(circle at 50% 90%, rgba(0, 255, 157, 0.1) 0%, transparent 30%);
     background-attachment: fixed;
-      overscroll-behavior-y: contain;
 
   }
-  
 
- .vhs-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: 
-      linear-gradient(rgba(0, 0, 0, 0.1) 50%,
-      url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 15 -7"/></filter><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.1"/></svg>'),
-      repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15) 1px, transparent 1px, transparent 2px));
-    pointer-events: none;
-    z-index: 1000;
-    animation: vhs-static 0.2s infinite;
-    mix-blend-mode: overlay;
-  }
 
   /* Efeito scanlines */
   .scanlines {
@@ -270,6 +266,7 @@
 
   .tape-right {
     bottom: 50px;
+    right: -50px;
     transform: rotate(-45deg);
   }
 
@@ -315,14 +312,14 @@
   }
 
   .top-right-decoration {
-    top: 0;
+    top: 1%;
     right: 0;
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><polygon points="50,0 90,50 50,100 10,50" fill="none" stroke="%2305d9e8" stroke-width="2"/></svg>');
     animation: spin 15s linear infinite reverse;
   }
 
   .bottom-left-decoration {
-    bottom: 0;
+    bottom: 2.5%;
     left: 0;
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M10,10 L90,10 L90,90 L10,90 Z M30,30 L70,30 L70,70 L30,70 Z" fill="none" stroke="%2300ff9d" stroke-width="2"/></svg>');
     animation: spin 25s linear infinite;
@@ -337,31 +334,47 @@
 
 
   /* Áreas de layout */
-   .player-top { 
-    grid-area: top; 
-    justify-content: center; 
-    align-items: flex-start;
-    position: relative;
-    width: 30%;
-    margin-left: 32%;
+.player-top {
+  grid-area: top;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  margin: 0 auto; /* Centraliza horizontalmente */
+}
+
+.player-top .bot-avatar {
+  width: 60px;
+  height: 60px;
+}
+
+@media (min-width: 1024px) {
+  .player-top .bot-avatar {
+    width: 80px;
+    height: 80px;
+    left: 36%;
   }
+}
   
-  
-.lateral-esquerda { 
-    grid-area: left; 
-    display: flex; 
-    align-items: center; 
-    justify-content: flex-start;
-    position: relative;
-  }
-  
-  .lateral-direita { 
-    grid-area: right; 
-    display: flex; 
-    align-items: center; 
-    justify-content: flex-end;
-    position: relative;
-  }
+.lateral-esquerda {
+  grid-area: left;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  position: relative;
+  padding: 10px;
+}
+
+.lateral-direita {
+  grid-area: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  position: relative;
+  padding: 10px;
+}
   
  .centro { 
     grid-area: center; 
@@ -414,7 +427,7 @@
   }
 
   .player-name {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     font-weight: bold;
     font-size: 1.3rem;
     text-shadow: 0 0 10px currentColor;
@@ -835,9 +848,9 @@
 
   .discard-pile .card {
     position: absolute;
-    top: 0;
+    top: 8px;
     left: 0;
-    transform: rotate(-5deg);
+    transform: rotate(-8deg);
     animation: none;
   }
   /* Status */
@@ -1029,108 +1042,75 @@
 
   /* Balões de fala */
 .speech-bubble {
-    position: relative;
+  position: relative;
   background: white;
-    border-radius: 15px;
-    color: #333;
-    padding: 10px 12px;
-    font-size: 0.7rem;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-    opacity: 0;
-    transition: opacity 0.3s, transform 0.3s;
-    transform: scale(0.8);
-    max-width: 200px;
-    text-align: center;
-    z-index: 20;
-    font-family: 'Press Start 2P', cursive;
-    line-height: 1.4;
-
-  }
+  border-radius: 15px;
+  color: #333;
+  padding: 10px 12px;
+  font-size: 0.7rem;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+  transform: scale(0.8);
+  max-width: 200px;
+  text-align: center;
+  font-family: 'Press Start 2P', cursive;
+  line-height: 1.4;
+  margin: 10px auto 0; /* Centraliza e adiciona margem no topo */
+}
 
   .speech-bubble.show {
     opacity: 1;
     transform: scale(1);
   }
 
-  .speech-bubble::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 0;
-    border-style: solid;
-  }
+.speech-bubble::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 10px 10px;
+  border-style: solid;
+  border-color: transparent transparent white;
+}
 
 
-   .bot-top .speech-bubble {
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%) scale(0.8);
-    margin-bottom: 10px;
-  }
+.player-top .speech-bubble {
+  order: 1; /* Coloca o balão abaixo do avatar */
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
 
- .bot-top .speech-bubble.show {
-    transform: translateX(-50%) scale(1);
-  }
-
-
-   .bot-top .speech-bubble::after {
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 10px 10px 0;
-    border-color: white transparent transparent;
-  }
-
-  .bot-left .speech-bubble::after {
-    left: 100%;
-    top: 50%;
-    transform: translateY(-50%);
-    border-width: 10px 0 10px 10px;
-    border-color: transparent transparent transparent white;
-  }
+.player-top .speech-bubble::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 10px 10px;
+  border-style: solid;
+  border-color: transparent transparent white;
+}
 
 
-    .bot-right .speech-bubble::after {
-      left: -10px;
-      right: auto;
-      top: 50%;
-      transform: translateY(-50%);
-      border-width: 10px 10px 10px 0;
-      border-color: transparent white transparent transparent;
-      bottom: auto;
-    }
+.bot-left .speech-bubble,
+.bot-right .speech-bubble {
+  order: 1; /* Coloca o balão abaixo do avatar */
+  margin-top: 10px;
+}
 
-  /* Avatares dos bots */
-   .bot-avatar {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background-size: cover;
-    background-position: center;
-    border: 4px solid white;
-    box-shadow: 
-      0 0 25px rgba(255, 255, 255, 0.7),
-      inset 0 0 15px rgba(255, 255, 255, 0.3);
-    position: relative;
-    margin: 0 auto 15px;
-    animation: 
-      pulse 2s infinite,
-      float 3s ease-in-out infinite;
-    image-rendering: pixelated;
-  }
-
-  .bot-avatar::before {
-    content: "";
-    position: absolute;
-    top: -8px;
-    left: -8px;
-    right: -8px;
-    bottom: -8px;
-    border-radius: 50%;
-    border: 3px solid var(--neon-yellow);
-    animation: rgb-border 4s linear infinite;
-    pointer-events: none;
-  }
+.bot-left .speech-bubble::after,
+.bot-right .speech-bubble::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 10px 10px;
+  border-style: solid;
+  border-color: transparent transparent white;
+}
 
 
   .confetti {
@@ -1140,23 +1120,29 @@
     background-color: var(--neon-red);
     opacity: 0;
     z-index: 1000;
+      pointer-events: none;
+
     animation: confetti-fall 3s ease-out forwards;
     border-radius: 50%;
     box-shadow: 
       0 0 10px currentColor,
       0 0 20px currentColor;
+      
+      
   }
 
-  @keyframes confetti-fall {
-    0% {
-      transform: translateY(-100vh) rotate(0deg) scale(1);
-      opacity: 1;
-    }
-    100% {
-      transform: translateY(100vh) rotate(720deg) scale(0.5);
-      opacity: 0;
-    }
+ @keyframes confetti-fall {
+  0% {
+    transform: translateY(-10px) rotate(0deg) scale(1);
+    opacity: 1;
+    filter: brightness(1.5) saturate(2);
   }
+  100% {
+    transform: translateY(100vh) rotate(720deg) scale(0.5);
+    opacity: 0;
+  }
+}
+
  .victory {
     position: fixed;
     top: 0;
@@ -1180,21 +1166,29 @@
   }
 
   .victory-message {
-    font-size: 4rem;
-    color: var(--neon-yellow);
-    text-shadow: 
-      0 0 20px var(--neon-yellow),
-      0 0 40px var(--neon-yellow),
-      0 0 60px var(--neon-yellow);
-    margin-bottom: 40px;
-    text-align: center;
-    font-family: 'Rubik Mono One', sans-serif;
-    animation: 
-      pulse 1s infinite,
-      flicker 2s infinite alternate;
-    -webkit-text-stroke: 2px black;
-    letter-spacing: 5px;
-  }
+  font-size: 4rem;
+  color: var(--neon-yellow);
+  text-shadow: 
+    0 0 20px var(--neon-yellow),
+    0 0 40px var(--neon-yellow);
+  margin-bottom: 40px;
+  text-align: center;
+  font-family: 'Rubik Mono One', sans-serif;
+  animation: 
+    pulse 1s infinite,
+    flicker 2s infinite alternate;
+  -webkit-text-stroke: 2px black;
+  letter-spacing: 5px;
+}
+
+#quit-btn {
+  margin-top: 30px;
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  background: linear-gradient(135deg, var(--neon-purple), #ff00e6);
+  border: 3px solid white;
+  animation: neon-pulse 2s infinite;
+}
 
   .victory-buttons {
     display: flex;
@@ -1491,6 +1485,15 @@
       width: 50px;
       height: 50px;
     }
+     .victory-message {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+  }
+  
+  #quit-btn {
+    padding: 12px 24px;
+    font-size: 1rem;
+  }
   }
 
  @media (max-width: 576px) {
@@ -1602,6 +1605,25 @@
     font-size: 1rem;    /* Reduzido de 1.2rem */
 }
 
+.card.wild-card-played::after {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  right: -6px;
+  bottom: -6px;
+  border-radius: 12px;
+  border: 4px solid;
+  pointer-events: none;
+  animation: pulse-glow 1.5s infinite alternate;
+}
+
+/* Cores específicas para a borda */
+.card.wild-card-played.vermelho::after { border-color: var(--neon-red); }
+.card.wild-card-played.verde::after { border-color: var(--neon-green); }
+.card.wild-card-played.azul::after { border-color: var(--neon-blue); }
+.card.wild-card-played.amarelo::after { border-color: var(--neon-yellow); }
+
 
 /* Indicador de ordem dos jogadores */
 /* Indicador de ordem dos jogadores - Versão Canto Superior Esquerdo */
@@ -1678,7 +1700,7 @@
 }
 
 @keyframes bounce {
-  from { transform: translateX(0x); }
+  from { transform: translateX(2px); }
   to { transform: translateX(7px); }
 }
 
@@ -1710,59 +1732,190 @@
   display: flex; /* ou o display original de cada elemento */
 }
 
-/* Estilo para carta com cor escolhida */
-.card.wild-card-played {
-  position: relative;
-  overflow: visible;
-  z-index: 10;
+/* Estilos para o fundo animado */
+.animated-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
 }
 
-.card.wild-card-played::after {
-  content: '';
+.floating-cards {
   position: absolute;
-  top: -6px;
-  left: -6px;
-  right: -6px;
-  bottom: -6px;
-  border-radius: 12px;
-  border: 4px solid;
-  pointer-events: none;
-  animation: pulse-glow 1.5s infinite alternate;
+  width: 100%;
+  height: 100%;
 }
 
-/* Cores específicas para a borda */
-.card.wild-card-played.vermelho::after { border-color: var(--neon-red); }
-.card.wild-card-played.verde::after { border-color: var(--neon-green); }
-.card.wild-card-played.azul::after { border-color: var(--neon-blue); }
-.card.wild-card-played.amarelo::after { border-color: var(--neon-yellow); }
+.floating-cards::before, .floating-cards::after {
+  content: "";
+  position: absolute;
+  width: 30px;
+  height: 45px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.2;
+  animation: float 15s infinite linear;
+}
 
-@keyframes pulse-glow {
-  0% { opacity: 0.7; box-shadow: 0 0 10px currentColor; }
-  100% { opacity: 1; box-shadow: 0 0 20px currentColor; }
+.floating-cards::before {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 150"><rect width="90" height="140" rx="10" fill="%23ff2a6d"/></svg>');
+  top: 10%;
+  left: 5%;
+  animation-delay: 0s;
+}
+
+.floating-cards::after {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 150"><rect width="90" height="140" rx="10" fill="%2305d9e8"/></svg>');
+  top: 30%;
+  left: 80%;
+  animation-delay: 3s;
+}
+
+.neon-particles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.neon-particles span {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 0 10px white, 0 0 20px white;
+  animation: particle-move 10s infinite linear;
+  opacity: 0;
+}
+
+.colorful-dots {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.colorful-dots span {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  animation: dot-pulse 4s infinite ease-in-out;
+}
+
+@keyframes particle-move {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(100px, 100px);
+    opacity: 0;
+  }
+}
+
+@keyframes dot-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0.6;
+  }
+}
+
+/* Melhorias nos avatares */
+.bot-avatar {
+  width: 70px;
+  height: 70px;
+  top: 10px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  transition: opacity 0.5s ease;
+
+    border: 2px solid #fff700;
+
+  
+  opacity: 0;
+  left: 38%;
+
+  position: relative;
+
+  image-rendering: pixelated;
+}
+
+.bot-avatar:hover {
+  transform: scale(1.1);
+  box-shadow: 
+    0 0 20px #fff700,
+    inset 0 0 20px #f9f002;
+}
+
+.game-started .bot-avatar {
+  opacity: 1;
+}
+
+@keyframes avatarEnter {
+  from { transform: scale(0); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.game-started .bot-avatar {
+  animation: avatarEnter 0.7s ease-out forwards;
+}
+
+.bot-avatar::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
+  border-radius: 50%;
+  border: 3px solid var(--neon-yellow);
+  animation: rgb-border 4s linear infinite;
+  pointer-events: none;
+}
+
+.bot .player-name,
+.bot-hand,
+.bot-avatar {
+  display: none;
+}
+
+/* Mostra quando o jogo começa */
+.game-started .bot .player-name,
+.game-started .bot-hand,
+.game-started .bot-avatar {
+  display: block; /* ou flex/inline-block conforme necessário */
 }
 
 </style>
 
 <body>
-  <div class="vhs-overlay"></div>
   <div class="scanlines"></div>
-  <div class="tape-left"></div>
-  <div class="tape-right"></div>
+
     
   <div class="mesa">
     <!-- Decorações de canto -->
-    <div class="corner-decoration top-left-corner"></div>
-    <div class="corner-decoration top-right-corner"></div>
-    <div class="corner-decoration bottom-left-corner"></div>
-    <div class="corner-decoration bottom-right-corner"></div>
-    
+
     <!-- Áreas decorativas -->
-    <div class="top-left-decoration"></div>
     <div class="top-right-decoration"></div>
     <div class="bottom-left-decoration"></div>
-    <div class="bottom-right-decoration"></div>
     
     <div class="bot player-top bot-top" id="bot-1">
+  <img src="lucy.avif" class="bot-avatar" alt="Lucy">
+
       <div class="bot-container">
         <div class="speech-bubble" id="bot1-speech"></div>
       </div>
@@ -1772,6 +1925,8 @@
     
     <div class="lateral-esquerda">
       <div class="bot bot-left" id="bot-2">
+  <img src="Image (6).jpg" class="bot-avatar" alt="Pedro">
+
         <div class="bot-container">
           <div class="speech-bubble" id="bot2-speech"></div>
         </div>
@@ -1793,12 +1948,14 @@
     <div class="card-back"></div>
   </div>
 </div>  <button class="draw-button" id="draw-button" style="display: none;">COMPRAR</button>
-  <button id="start-game-btn">INICIAR JOGO</button>
-  <div class="status" id="status">AGUARDANDO INÍCIO</div>
+<button id="start-game-btn" class="start-button">INICIAR JOGO</button>  <div class="status" id="status">AGUARDANDO INÍCIO</div>
+
 </div>
     
     <div class="lateral-direita">
       <div class="bot bot-right" id="bot-3">
+  <img src="hanna.webp" class="bot-avatar" alt="Hanna">
+
         <div class="bot-container">
           <div class="speech-bubble" id="bot3-speech"></div>
         </div>
@@ -1813,14 +1970,11 @@
   </div>
 
   <!-- Tela de vitória -->
-  <div class="victory" id="victory-screen">
-    <div class="victory-message" id="victory-message"></div>
-    <div class="victory-buttons">
-      <button id="play-again-btn">JOGAR NOVAMENTE</button>
-      <button id="quit-btn">SAIR</button>
-    </div>
-  </div>
-
+<!-- Substitua a div .victory por esta versão simplificada -->
+<div class="victory" id="victory-screen">
+  <div class="victory-message" id="victory-message"></div>
+  <button id="quit-btn">VOLTAR AO INÍCIO</button>
+</div>
   <!-- Indicador de ordem dos jogadores -->
 <div class="player-order" id="player-order">
   <div class="player-order-item" id="player-order-0">
@@ -1843,6 +1997,13 @@
     <div class="player-order-name">HANNA</div>
     <div class="player-order-arrow">↓</div>
   </div>
+</div>
+
+<!-- Adicione isso dentro do <body>, antes da div .mesa -->
+<div class="animated-background">
+  <div class="floating-cards"></div>
+  <div class="neon-particles"></div>
+  <div class="colorful-dots"></div>
 </div>
 
   <script>
@@ -2033,63 +2194,127 @@ function renderHand(hand, container, isBot = false) {
       }, 2000);
     }
 
-    function createConfetti() {
-      const colors = ['#ff2a6d', '#05d9e8', '#00ff9d', '#f9f002', '#d300c5'];
-      for (let i = 0; i < 100; i++) {
-        const confetti = document.createElement('div');
-        confetti.classList.add('confetti');
-        confetti.style.left = `${Math.random() * 100}%`;
-        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        confetti.style.width = `${Math.random() * 15 + 5}px`;
-        confetti.style.height = `${Math.random() * 15 + 5}px`;
-        confetti.style.animationDuration = `${Math.random() * 3 + 2}s`;
-        confetti.style.animationDelay = `${Math.random() * 2}s`;
-        document.body.appendChild(confetti);
-        
-        setTimeout(() => {
-          confetti.remove();
-        }, 5000);
-      }
-    }
-function startGame() {
-  // Adiciona a classe que mostra os elementos
-  document.body.classList.add('game-started');
+function createConfetti() {
+  // Desativa temporariamente o scroll
+  document.documentElement.style.overflowY = 'hidden';
   
-  document.getElementById("start-game-btn").style.display = "none";
-  gameStarted = true;
-  drawCard(playerHand, 7);
-  bots.forEach(bot => drawCard(bot, 7));
+  const colors = [
+    '#ff2a6d', // Vermelho neon
+    '#05d9e8', // Azul neon
+    '#00ff9d', // Verde neon
+    '#f9f002', // Amarelo neon
+    '#d300c5'  // Roxo neon
+  ];
 
-  let firstCard;
-  do {
-    firstCard = deck.pop();
-  } while (firstCard.color === "preto");
-  discardPile.push(firstCard);
-  currentColor = firstCard.color;
+  for (let i = 0; i < 100; i++) {
+    const confetti = document.createElement('div');
+    confetti.classList.add('confetti');
+    confetti.style.position = 'fixed'; // Mudado para fixed
+    confetti.style.left = `${Math.random() * 100}%`;
+    confetti.style.top = '-10px';
+    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    confetti.style.width = `${Math.random() * 15 + 5}px`;
+    confetti.style.height = `${Math.random() * 15 + 5}px`;
+    confetti.style.animationDuration = `${Math.random() * 3 + 2}s`;
+    confetti.style.animationDelay = `${Math.random() * 2}s`;
+    confetti.style.zIndex = '1000';
+    confetti.style.boxShadow = '0 0 10px currentColor, 0 0 20px currentColor';
+    
+    // Adiciona diretamente no body como antes
+    document.body.appendChild(confetti);
+    
+    setTimeout(() => {
+      confetti.remove();
+      // Reativa o scroll quando o último confete sumir
+      if (i === 99) {
+        setTimeout(() => {
+          document.documentElement.style.overflowY = '';
+        }, 500);
+      }
+    }, 4000);
+  }
+}
+    
+function initializeGame() {
+  // Garante que todas as variáveis estão resetadas
+  deck = createDeck();
+  playerHand = [];
+  bots = [[], [], []];
+  discardPile = [];
+  currentColor = null;
+  currentPlayer = 0;
+  direction = 1;
+  gameStarted = false;
   
-  renderAll();
-  statusDiv.textContent = "SUA VEZ";
-  createConfetti();
-  playSound('card');
-  
-  // Mostra o deck
-  document.getElementById('deck-container').style.display = 'block';
-  
-  // Mostra os nomes dos bots
-  document.querySelectorAll('.bot .player-name').forEach(name => {
-    name.style.display = 'block';
+  // Esconde elementos do jogo
+  document.body.classList.remove('game-started');
+  document.querySelectorAll('.bot .player-name, .bot-hand').forEach(el => {
+    el.style.display = 'none';
   });
+  drawButton.style.display = 'none';
   
-  // Mostra as mãos dos bots (como costumam ser cartas viradas)
-  document.querySelectorAll('.bot-hand').forEach(hand => {
-    hand.style.display = 'flex';
-  });
-  
-  // MOSTRAR O BOTÃO DE COMPRAR LOGO NO INÍCIO (ALTERAÇÃO PRINCIPAL)
-  drawButton.style.display = "block";
+  // Mostra botão de iniciar
+  document.getElementById("start-game-btn").style.display = "block";
+  statusDiv.textContent = "AGUARDANDO INÍCIO";
 }
 
-function renderAll() {
+function startGame() {
+  try {
+    // Inicializa o jogo
+    initializeGame();
+    
+    // Configura o jogo
+    gameStarted = true;
+    document.body.classList.add('game-started');
+    document.getElementById("start-game-btn").style.display = "none";
+    
+    // Distribui cartas
+    drawCard(playerHand, 7);
+    bots.forEach(bot => drawCard(bot, 7));
+
+    // Primeira carta
+    let firstCard;
+    do {
+      firstCard = deck.pop();
+    } while (firstCard.color === "preto");
+    
+    discardPile.push(firstCard);
+    currentColor = firstCard.color;
+    
+    // Atualiza interface
+    renderAll();
+    statusDiv.textContent = "SUA VEZ";
+    createConfetti();
+    playSound('card');
+    
+    // Mostra elementos
+    document.getElementById('deck-container').style.display = 'block';
+    document.querySelectorAll('.bot .player-name').forEach(name => {
+      name.style.display = 'block';
+    });
+    document.querySelectorAll('.bot-hand').forEach(hand => {
+      hand.style.display = 'flex';
+    });
+    drawButton.style.display = "block";
+    
+  } catch (error) {
+    console.error("Erro ao iniciar jogo:", error);
+    statusDiv.textContent = "ERRO AO INICIAR JOGO";
+  }
+}
+
+// Event listener robusto
+window.onload = function() {
+  initializeGame();
+  
+  const startBtn = document.getElementById("start-game-btn");
+  if (startBtn) {
+    startBtn.addEventListener("click", startGame);
+  } else {
+    console.error("Botão 'Iniciar Jogo' não encontrado!");
+  }
+};
+ function renderAll() {
   renderHand(playerHand, playerHandDiv);
   bots.forEach((b, i) => renderHand(b, botHands[i], true));
   
@@ -2173,7 +2398,7 @@ function renderAll() {
       }, 500);
     }
 
-function handleSpecial(card, hand) {
+    function handleSpecial(card, hand) {
   if (card.value === "+2") {
     let next = (currentPlayer + direction + 4) % 4;
     let target = next === 0 ? playerHand : bots[next - 1];
@@ -2411,7 +2636,7 @@ function botPlay(botIndex) {
     }, DELAYS.cardPlay);
   } else {
     const drawnCard = drawCard(hand, 1)[0];
-    showBotMessage(botIndex, "NÃO TENHO CARTA... COMPRANDO!");
+    showBotMessage(botIndex, "PRECISO COMPRAR!");
     renderAll();
     
     setTimeout(() => {
@@ -2451,22 +2676,21 @@ function botPlay(botIndex) {
       );
     }
 
+// Modifique a função showVictory
 function showVictory(message) {
   gameStarted = false;
   victoryMessage.textContent = message;
   victoryScreen.classList.add("show");
   createConfetti();
   playSound('win');
-  
-  // Mostrar botão de iniciar novamente
-  document.getElementById("start-game-btn").style.display = "block";
 }
 
+// Atualize a função resetGame para voltar ao início
 function resetGame() {
-  // Remove a classe que mostra os elementos
-  document.body.classList.remove('game-started');
-  
+  // Remove a tela de vitória
   victoryScreen.classList.remove("show");
+  
+  // Reseta todas as variáveis do jogo
   playerHand = [];
   bots = [[], [], []];
   discardPile = [];
@@ -2474,24 +2698,33 @@ function resetGame() {
   currentPlayer = 0;
   direction = 1;
   
-  // Esconde os elementos novamente
-  document.getElementById('deck-container').style.display = 'none';
-  document.querySelectorAll('.bot .player-name').forEach(name => {
-    name.style.display = 'none';
-  });
-  document.querySelectorAll('.bot-hand').forEach(hand => {
-    hand.style.display = 'none';
+  // Limpa as mãos visuais
+  playerHandDiv.innerHTML = "";
+  botHands.forEach(hand => hand.innerHTML = "");
+  
+  // Esconde elementos dos bots
+  document.querySelectorAll('.bot .player-name, .bot-hand').forEach(el => {
+    el.style.display = 'none';
   });
   
-  // Resetar mensagens dos bots
-  botSpeeches.forEach(speech => {
-    speech.classList.remove("show");
-  });
-  
-  deck = createDeck();
-  // Não iniciamos automaticamente agora
+  // Mostra o botão de iniciar
   document.getElementById("start-game-btn").style.display = "block";
+  
+  // Reseta o deck
+  deck = createDeck();
+  
+  // Reseta o status
+  statusDiv.textContent = "AGUARDANDO INÍCIO";
+  
+  // Remove qualquer carta no descarte
+  discardDiv.innerHTML = "";
+  
+  // Reativa o scroll se estiver desativado
+  document.documentElement.style.overflowY = '';
 }
+
+// Atualize o evento do botão quit
+quitBtn.addEventListener("click", resetGame);
 
     drawButton.addEventListener("click", () => {
     if (currentPlayer === 0 && !waitingForColorChoice) {
@@ -2577,6 +2810,92 @@ function updatePlayerOrder() {
     playerOrderDiv.appendChild(item);
   });
 }
+
+// Cria partículas animadas
+function createParticles() {
+  const neonParticles = document.querySelector('.neon-particles');
+  const colorfulDots = document.querySelector('.colorful-dots');
+  
+  // Cria partículas neon
+  for (let i = 0; i < 30; i++) {
+    const particle = document.createElement('span');
+    particle.style.left = `${Math.random() * 100}%`;
+    particle.style.top = `${Math.random() * 100}%`;
+    particle.style.animationDelay = `${Math.random() * 10}s`;
+    particle.style.animationDuration = `${5 + Math.random() * 10}s`;
+    
+    // Escolhe uma cor neon aleatória
+    const colors = ['var(--neon-red)', 'var(--neon-blue)', 'var(--neon-green)', 'var(--neon-yellow)'];
+    particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+    particle.style.boxShadow = `0 0 10px currentColor, 0 0 20px currentColor`;
+    
+    neonParticles.appendChild(particle);
+  }
+  
+  // Cria pontos coloridos
+  for (let i = 0; i < 20; i++) {
+    const dot = document.createElement('span');
+    dot.style.left = `${Math.random() * 100}%`;
+    dot.style.top = `${Math.random() * 100}%`;
+    dot.style.animationDelay = `${Math.random() * 4}s`;
+    
+    // Escolhe uma cor aleatória
+    const colors = [
+      'rgba(255, 42, 109, 0.5)',
+      'rgba(5, 217, 232, 0.5)',
+      'rgba(0, 255, 157, 0.5)',
+      'rgba(249, 240, 2, 0.5)',
+      'rgba(211, 0, 197, 0.5)'
+    ];
+    dot.style.background = colors[Math.floor(Math.random() * colors.length)];
+    
+    colorfulDots.appendChild(dot);
+  }
+  
+  // Cria cartas flutuantes adicionais
+  const floatingCards = document.querySelector('.floating-cards');
+  for (let i = 0; i < 5; i++) {
+    const card = document.createElement('div');
+    card.style.position = 'absolute';
+    card.style.width = '30px';
+    card.style.height = '45px';
+    card.style.backgroundSize = 'contain';
+    card.style.backgroundRepeat = 'no-repeat';
+    card.style.opacity = '0.2';
+    card.style.animation = `float ${15 + Math.random() * 10}s infinite linear`;
+    card.style.animationDelay = `${Math.random() * 10}s`;
+    card.style.left = `${Math.random() * 90 + 5}%`;
+    card.style.top = `${Math.random() * 80 + 10}%`;
+    
+    const colors = ['vermelho', 'verde', 'azul', 'amarelo'];
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    
+    let svg;
+    switch(color) {
+      case 'vermelho':
+        svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 150"><rect width="90" height="140" rx="10" fill="%23ff2a6d"/></svg>';
+        break;
+      case 'verde':
+        svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 150"><rect width="90" height="140" rx="10" fill="%2300ff9d"/></svg>';
+        break;
+      case 'azul':
+        svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 150"><rect width="90" height="140" rx="10" fill="%2305d9e8"/></svg>';
+        break;
+      case 'amarelo':
+        svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 150"><rect width="90" height="140" rx="10" fill="%23f9f002"/></svg>';
+        break;
+    }
+    
+    card.style.backgroundImage = `url('data:image/svg+xml;utf8,${svg}')`;
+    floatingCards.appendChild(card);
+  }
+}
+
+// Chame esta função quando o jogo iniciar
+document.getElementById("start-game-btn").addEventListener("click", function() {
+  createParticles();
+  // resto do código...
+});
   </script>
 </body>
 </html>
