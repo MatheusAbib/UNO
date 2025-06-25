@@ -788,12 +788,7 @@ quitBtn.addEventListener("click", resetGame);
       }
     });
 
-    playAgainBtn.addEventListener("click", resetGame);
-    quitBtn.addEventListener("click", () => {
-      if (confirm("Tem certeza que deseja sair do jogo?")) {
-        window.close();
-      }
-    });
+
 
     document.getElementById("start-game-btn").addEventListener("click", function() {
   this.style.display = "none";
