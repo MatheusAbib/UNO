@@ -1,0 +1,1716 @@
+  :root {
+    --neon-red: #ff2a6d;
+    --neon-blue: #05d9e8;
+    --neon-green: #00ff9d;
+    --neon-yellow: #f9f002;
+    --neon-purple: #d300c5;
+    --dark-bg: #0d0221;
+ 
+    --glow: 0 0 10px, 0 0 20px, 0 0 30px;
+    --card-width: clamp(40px, 8vw, 80px);
+    --card-height: calc(var(--card-width) * 1.5);
+  }
+
+  /* Efeitos de brilho e animação */
+  @keyframes flicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+      text-shadow: 
+        0 0 5px #fff,
+        0 0 10px #fff,
+        0 0 20px var(--neon-blue),
+        0 0 40px var(--neon-blue),
+        0 0 80px var(--neon-blue),
+        0 0 90px var(--neon-blue),
+        0 0 100px var(--neon-blue),
+        0 0 150px var(--neon-blue);
+    }
+    20%, 24%, 55% {       
+      text-shadow: none;
+    }
+  }
+
+  @keyframes rgb-border {
+    0% { border-color: var(--neon-red); }
+    25% { border-color: var(--neon-blue); }
+    50% { border-color: var(--neon-green); }
+    75% { border-color: var(--neon-yellow); }
+    100% { border-color: var(--neon-red); }
+  }
+
+  @keyframes rgb-bg {
+    0% { background-color: var(--neon-red); }
+    25% { background-color: var(--neon-blue); }
+    50% { background-color: var(--neon-green); }
+    75% { background-color: var(--neon-yellow); }
+    100% { background-color: var(--neon-red); }
+  }
+
+  @keyframes card-deal {
+    0% { transform: translateY(-100px) rotate(-15deg); opacity: 0; }
+    100% { transform: translateY(0) rotate(0); opacity: 1; }
+  }
+
+  @keyframes card-play {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3) rotate(5deg); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+  }
+
+  @keyframes neon-pulse {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+  }
+
+  @keyframes scanline {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 100vh; }
+  }
+
+  @keyframes tape-scroll {
+    0% { background-position: 0 0; }
+    100% { background-position: -100% 0; }
+  }
+
+  @keyframes vhs-static {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 100%; }
+  }
+
+  /* Estilos globais */
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  @keyframes elegant-particle {
+    0% {
+        opacity: 0;
+        transform: translate(0, 0) scale(0.5);
+    }
+    20% {
+        opacity: 0.8;
+    }
+    100% {
+        opacity: 0;
+        transform: translate(
+            calc(var(--x) * 40px),
+            calc(var(--y) * 40px)
+        ) scale(1.2);
+    }
+}
+
+@keyframes deck-shuffle {
+  0% { transform: translateX(0) rotate(0deg); }
+  25% { transform: translateX(-5px) rotate(-5deg); }
+  50% { transform: translateX(5px) rotate(5deg); }
+  75% { transform: translateX(-3px) rotate(-3deg); }
+  100% { transform: translateX(0) rotate(0deg); }
+}
+
+@keyframes bubble-appear {
+  0% {
+    transform: translateY(10px) scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+.speech-bubble.show {
+  animation: bubble-appear 0.3s ease-out forwards;
+}
+
+.deck-shuffle {
+  animation: deck-shuffle 0.5s ease-in-out;
+}
+
+ html, body {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    overflow: -moz-scrollbars-none; /* Firefox */
+  -ms-overflow-style: none; /* IE e Edge */
+
+  }
+
+  html::-webkit-scrollbar {
+  display: none; /* Chrome, Safari e Opera */
+}
+
+  body {
+    margin: 0;
+    font-family: 'Bungee', cursive;
+    background-color: var(--dark-bg);
+    color: white;
+    overflow-x: hidden;
+    position: relative;
+    background-image: 
+      url('data:image/svg+xml;utf8,<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,42,109,0.2)" stroke-width="0.5"/></pattern><rect width="100%" height="100%" fill="url(%23grid)"/></svg>'),
+      radial-gradient(circle at 20% 30%, rgba(255, 42, 109, 0.1) 0%, transparent 30%),
+      radial-gradient(circle at 80% 70%, rgba(5, 217, 232, 0.1) 0%, transparent 30%),
+      radial-gradient(circle at 50% 90%, rgba(0, 255, 157, 0.1) 0%, transparent 30%);
+    background-attachment: fixed;
+    overflow-y: scroll; /* Garante que o scroll funcione */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE e Edge */
+  }
+
+/* Estilos para o fundo animado */
+.animated-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.floating-cards {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.floating-cards::before, .floating-cards::after {
+  content: "";
+  position: absolute;
+  width: 30px;
+  height: 45px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.2;
+  animation: float 15s infinite linear;
+}
+
+.floating-cards::before {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 150"><rect width="90" height="140" rx="10" fill="%23ff2a6d"/></svg>');
+  top: 10%;
+  left: 5%;
+  animation-delay: 0s;
+}
+
+.floating-cards::after {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 150"><rect width="90" height="140" rx="10" fill="%2305d9e8"/></svg>');
+  top: 30%;
+  left: 80%;
+  animation-delay: 3s;
+}
+
+.neon-particles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.neon-particles span {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 0 10px white, 0 0 20px white;
+  animation: particle-move 10s infinite linear;
+  opacity: 0;
+}
+
+.colorful-dots {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.colorful-dots span {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  animation: dot-pulse 4s infinite ease-in-out;
+}
+
+@keyframes particle-move {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(100px, 100px);
+    opacity: 0;
+  }
+}
+
+@keyframes dot-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0.6;
+  }
+}
+
+
+  /* Efeito scanlines */
+  .scanlines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+      linear-gradient(to bottom, 
+        transparent 0%, 
+        rgba(255, 255, 255, 0.05) 50%, 
+        transparent 100%);
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 1001;
+    animation: scanline 1s linear infinite;
+  }
+  /* Fitas de cassete decorativas */
+  .tape-left, .tape-right {
+    display: none; /* Removido em dispositivos móveis */
+  }
+
+  /* Estrutura principal */
+.mesa {
+    display: grid;
+    grid-template-areas:
+      "top-left    top       top-right"
+      "left        center    right"
+      "bottom-left bottom    bottom-right";
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: auto auto 1fr;
+    width: 100%;
+    min-height: 100vh;
+    padding: 10px;
+    box-sizing: border-box;
+    gap: 10px;
+    position: relative;
+    overflow: visible;
+    margin: 0;
+  }
+
+  .top-right-decoration,
+  .bottom-left-decoration{
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    margin: 2%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: -1;
+    opacity: 0.7;
+    filter: drop-shadow(0 0 10px currentColor);
+  }
+
+  .top-right-decoration {
+    top: 0;
+    right: 0;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><polygon points="50,0 90,50 50,100 10,50" fill="none" stroke="%2305d9e8" stroke-width="2"/></svg>');
+    animation: spin 15s linear infinite reverse;
+  }
+
+  .bottom-left-decoration {
+    bottom: 0;
+    left: 0;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M10,10 L90,10 L90,90 L10,90 Z M30,30 L70,30 L70,70 L30,70 Z" fill="none" stroke="%2300ff9d" stroke-width="2"/></svg>');
+    animation: spin 25s linear infinite;
+  }
+
+  /* Áreas de layout */
+.player-top {
+  grid-area: top;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  margin: 0 auto; /* Centraliza horizontalmente */
+}
+
+.player-top .bot-avatar {
+  width: 40px;
+  height: 40px;
+}
+  
+.lateral-esquerda {
+  grid-area: left;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 5px;
+}
+
+.lateral-direita {
+  grid-area: right;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 5px;
+}
+  
+.centro { 
+  grid-area: center; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  justify-content: center; 
+  gap: 10px;
+  position: relative;
+  z-index: 5;
+  padding: 10px;
+}
+
+  .player-bottom { 
+    grid-area: bottom; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 20px; 
+    position: relative;
+  }
+
+.top-left {
+  grid-area: top-left;
+  position: relative;
+}
+
+.top-right {
+  grid-area: top-right;
+  position: relative;
+}
+
+.bottom-left {
+  grid-area: bottom-left;
+  position: relative;
+}
+
+.bottom-right {
+  grid-area: bottom-right;
+  position: relative;
+}
+
+.player, .bot {
+  text-align: center;
+  position: relative;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.bot-container {
+  min-height: 50px; /* Altura mínima para manter o espaço */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.bot-left, .bot-right {
+  min-height: 200px; /* Altura mínima fixa */
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 5px 0;
+  transition: all 0.3s ease;
+}
+
+
+
+.player-name {
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 1.3rem;
+    text-shadow: 0 0 10px currentColor;
+    padding: 8px 18px;
+    border-radius: 50px;
+    
+    position: relative;
+    z-index: 5;
+    letter-spacing: 2px;
+    -webkit-text-stroke: 1px currentColor;
+    text-transform: uppercase;
+  }
+
+.player-name.player {
+  color: var(--neon-green);
+  animation: pulse 2s infinite, neon-pulse 3s infinite;
+  border: 2px solid var(--neon-green);
+}
+
+.player-name.bot {
+  color: var(--neon-yellow);
+  border: 2px solid var(--neon-yellow);
+}
+
+.hand {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    padding: 20px;
+    max-width: 100%;
+    padding: 10px;
+
+    overflow: hidden;
+    position: relative;
+    perspective: 1000px;
+  }
+
+.player-bottom .hand {
+    max-height: none !important; /* Remove limitação de altura */
+    overflow: visible !important; /* Permite que cartas saiam do container */
+    padding-bottom: 50px; /* Espaço para animação */
+    scrollbar-width: thin;
+    scrollbar-color: var(--neon-purple) transparent;
+  }
+
+
+.player-bottom .hand::-webkit-scrollbar {
+  height: 8px;
+}
+
+.player-bottom .hand::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 5px;
+}
+
+.player-bottom .hand::-webkit-scrollbar-thumb {
+  background-color: var(--neon-purple);
+  border-radius: 5px;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.card {
+    width: 80px;
+    height: 120px;
+    border-radius: 10px;
+    position: relative;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 2rem;
+    z-index: 1000;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s;
+    transform-style: preserve-3d;
+    animation: card-deal 0.5s ease-out forwards;
+    box-shadow: 
+      0 10px 20px rgba(0, 0, 0, 0.6),
+      inset 0 0 10px rgba(255, 255, 255, 0.3);
+    border: 2px solid white;
+    filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5));
+
+  }
+
+   .card::before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 7px;
+    pointer-events: none;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    
+  }
+
+ .card:hover {
+    transform: translateY(-30px) rotate(5deg) scale(1.15);
+    z-index: 1000;
+    box-shadow: 
+      0 20px 30px rgba(0, 0, 0, 0.8),
+      0 0 30px rgba(255, 255, 255, 0.5);
+  }
+
+  .card.played {
+    animation: card-play 0.5s ease-out;
+  }
+
+
+/* Cores das cartas - mais vibrantes */
+.card.vermelho { 
+    background: linear-gradient(135deg, #ff2a6d, #ff0040);
+    color: white;
+    text-shadow: 
+      0 0 10px rgba(255, 0, 0, 0.7),
+      0 0 20px rgba(255, 0, 0, 0.5);
+    box-shadow: 
+      0 10px 25px rgba(255, 0, 0, 0.6),
+      inset 0 0 15px rgba(255, 255, 255, 0.4);
+    border-color: #ff8fa3;
+  }
+  
+  .card.verde { 
+    background: linear-gradient(135deg, #00ff9d, #00cc7a);
+    color: #002616;
+    text-shadow: 
+      0 0 10px rgba(0, 255, 157, 0.5),
+      0 0 20px rgba(0, 255, 157, 0.3);
+    box-shadow: 
+      0 10px 25px rgba(0, 255, 157, 0.4),
+      inset 0 0 15px rgba(255, 255, 255, 0.4);
+    border-color: #7affc7;
+  }
+  
+  .card.azul { 
+    background: linear-gradient(135deg, #05d9e8, #00a2ff);
+    color: white;
+    text-shadow: 
+      0 0 10px rgba(5, 217, 232, 0.7),
+      0 0 20px rgba(5, 217, 232, 0.5);
+    box-shadow: 
+      0 10px 25px rgba(5, 217, 232, 0.5),
+      inset 0 0 15px rgba(255, 255, 255, 0.4);
+    border-color: #7ae4ff;
+  }
+  
+  .card.amarelo { 
+    background: linear-gradient(135deg, #f9f002, #ffcc00);
+    color: #664d00;
+    text-shadow: 
+      0 0 10px rgba(249, 240, 2, 0.7),
+      0 0 20px rgba(249, 240, 2, 0.5);
+    box-shadow: 
+      0 10px 25px rgba(249, 240, 2, 0.5),
+      inset 0 0 15px rgba(255, 255, 255, 0.4);
+    border-color: #fff27a;
+  }
+  
+  .card.preto { 
+    background: linear-gradient(135deg, #1a1a1a, #000);
+    color: white;
+    text-shadow: 
+      0 0 10px rgba(255, 255, 255, 0.7),
+      0 0 20px rgba(255, 255, 255, 0.5);
+    box-shadow: 
+      0 10px 25px rgba(255, 255, 255, 0.3),
+      inset 0 0 15px rgba(255, 255, 255, 0.2);
+    border-color: #666;
+  }
+
+
+.player-card {
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    transform-origin: center bottom;
+    will-change: transform, box-shadow;
+    z-index: 1000;
+}
+
+.player-card-container:hover .player-card {
+    transform: perspective(1000px) rotateY(-8deg) rotateX(5deg) scale(1.12) translateY(-40px);
+    z-index: 100;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6),
+                inset 0 0 20px rgba(255, 255, 255, 0.6),
+                0 0 40px currentColor;
+    filter: brightness(1.15);
+    animation: elegant-float 3s ease-in-out infinite;
+}
+
+.player-card:hover,
+.player-card:hover::before {
+    animation: none; /* Remova a animação do pseudo-elemento */
+}
+
+.player-card:hover {
+    transform: perspective(1000px) rotateY(-8deg) rotateX(5deg) scale(1.1) translateY(-40px);
+    z-index: 100;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6),
+                inset 0 0 20px rgba(255, 255, 255, 0.6),
+                0 0 40px currentColor;
+    filter: brightness(1.15);
+    animation: elegant-float 3s ease-in-out infinite;
+}
+
+
+@keyframes elegant-float {
+    0%, 100% {
+        transform: perspective(1000px) rotateY(-8deg) rotateX(5deg) scale(1.12) translateY(-40px);
+    }
+    50% {
+        transform: perspective(1000px) rotateY(-8deg) rotateX(5deg) scale(1.15) translateY(-50px);
+    }
+}
+
+@keyframes elegant-pulse {
+    0% {
+        transform: scale(1);
+        text-shadow: 0 0 10px currentColor;
+    }
+    100% {
+        transform: scale(1.08);
+        text-shadow: 0 0 20px currentColor;
+    }
+}
+
+.player-card.vermelho:hover {
+    box-shadow: 0 20px 40px rgba(255, 0, 0, 0.6),
+                inset 0 0 15px rgba(255, 255, 255, 0.5),
+                0 0 30px var(--neon-red);
+}
+
+.player-card.verde:hover {
+    box-shadow: 0 20px 40px rgba(0, 255, 157, 0.6),
+                inset 0 0 15px rgba(255, 255, 255, 0.5),
+                0 0 30px var(--neon-green);
+}
+
+.player-card.azul:hover {
+    box-shadow: 0 20px 40px rgba(5, 217, 232, 0.6),
+                inset 0 0 15px rgba(255, 255, 255, 0.5),
+                0 0 30px var(--neon-blue);
+}
+
+.player-card.amarelo:hover {
+    box-shadow: 0 20px 40px rgba(249, 240, 2, 0.6),
+                inset 0 0 15px rgba(255, 255, 255, 0.5),
+                0 0 30px var(--neon-yellow);
+}
+
+.player-card.preto:hover {
+    box-shadow: 0 20px 40px rgba(255, 255, 255, 0.4),
+                inset 0 0 15px rgba(255, 255, 255, 0.3),
+                0 0 30px white;
+}
+
+.player-card:hover .value {
+    animation: pulse-glow 0.8s infinite alternate;
+}
+
+.player-card:hover::after {
+    border-width: 3px;
+    border-color: rgba(255, 255, 255, 0.8);
+    box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.5);
+    opacity: 1;
+    transform: translateZ(20px);
+}
+
+.player-card:hover::before {
+    background: radial-gradient(circle at center, 
+              rgba(255,255,255,0.4) 0%, 
+              rgba(255,255,255,0.1) 50%, 
+              rgba(255,255,255,0) 100%);
+    animation: gentle-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes gentle-glow {
+    0% {
+        opacity: 0.6;
+    }
+    100% {
+        opacity: 0.9;
+    }
+}
+
+.player-card::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: 12px;
+    border: 2px solid transparent;
+    background: linear-gradient(135deg, 
+              rgba(255,255,255,0.8) 0%, 
+              rgba(255,255,255,0.2) 50%, 
+              rgba(255,255,255,0) 100%) border-box;
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    transition: all 0.5s ease;
+    opacity: 0;
+}
+
+  .card .value {
+    font-size: 2rem;
+    position: relative;
+    z-index: 2;
+    font-family: 'Rubik Mono One', sans-serif;
+
+  }
+
+/* Deck e descarte */
+.discard-area {
+  position: relative;
+  width: var(--card-width);
+  height: calc(var(--card-height) * 1.2);
+  margin-bottom: 10px;
+  perspective: 1000px;
+  filter: drop-shadow(0 5px 8px rgba(0,0,0,0.7));
+}
+
+.discard-pile {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.deck {
+  position: relative;
+  width: 75px;
+  height: 115px;
+  transform-style: preserve-3d;
+}
+
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: url('https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/fed3bb24-454f-4bdf-a721-6aa8f23e7cef/d9gnihf-ec16caeb-ec9c-4870-9480-57c7711d844f.png/v1/fill/w_486,h_759,strp/uno_card_back_by_wackosamurai_d9gnihf-fullview.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NzU5IiwicGF0aCI6IlwvZlwvZmVkM2JiMjQtNDU0Zi00YmRmLWE3MjEtNmFhOGYyM2U3Y2VmXC9kOWduaWhmLWVjMTZjYWViLWVjOWMtNDg3MC05NDgwLTU3Yzc3MTFkODQ0Zi5wbmciLCJ3aWR0aCI6Ijw9NDg2In1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.TMtpsV_KVjgkIMqwza3ooob2Xq5bihDuT0JVsOldrpA') center/cover no-repeat;
+  border-radius: 8px;
+  box-shadow: 
+    0 1px 1px rgba(0,0,0,0.1),
+    0 2px 2px rgba(0,0,0,0.1),
+    0 4px 4px rgba(0,0,0,0.1),
+    0 8px 8px rgba(0,0,0,0.1);
+  transform: translateZ(0);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255,255,255,0.3);
+}
+
+.card-back:nth-child(1) { transform: translateZ(0px) rotate(4deg); }
+.card-back:nth-child(2) { transform: translateZ(-5px) rotate(-8deg); }
+.card-back:nth-child(3) { transform: translateZ(-10px) rotate(-8deg); }
+.card-back:nth-child(4) { transform: translateZ(-15px) rotate(-12deg); }
+.card-back:nth-child(5) { transform: translateZ(-20px) rotate(8deg); }
+
+.deck:hover .card-back:nth-child(1) { transform: translateZ(0px) rotate(-1deg) translateY(-5px); }
+.deck:hover .card-back:nth-child(2) { transform: translateZ(-5px) rotate(-2deg) translateY(-3px); }
+.deck:hover .card-back:nth-child(3) { transform: translateZ(-10px) rotate(-3deg) translateY(-1px); }
+
+@keyframes draw-card {
+  0% { transform: translateZ(-20px) rotate(-5deg); opacity: 1; }
+  100% { transform: translateZ(0) rotate(0deg) translateY(-100px); opacity: 0; }
+}
+
+.deck-click-animation .card-back:nth-child(5) {
+  animation: draw-card 0.5s ease-out forwards;
+}
+
+.deck-container {
+  position: relative;
+  perspective: 1000px;
+}
+
+.deck::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.1);
+  pointer-events: none;
+}
+
+.deck:hover {
+  transform: translateY(-5px) rotate(-5deg);
+  box-shadow: 
+    0 10px 20px rgba(0, 0, 0, 0.9),
+    0 0 15px rgba(255, 255, 255, 0.6);
+}
+
+.discard-pile .card {
+  position: absolute;
+  top: 5px;
+  left: 0;
+  transform: rotate(-8deg);
+  animation: none;
+}
+
+/* Status */
+.status {
+  font-size: clamp(0.5rem, 2vw, 0.8rem);
+  background: rgba(0, 0, 0, 0.8);
+  padding: 8px 12px;
+  border-radius: 50px;
+  text-align: center;
+  border: 2px solid var(--neon-purple);
+  color: white;
+  text-shadow: 
+    0 0 5px var(--neon-purple),
+    0 0 10px var(--neon-purple);
+  box-shadow: 
+    0 0 15px rgba(210, 0, 200, 0.7),
+    inset 0 0 8px rgba(255, 255, 255, 0.3);
+  animation: 
+    pulse 2s infinite,
+    neon-pulse 3s infinite;
+  max-width: 90vw;
+  font-family: 'Press Start 2P', cursive;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-top: 20px;
+}
+
+.status::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0) 45%,
+    rgba(255, 255, 255, 0.5) 48%,
+    rgba(255, 255, 255, 0.8) 50%,
+    rgba(255, 255, 255, 0.5) 52%,
+    rgba(255, 255, 255, 0) 57%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(30deg);
+  animation: shine 3s infinite linear;
+  opacity: 0;
+}
+
+.bot-hand {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 15px;
+  gap: 5px;
+  justify-content: center;
+  max-height: 150px;
+  overflow-y: auto;
+  padding: 8px;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.bot-hand::-webkit-scrollbar {
+  height: 6px;
+}
+
+.bot-hand::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 5px;
+}
+
+.bot-hand::-webkit-scrollbar-thumb {
+  background-color: var(--neon-purple);
+  border-radius: 5px;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.bot-hand .card {
+  background: url('https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/fed3bb24-454f-4bdf-a721-6aa8f23e7cef/d9gnihf-ec16caeb-ec9c-4870-9480-57c7711d844f.png/v1/fill/w_486,h_759,strp/uno_card_back_by_wackosamurai_d9gnihf-fullview.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NzU5IiwicGF0aCI6IlwvZlwvZmVkM2JiMjQtNDU0Zi00YmRmLWE3MjEtNmFhOGYyM2U3Y2VmXC9kOWduaWhmLWVjMTZjYWViLWVjOWMtNDg3MC05NDgwLTU3Yzc3MTFkODQ0Zi5wbmciLCJ3aWR0aCI6Ijw9NDg2In1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.TMtpsV_KVjgkIMqwza3ooob2Xq5bihDuT0JVsOldrpA') center/cover no-repeat;
+  box-shadow: 
+    0 5px 10px rgba(0, 0, 0, 0.7),
+    inset 0 0 5px rgba(255, 255, 255, 0.2);
+  color: transparent;
+  cursor: default;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.bot-hand .card:hover {
+  transform: none;
+}
+
+.bot-hand .card .value {
+  display: none;
+}
+
+/* Botões */
+button {
+font-family: 'Press Start 2P', cursive;
+    font-size: clamp(0.6rem, 1vw, 1rem);
+  padding: 10px 18px;
+  border: none;
+  background: linear-gradient(135deg, var(--neon-purple), #ff00e6);
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  overflow: hidden;
+   box-shadow: 
+      0 10px 25px rgba(210, 0, 200, 0.7),
+      inset 0 0 15px rgba(255, 255, 255, 0.3);
+    text-shadow: 
+      0 0 10px rgba(255, 255, 255, 0.7),
+      0 0 20px rgba(255, 255, 255, 0.5);
+
+  border: 3px solid rgba(255, 255, 255, 0.5);
+  -webkit-text-stroke: 1px rgba(255,255,255,0.3);
+  animation: neon-pulse 2s infinite;
+  margin-top: 20px;
+  max-width: 100%;
+}
+
+button::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0) 45%,
+    rgba(255, 255, 255, 0.5) 48%,
+    rgba(255, 255, 255, 0.8) 50%,
+    rgba(255, 255, 255, 0.5) 52%,
+    rgba(255, 255, 255, 0) 57%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(30deg);
+  animation: shine 3s infinite linear;
+  opacity: 0;
+}
+
+@keyframes shine {
+  0% {
+    left: -50%;
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.5;
+  }
+  50% {
+    left: 150%;
+    opacity: 0;
+  }
+  100% {
+    left: 150%;
+    opacity: 0;
+  }
+}
+
+button:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 
+    0 8px 20px rgba(210, 0, 200, 0.9),
+    0 0 20px rgba(255, 255, 255, 0.6);
+  animation: none;
+}
+
+button:active {
+  transform: translateY(1px);
+  box-shadow: 
+    0 3px 10px rgba(210, 0, 200, 0.7),
+    inset 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+button:hover::before {
+  opacity: 1;
+}
+
+/* Balões de fala */
+.speech-bubble {
+  position: relative;
+  background: white;
+  border-radius: 10px;
+  color: #333;
+  padding: 6px 8px;
+  font-size: clamp(0.5rem, 2vw, 0.7rem);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+  transform: scale(0.8);
+  max-width: 150px;
+  text-align: center;
+  font-family: 'Press Start 2P', cursive;
+  line-height: 1.3;
+  margin: 5px auto 0;
+}
+
+.speech-bubble.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.speech-bubble::after {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 8px 8px;
+  border-style: solid;
+  border-color: transparent transparent white;
+}
+
+.player-top .speech-bubble {
+  order: 1;
+  margin-top: 5px;
+  margin-bottom: 8px;
+}
+
+.player-top .speech-bubble::after {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 8px 8px;
+  border-style: solid;
+  border-color: transparent transparent white;
+}
+
+.bot-left .speech-bubble,
+.bot-right .speech-bubble {
+  order: 1;
+  margin-top: 5px;
+}
+
+.bot-left .speech-bubble::after,
+.bot-right .speech-bubble::after {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 8px 8px;
+  border-style: solid;
+  border-color: transparent transparent white;
+}
+
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: var(--neon-red);
+  opacity: 0;
+  z-index: 1000;
+  pointer-events: none;
+  animation: confetti-fall 3s ease-out forwards;
+  border-radius: 50%;
+  box-shadow: 
+    0 0 5px currentColor,
+    0 0 10px currentColor;
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(-10px) rotate(0deg) scale(1);
+    opacity: 1;
+    filter: brightness(1.5) saturate(2);
+  }
+  100% {
+    transform: translateY(100vh) rotate(720deg) scale(0.5);
+    opacity: 0;
+  }
+}
+
+.victory {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s;
+}
+
+.victory.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.victory-message {
+  font-size: clamp(2rem, 8vw, 4rem);
+  color: var(--neon-yellow);
+  text-shadow: 
+    0 0 10px var(--neon-yellow),
+    0 0 20px var(--neon-yellow);
+  margin-bottom: 20px;
+  text-align: center;
+  font-family: 'Rubik Mono One', sans-serif;
+  animation: 
+    pulse 1s infinite,
+    flicker 2s infinite alternate;
+  -webkit-text-stroke: 2px black;
+  letter-spacing: 2px;
+  padding: 0 10px;
+}
+
+#quit-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: clamp(0.8rem, 3vw, 1.2rem);
+  background: linear-gradient(135deg, var(--neon-purple), #ff00e6);
+  border: 2px solid white;
+  animation: neon-pulse 2s infinite;
+}
+
+.victory-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Indicador de ordem dos jogadores */
+.player-order {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  flex-direction: column;
+  gap: 5px;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid var(--neon-purple);
+  box-shadow: 0 0 10px rgba(210, 0, 200, 0.7);
+  backdrop-filter: blur(5px);
+  max-width: 90%;
+}
+
+.player-order-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: white;
+  font-family: 'Press Start 2P', cursive;
+  font-size: clamp(0.5rem, 2vw, 0.7rem);
+  opacity: 0.7;
+  transition: all 0.3s ease;
+  padding: 3px 6px;
+  border-radius: 15px;
+}
+
+.player-order-item.active {
+  opacity: 1;
+  transform: scale(1.03);
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 5px currentColor;
+}
+
+.player-order-avatar {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  border: 1px solid currentColor;
+  flex-shrink: 0;
+}
+
+.player-order-item.active .player-order-avatar {
+  background: var(--neon-green);
+  color: black;
+  box-shadow: 0 0 5px var(--neon-green);
+}
+
+.player-order-name {
+  white-space: nowrap;
+  
+}
+
+.player-order-arrow {
+  margin-left: auto;
+  font-size: 0.9rem;
+  color: var(--neon-purple);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.player-order-item.active .player-order-arrow {
+  opacity: 1;
+  animation: bounce 0.5s infinite alternate;
+}
+
+@keyframes bounce {
+  from { transform: translateX(1px); }
+  to { transform: translateX(3px); }
+}
+
+/* Esconde elementos inicialmente */
+.bot .player-name,
+.bot-hand {
+  display: none;
+}
+
+.bot-left,
+.bot-right,
+.player-top {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+.game-started .bot-left,
+.game-started .bot-right,
+.game-started .player-top {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Mostra quando o jogo começa */
+.game-started .bot .player-name,
+.game-started .bot-hand,
+.game-started #deck-container {
+  display: flex;
+}
+
+/* Fundo animado - versão melhorada */
+
+
+/* Melhorias nos avatares */
+.bot-avatar {
+  width: 40px;
+  height: 40px;
+  top: 10px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  transition: opacity 0.5s ease;
+  border: 1px solid #fff700;
+  opacity: 0;
+  position: relative;
+  image-rendering: pixelated;
+}
+
+.bot-avatar:hover {
+  transform: scale(1.05);
+  box-shadow: 
+    0 0 10px #fff700,
+    inset 0 0 10px #f9f002;
+}
+
+.game-started .bot-avatar {
+  opacity: 1;
+}
+
+@keyframes avatarEnter {
+  from { transform: scale(0); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.game-started .bot-avatar {
+  animation: avatarEnter 0.7s ease-out forwards;
+}
+
+.bot-avatar::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border-radius: 50%;
+  border: 2px solid var(--neon-yellow);
+  animation: rgb-border 4s linear infinite;
+  pointer-events: none;
+}
+
+/* Layout para telas pequenas (mobile) */
+@media (max-width: 768px) {
+  .player-top, .bot-left, .bot-right {
+    min-height: 180px;
+  }
+  .mesa {
+    grid-template-areas:
+      "top top"
+      "left right"
+      "center center"
+      "bottom bottom";
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto auto;
+    gap: 1px;
+    padding: 1px;
+  }
+
+ 
+  .player-order-item {
+    flex: 1 0 calc(50% - 10px);
+    margin: 2px;
+  }
+
+  .player-order-name {
+    max-width: 60px;
+  }
+
+  .centro {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 5px;
+  }
+
+  .discard-area, .deck {
+    margin: 0 5px;
+  }
+
+  .draw-button {
+    order: 2;
+  }
+
+  .player-bottom .hand {
+    padding-bottom: 15px;
+  }
+}
+
+/* Layout para telas muito pequenas (celulares pequenos) */
+@media (max-width: 490px) {
+  :root {
+    --card-width: clamp(35px, 12vw, 60px);
+  }
+
+  .player-name {
+    font-size: 0.6rem;
+    padding: 3px 4px;
+  }
+    .player-top, .bot-left, .bot-right {
+    min-height: 150px;
+  }
+
+  .bot-hand {
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 12px;
+  }
+
+  .speech-bubble {
+    max-width: 120px;
+    font-size: 0.6rem;
+    padding: 4px 6px;
+  }
+  .status{
+    width: 80%;
+    margin-top: 30px;
+  }
+  button{
+    margin: 5px;
+  }
+  .card{
+    width: 50px;
+    height: 80px;
+  }
+
+  .card .value{
+    font-size: 20px;
+
+  }
+  .bottom-left-decoration{
+    width: 60px;
+    height: 60px;
+    margin-bottom: 15px;
+  }
+
+  .deck{
+     width: 50px;
+    height: 80px;
+  }
+
+  .player-order {
+    display: none !important;
+  }
+
+}
+
+/* Layout para tablets em modo retrato */
+@media (min-width: 581px) and (max-width: 768px) and (orientation: portrait) {
+  :root {
+    --card-width: clamp(45px, 10vw, 70px);
+  }
+
+  .mesa {
+    grid-template-rows: auto auto 1fr auto;
+  }
+
+  .player-bottom {
+    margin-bottom: 30px;
+  }
+  :root {
+    --card-width: clamp(35px, 12vw, 60px);
+  }
+
+  .player-name {
+    font-size: 0.6rem;
+    padding: 3px 4px;
+  }
+    .player-top, .bot-left, .bot-right {
+    min-height: 150px;
+  }
+
+  .bot-hand {
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 12px;
+  }
+
+  .speech-bubble {
+    max-width: 120px;
+    font-size: 0.6rem;
+    padding: 4px 6px;
+  }
+  .status{
+    width: 50%;
+    margin-top: 30px;
+  }
+  button{
+    margin: 5px;
+  }
+  .card{
+    width: 50px;
+    height: 80px;
+  }
+
+  .card .value{
+    font-size: 20px;
+
+  }
+  .bottom-left-decoration{
+    width: 60px;
+    height: 60px;
+    margin-bottom: 15px;
+  }
+
+  .deck{
+     width: 50px;
+    height: 80px;
+  }
+
+ .player-order-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: white;
+  font-family: 'Press Start 2P', cursive;
+  font-size: clamp(0.5rem, 2vw, 0.7rem);
+  opacity: 0.7;
+  transition: all 0.3s ease;
+  padding: 1px 4px;
+  border-radius: 15px;
+}
+
+.player-order-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  
+  font-size: clamp(0.4rem, 1.7vw, 0.5rem);
+
+  padding: 3px 6px;
+}
+
+.player-order-avatar {
+  width: 20px;
+  height: 20px;
+  
+  font-size: 0.6rem;
+  
+}
+
+
+.player-order-arrow {
+  font-size: 0.6rem;
+}
+
+
+
+}
+
+/* Layout para tablets em modo paisagem */
+@media (min-width: 769px) and (max-width: 1024px) and (orientation: landscape) {
+  .mesa {
+    grid-template-rows: auto auto 1fr;
+  }
+
+  .player-bottom {
+    margin-bottom: 30px;
+  }
+}
+
+/* Layout para desktops */
+@media (min-width: 1025px) {
+  .mesa {
+    height: 100vh;
+    max-height: 100vh;
+    grid-template-rows: 1fr 2fr 1fr;
+  }
+
+  .player-top .bot-avatar {
+    width: 65px;
+    height: 65px;
+  }
+
+  .bot-avatar {
+    width: 60px;
+    height: 60px;
+  }
+
+  .player-name {
+    font-size: 1rem;
+  }
+
+ 
+
+  .player-bottom .hand {
+    padding-bottom: 20px;
+  }
+}
+
+/* Layout para telas muito grandes */
+@media (min-width: 1600px) {
+  :root {
+    --card-width: clamp(60px, 5vw, 80px);
+  }
+
+  .player-top .bot-avatar {
+    width: 80px;
+    height: 80px;
+  }
+
+  .bot-avatar {
+    width: 70px;
+    height: 70px;
+  }
+}
+
+/* Ajustes para quando o teclado virtual está aberto em dispositivos móveis */
+@media (max-height: 500px) {
+  .mesa {
+    grid-template-rows: auto auto auto;
+  }
+
+  .player-bottom {
+    margin-bottom: 10px;
+  }
+
+  .player-bottom .hand {
+    max-height: 100px;
+  }
+}
+
+/* Garante que o conteúdo não fique muito pequeno */
+@media (max-width: 350px) {
+  :root {
+    --card-width: 30px;
+  }
+
+  .player-name {
+    font-size: 0.6rem;
+  }
+
+  .status {
+    font-size: 0.5rem;
+  }
+
+  button {
+    font-size: 0.5rem;
+    padding: 5px 10px;
+  }
+}
+
+/* Efeito de carta wild jogada */
+.card.wild-card-played::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border-radius: 10px;
+  border: 3px solid;
+  pointer-events: none;
+  animation: pulse-glow 1.5s infinite alternate;
+}
+
+/* Cores específicas para a borda */
+.card.wild-card-played.vermelho::after { border-color: var(--neon-red); }
+.card.wild-card-played.verde::after { border-color: var(--neon-green); }
+.card.wild-card-played.azul::after { border-color: var(--neon-blue); }
+.card.wild-card-played.amarelo::after { border-color: var(--neon-yellow); }
+
+/* Ajustes para modo paisagem em celulares */
+@media (max-width: 768px) and (orientation: landscape) {
+  .mesa {
+    grid-template-areas:
+      "left top right"
+      "left center right"
+      "bottom bottom bottom";
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: auto 1fr auto;
+  }
+
+  .player-bottom {
+    margin-bottom: 10px;
+  }
+
+  .player-bottom .hand {
+    max-height: 80px;
+  }
+
+  .lateral-esquerda, .lateral-direita {
+    padding: 2px;
+  }
+
+  .bot-avatar {
+    width: 30px;
+    height: 30px;
+  }
+
+  .player-name {
+    font-size: 0.6rem;
+  }
+}
