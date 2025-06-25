@@ -441,7 +441,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 10px;
   box-sizing: border-box;
 }
 
@@ -1076,7 +1075,6 @@ button:hover::before {
 
 .speech-bubble.show {
   opacity: 1;
-  transform: scale(1);
 }
 
 .speech-bubble::after {
@@ -1713,4 +1711,50 @@ button:hover::before {
   .player-name {
     font-size: 0.6rem;
   }
+}
+
+/* Adicione ao seu CSS */
+.uno-warning {
+  position: relative;
+  z-index: 1;
+}
+
+.uno-warning::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border-radius: 15px;
+  background: linear-gradient(45deg, 
+    var(--neon-red), 
+    var(--neon-yellow), 
+    var(--neon-blue), 
+    var(--neon-green));
+  background-size: 400% 400%;
+  z-index: -1;
+  animation: uno-glow 2s ease infinite, rgb-bg 4s linear infinite;
+  opacity: 0.7;
+  filter: blur(5px);
+}
+
+@keyframes uno-glow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.uno-text {
+  position: absolute;
+  bottom: -25px;  /* Mude de top para bottom */
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.8rem;
+  text-shadow: 0 0 10px var(--neon-red), 
+              0 0 20px var(--neon-yellow);
+  animation: flicker 1.5s infinite alternate;
+  white-space: nowrap; /* Impede que o texto quebre em várias linhas */
 }

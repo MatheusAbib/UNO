@@ -229,15 +229,19 @@ function renderHand(hand, container, isBot = false) {
         container.appendChild(cardContainer);
     });
 }
-    function showBotMessage(botIndex, message) {
-      const speech = botSpeeches[botIndex];
-      speech.textContent = message;
-      speech.classList.add("show");
-      
-      setTimeout(() => {
-        speech.classList.remove("show");
-      }, 2000);
-    }
+   function showBotMessage(botIndex, message) {
+  const speech = botSpeeches[botIndex];
+  // Limita o tamanho do texto
+  if (message.length > 30) {
+    message = message.substring(0, 27) + '...';
+  }
+  speech.textContent = message;
+  speech.classList.add("show");
+  
+  setTimeout(() => {
+    speech.classList.remove("show");
+  }, 2000);
+}
 
 function createConfetti() {
   // Desativa temporariamente o scroll
@@ -304,52 +308,59 @@ function initializeGame() {
 }
 
 function startGame() {
-    createParticles(); // Adicione esta linha
+    createParticles();
 
-  try {
-    initializeGame();
-    gameStarted = true;
-    document.body.classList.add('game-started');
-    document.getElementById("start-game-btn").style.display = "none";
+    try {
+        initializeGame();
+        gameStarted = true;
+        document.body.classList.add('game-started');
+        document.getElementById("start-game-btn").style.display = "none";
 
-    // Ligar som e tocar música ao iniciar o jogo automaticamente
-    if (!soundOn) {
-      soundOn = true;
-      backgroundMusic.play().catch(e => console.log("Falha ao tocar música:", e));
-      updateSoundButton();
+        // Mostra todos os elementos dos bots
+          document.querySelectorAll('.bot').forEach(bot => {
+            bot.style.display = ''; // Remove qualquer display:none
+        });
+
+        // Ligar som e tocar música ao iniciar o jogo automaticamente
+        if (!soundOn) {
+            soundOn = true;
+            backgroundMusic.play().catch(e => console.log("Falha ao tocar música:", e));
+            updateSoundButton();
+        }
+        
+          // Distribui cartas
+        drawCard(playerHand, 7);
+        bots.forEach(bot => drawCard(bot, 7));
+
+        let firstCard;
+        do {
+            firstCard = deck.pop();
+        } while (firstCard.color === "preto");
+
+        discardPile.push(firstCard);
+        currentColor = firstCard.color;
+
+        renderAll();
+        statusDiv.textContent = "SUA VEZ";
+        createConfetti();
+
+        document.getElementById('deck-container').style.display = 'block';
+        document.querySelectorAll('.bot .player-name').forEach(name => {
+            name.style.display = 'block';
+        });
+        document.querySelectorAll('.bot-hand').forEach(hand => {
+            hand.style.display = 'flex';
+        });
+        drawButton.style.display = "block";
+
+    } catch (error) {
+        console.error("Erro ao iniciar jogo:", error);
+        statusDiv.textContent = "ERRO AO INÍCIO DO JOGO";
+        
+        // Mostra o botão de iniciar novamente em caso de erro
+        document.getElementById("start-game-btn").style.display = "block";
     }
-    
-    // Distribui cartas
-      drawCard(playerHand, 7);
-    bots.forEach(bot => drawCard(bot, 7));
-
-    let firstCard;
-    do {
-      firstCard = deck.pop();
-    } while (firstCard.color === "preto");
-
-    discardPile.push(firstCard);
-    currentColor = firstCard.color;
-
-    renderAll();
-    statusDiv.textContent = "SUA VEZ";
-    createConfetti();
-
-    document.getElementById('deck-container').style.display = 'block';
-    document.querySelectorAll('.bot .player-name').forEach(name => {
-      name.style.display = 'block';
-    });
-    document.querySelectorAll('.bot-hand').forEach(hand => {
-      hand.style.display = 'flex';
-    });
-    drawButton.style.display = "block";
-
-  } catch (error) {
-    console.error("Erro ao iniciar jogo:", error);
-    statusDiv.textContent = "ERRO AO INICIAR JOGO";
-  }
 }
-
 // Event listener robusto
 window.onload = function() {
   initializeGame();
@@ -361,7 +372,8 @@ window.onload = function() {
     console.error("Botão 'Iniciar Jogo' não encontrado!");
   }
 };
- function renderAll() {
+
+function renderAll() {
   renderHand(playerHand, playerHandDiv);
   bots.forEach((b, i) => renderHand(b, botHands[i], true));
   
@@ -380,6 +392,9 @@ window.onload = function() {
       </div>
     </div>
   `;
+
+  // Verifica o status UNO após renderizar
+  checkUnoStatus();
 }
 
     function isPlayable(card) {
@@ -396,16 +411,16 @@ window.onload = function() {
     function playCard(hand, index) {
     if (!gameStarted || currentPlayer !== 0 || waitingForColorChoice) return;
       
-      const card = hand[index];
-      if (!isPlayable(card)) {
+    const card = hand[index];
+    if (!isPlayable(card)) {
         statusDiv.textContent = "CARTA INVÁLIDA!";
         setTimeout(() => statusDiv.textContent = "SUA VEZ", 1000);
         return;
-      }
+    }
       
-      hand.splice(index, 1);
-      discardPile.push(card);
-      if (card.color !== "preto") currentColor = card.color;
+    hand.splice(index, 1);
+    discardPile.push(card);
+    if (card.color !== "preto") currentColor = card.color;
       
       // Adiciona animação à carta jogada
       const cardDiv = document.createElement("div");
@@ -430,19 +445,25 @@ window.onload = function() {
       
       playSound('card');
       
-      setTimeout(() => {
+       setTimeout(() => {
         document.body.removeChild(cardDiv);
         renderAll();
         
         handleSpecial(card, hand);
         
         if (hand.length === 0) {
-          showVictory("VOCÊ VENCEU!");
-          return;
+            showVictory("VOCÊ VENCEU!");
+            return;
+        }
+        
+        // Verifica UNO após jogar carta
+        if (hand.length === 1) {
+            showUnoEffect(playerHandDiv.parentElement, "VOCÊ TEM UNO!");
+            playSound('win'); // Toca um som especial para UNO
         }
         
         nextTurn();
-      }, 500);
+    }, 500);
     }
 
     function handleSpecial(card, hand) {
@@ -734,6 +755,14 @@ function showVictory(message) {
 
 // Atualize a função resetGame para voltar ao início
 function resetGame() {
+  // Para e reseta a música
+  backgroundMusic.pause();
+  backgroundMusic.currentTime = 0;
+  
+  // Desliga o som e atualiza o botão
+  soundOn = false;
+  updateSoundButton();
+  
   // Remove a tela de vitória
   victoryScreen.classList.remove("show");
   
@@ -744,18 +773,23 @@ function resetGame() {
   currentColor = null;
   currentPlayer = 0;
   direction = 1;
+  gameStarted = false;
   
   // Limpa as mãos visuais
   playerHandDiv.innerHTML = "";
   botHands.forEach(hand => hand.innerHTML = "");
   
-  // Esconde elementos dos bots
-  document.querySelectorAll('.bot .player-name, .bot-hand').forEach(el => {
-    el.style.display = 'none';
+  // Esconde completamente os containers dos bots
+  document.querySelectorAll('.bot').forEach(bot => {
+    bot.style.display = 'none';
   });
   
   // Mostra o botão de iniciar
-  document.getElementById("start-game-btn").style.display = "block";
+  const startBtn = document.getElementById("start-game-btn");
+  startBtn.style.display = "block";
+  
+  // Esconde o botão de comprar
+  drawButton.style.display = "none";
   
   // Reseta o deck
   deck = createDeck();
@@ -768,9 +802,15 @@ function resetGame() {
   
   // Reativa o scroll se estiver desativado
   document.documentElement.style.overflowY = '';
+  
+  // Remove a classe de jogo iniciado
+  document.body.classList.remove('game-started');
+  
+  // Esconde o deck
+  document.getElementById('deck-container').style.display = 'none';
 }
 
-// Atualize o evento do botão quit
+// Atualize o event listener do botão quit
 quitBtn.addEventListener("click", resetGame);
 
     drawButton.addEventListener("click", () => {
@@ -943,5 +983,56 @@ function createParticles() {
 // Chame esta função quando o jogo iniciar
 document.getElementById("start-game-btn").addEventListener("click", function() {
   createParticles();
-  // resto do código...
 });
+
+// Adicione estas funções ao seu JS
+function checkUnoStatus() {
+  // Verifica o jogador humano
+  if (playerHand.length === 1) {
+    showUnoEffect(playerHandDiv.parentElement, "VOCÊ TEM UNO!");
+  } else {
+    removeUnoEffect(playerHandDiv.parentElement);
+  }
+
+  // Verifica cada bot
+  bots.forEach((botHand, index) => {
+    const botContainer = botHands[index].parentElement;
+    if (botHand.length === 1) {
+      showUnoEffect(botContainer, `${BOT_NAMES[index]} TEM UNO!`);
+    } else {
+      removeUnoEffect(botContainer);
+    }
+  });
+}
+
+function showUnoEffect(container, text) {
+  if (!container.classList.contains('uno-warning')) {
+    container.classList.add('uno-warning');
+    
+    // Adiciona o texto UNO
+    const unoText = document.createElement('div');
+    unoText.className = 'uno-text';
+    unoText.textContent = 'UNO!';
+    container.appendChild(unoText);
+    
+    // Se for um bot, mostra mensagem especial
+    if (text.includes('TEM UNO!') && !text.includes('VOCÊ')) {
+      const botIndex = BOT_NAMES.findIndex(name => text.includes(name));
+      if (botIndex !== -1) {
+        showBotMessage(botIndex, "UNO!!!");
+      }
+    }
+  }
+}
+
+function removeUnoEffect(container) {
+  if (container.classList.contains('uno-warning')) {
+    container.classList.remove('uno-warning');
+    
+    // Remove o texto UNO
+    const unoText = container.querySelector('.uno-text');
+    if (unoText) {
+      container.removeChild(unoText);
+    }
+  }
+}
