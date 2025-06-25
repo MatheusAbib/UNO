@@ -788,7 +788,15 @@ quitBtn.addEventListener("click", resetGame);
       }
     });
 
+    playAgainBtn.addEventListener("click", resetGame);
+    quitBtn.addEventListener("click", () => {
+     
+    });
 
+    document.getElementById("start-game-btn").addEventListener("click", function() {
+  this.style.display = "none";
+  startGame();
+});
 
     document.getElementById("start-game-btn").addEventListener("click", function() {
   this.style.display = "none";
