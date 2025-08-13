@@ -1,4 +1,4 @@
-# 🎮 UNO Arcade - Versão Neon Retro
+# 🎮 UNO Arcade
 
 Bem-vindo ao **UNO Arcade**, uma versão digital do clássico jogo de cartas UNO com um visual neon retro inspirado nos anos 80! Esta implementação web traz todos os elementos do jogo original com efeitos visuais impressionantes.
 
