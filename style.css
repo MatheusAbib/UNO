@@ -164,7 +164,7 @@
 
   body {
     margin: 0;
-    font-family: 'Bungee', cursive;
+    font-family: 'Press Start 2P', cursive;
     background-color: var(--dark-bg);
     color: white;
     overflow-x: hidden;
@@ -176,8 +176,8 @@
       radial-gradient(circle at 50% 90%, rgba(0, 255, 157, 0.1) 0%, transparent 30%);
     background-attachment: fixed;
     overflow-y: scroll; /* Garante que o scroll funcione */
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE e Edge */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE e Edge */
   }
 
 /* Estilos para o fundo animado */
@@ -1806,7 +1806,7 @@ button:hover::before {
   }
 
   .player-name {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 
  
