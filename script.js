@@ -1,4 +1,4 @@
-const DELAYS = {
+  const DELAYS = {
       botThink: 2200,    // Tempo que o bot "pensa" antes de jogar
       cardPlay: 1000,     // Tempo de animação ao jogar carta
       messageShow: 6000, // Tempo que mensagens ficam visíveis
@@ -543,14 +543,12 @@ function renderAll() {
           colorBtn.style.boxShadow = "0 0 15px var(--neon-red)";
         } else if (color === "verde") {
           colorBtn.style.backgroundColor = "#00ff9d";
-          colorBtn.style.color = "#002616";
           colorBtn.style.boxShadow = "0 0 15px var(--neon-green)";
         } else if (color === "azul") {
           colorBtn.style.backgroundColor = "#05d9e8";
           colorBtn.style.boxShadow = "0 0 15px var(--neon-blue)";
         } else if (color === "amarelo") {
           colorBtn.style.backgroundColor = "#f9f002";
-          colorBtn.style.color = "#664d00";
           colorBtn.style.boxShadow = "0 0 15px var(--neon-yellow)";
         }
         
