@@ -1,3 +1,486 @@
+
+// Element style da responsividade do site
+const styleElement = document.createElement('style');
+styleElement.textContent = `
+/* Layout para telas pequenas (mobile) */
+@media (max-width: 768px) {
+  .player-top, .bot-left, .bot-right {
+    min-height: 180px;
+  }
+
+   .bot-left, .bot-right {
+    min-height: 200px;
+    max-height: 280px;
+    height: 250px;
+    margin: -2% 0;
+  }
+
+  .bot-left .bot-hand, .bot-right .bot-hand {
+    max-height: 150px;
+    height: 140px;
+    min-height: 120px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .mesa {
+    grid-template-areas:
+      "top top"
+      "left right"
+      "center center"
+      "bottom bottom";
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto auto;
+    gap: 1px;
+    padding: 1px;
+  }
+
+    .player-bottom {
+    margin-top: -30px;
+  }
+    .bot-top .bot-hand {
+    min-height: 150px; 
+  }
+  
+  .bot-container {
+    min-height: 40px;
+  }
+  
+  .bot-top {
+    margin-top: 0;
+  }
+
+    .player-top {
+    min-width: 95%;
+    width: 95%;
+    max-width: 95%;
+  }
+  
+ 
+  .player-order-item {
+    flex: 1 0 calc(50% - 10px);
+    margin: 2px;
+  }
+
+  .player-order-name {
+    max-width: 60px;
+  }
+
+  .centro-superior {
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 5px;
+  }
+  
+  .centro {
+    margin-top: -20px;
+    padding: 5px;
+    gap: 8px;
+  }
+  
+  .discard-area, .deck-container {
+    margin: 0;
+  }
+
+  .draw-button {
+    order: 2;
+  }
+
+    .player-bottom .hand {
+        max-width: calc(7 * (60px + 10px)); 
+        gap: 10px;
+        padding: 15px;
+        padding-bottom: 40px;
+    }
+
+   .discard-pile .card,
+  .deck {
+    width: 60px;
+    height: 90px;
+  }
+  
+  .card-back {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .status {
+    margin-top: 10px;
+    font-size: 0.6rem;
+    padding: 6px 10px;
+  }
+  
+  button {
+    font-size: 0.5rem;
+    padding: 8px 12px;
+    margin-top: 10px;
+  }
+}
+
+/* Layout para telas muito pequenas (celulares pequenos) */
+@media (max-width: 490px) {
+  :root {
+    --card-width: clamp(35px, 12vw, 60px);
+  }
+
+  .player-name {
+    font-size: 0.6rem;
+    padding: 3px 4px;
+    text-shadow: none !important;
+  }
+  
+   .player-top {
+    min-width: 98%; 
+    width: 98%;
+    max-width: 98%;
+  }
+
+  .bot-hand {
+    max-height: 45%;
+  }
+
+  .bot-top {
+    padding: 5px;
+    margin-bottom: 35px;
+
+  }
+
+   .bot-left, .bot-right {
+    min-height: 180px;
+    max-height: 250px;
+    height: 110%;
+  }
+  
+  .bot-left .bot-hand, .bot-right .bot-hand {
+    max-height: 120px;
+    height: 110px;
+    min-height: 100px;
+    grid-template-columns: repeat(2, 1fr); 
+  }
+  
+
+  .speech-bubble {
+    max-width: 120px;
+    font-size: 0.6rem;
+    padding: 4px 6px;
+  }
+  .status{
+    width: 70%;
+    font-size: 8px;
+  }
+  .card{
+    width: 50px;
+    height: 80px;
+  }
+
+  .deck{
+    display: none !important;
+  }
+
+  .centro-superior {
+    gap: 10px;
+  }
+  
+  .discard-pile .card,
+  .deck {
+    width: 55px;
+    height: 85px;
+  }
+  
+  .centro {
+    margin-top: 08%;
+    margin-bottom: 10%;
+    gap: 5px;
+  }
+  
+  button {
+    font-size: 0.5rem;
+    padding: 10px 15px;
+    margin-top: 10px;
+  }
+  
+  .card .value {
+    font-size: 1.2rem;
+  }
+
+  .bottom-left-decoration{
+    width: 60px;
+    height: 60px;
+    margin-bottom: 15px;
+  }
+
+  .player-order {
+    backdrop-filter: none !important;
+  }
+
+   .player-bottom .hand {
+        max-width: calc(7 * (50px + 8px)); 
+        gap: 8px;
+        padding: 10px;
+        padding-bottom: 35px;
+    }
+
+}
+
+/* Layout para tablets em modo retrato */
+@media (min-width: 581px) and (max-width: 768px) and (orientation: portrait) {
+  :root {
+    --card-width: clamp(45px, 10vw, 70px);
+  }
+
+  .mesa {
+    grid-template-rows: auto auto 1fr auto;
+  }
+
+  .player-bottom {
+    margin-bottom: 30px;
+  }
+  :root {
+    --card-width: clamp(35px, 12vw, 60px);
+  }
+
+  .player-name {
+    font-size: 0.6rem;
+    padding: 3px 4px;
+  }
+    .player-top, .bot-left, .bot-right {
+    min-height: 150px;
+  }
+
+  .bot-hand {
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 12px;
+  }
+
+  .speech-bubble {
+    max-width: 120px;
+    font-size: 0.6rem;
+    padding: 4px 6px;
+  }
+  .status{
+    width: 50%;
+    margin-top: 30px;
+  }
+  button{
+    margin: 5px;
+  }
+  .card{
+    width: 50px;
+    height: 80px;
+  }
+
+  .card .value{
+    font-size: 20px;
+
+  }
+  .bottom-left-decoration{
+    width: 60px;
+    height: 60px;
+    margin-bottom: 15px;
+  }
+
+  .deck{
+     width: 50px;
+    height: 80px;
+  }
+
+ .player-order-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: white;
+  font-family: 'Press Start 2P', cursive;
+  font-size: clamp(0.5rem, 2vw, 0.7rem);
+  opacity: 0.7;
+  transition: all 0.3s ease;
+  padding: 1px 4px;
+  border-radius: 15px;
+}
+
+.player-order-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  
+  font-size: clamp(0.4rem, 1.7vw, 0.5rem);
+
+  padding: 3px 6px;
+}
+
+.player-order-avatar {
+  width: 20px;
+  height: 20px;
+  
+  font-size: 0.6rem;
+  
+}
+
+
+.player-order-arrow {
+  font-size: 0.6rem;
+}
+
+}
+
+/* Layout para tablets em modo paisagem */
+@media (min-width: 769px) and (max-width: 1024px) and (orientation: landscape) {
+  .mesa {
+    grid-template-rows: auto auto 1fr;
+  }
+
+  .player-bottom {
+    margin-bottom: 30px;
+  }
+
+    .bot-left, .bot-right {
+    min-height: 280px;
+    max-height: 350px;
+    height: 300px;
+  }
+  
+  .bot-left .bot-hand, .bot-right .bot-hand {
+    max-height: 200px;
+    height: 190px;
+  }
+}
+
+/* Layout para desktops */
+@media (min-width: 1025px) {
+  .mesa {
+    height: 100vh;
+    max-height: 100vh;
+    grid-template-rows: 1fr 2fr 1fr;
+  }
+
+  .player-top .bot-avatar {
+    width: 65px;
+    height: 65px;
+  }
+
+  .bot-avatar {
+    width: 60px;
+    height: 60px;
+  }
+
+  .player-name {
+    font-size: 0.9rem;
+  }
+
+ 
+
+  .player-bottom .hand {
+    padding-bottom: 20px;
+  }
+}
+
+/* Layout para telas muito grandes */
+@media (min-width: 1600px) {
+  :root {
+    --card-width: clamp(60px, 5vw, 80px);
+  }
+
+  .player-top .bot-avatar {
+    width: 90px;
+    height: 90px;
+  }
+
+  .bot-avatar {
+    width: 90px;
+    height: 90px;
+  }
+
+   .player-bottom .hand {
+        max-width: calc(7 * (85px + 20px)); 
+    }
+}
+
+@media (max-height: 500px) {
+  .mesa {
+    grid-template-rows: auto auto auto;
+  }
+
+  .player-bottom {
+    margin-bottom: 10px;
+  }
+
+  .player-bottom .hand {
+    max-height: 100px;
+  }
+}
+
+@media (max-width: 350px) {
+  :root {
+    --card-width: 30px;
+  }
+
+  .player-name {
+    font-size: 0.6rem;
+  }
+
+  .status {
+    font-size: 0.5rem;
+  }
+
+  button {
+    font-size: 0.5rem;
+    padding: 5px 10px;
+  }
+} @media (max-width: 768px) and (orientation: landscape) {
+  .mesa {
+    grid-template-areas:
+      "left top right"
+      "left center right"
+      "bottom bottom bottom";
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: auto 1fr auto;
+  }
+
+  .player-bottom {
+    margin-bottom: 10px;
+  }
+
+  .player-bottom .hand {
+    max-height: 80px;
+  }
+
+  .lateral-esquerda, .lateral-direita {
+    padding: 2px;
+  }
+
+  .bot-avatar {
+    width: 30px;
+    height: 30px;
+  }
+
+  .player-name {
+    font-size: 0.6rem;
+  }
+
+    .centro-superior {
+    flex-direction: row;
+    gap: 10px;
+  }
+  
+  .centro {
+    margin-top: -15px;
+    padding: 3px;
+  }
+  
+  .discard-pile .card,
+  .deck {
+    width: 45px;
+    height: 67px;
+  }
+  
+  .status {
+    font-size: 0.5rem;
+    margin-top: 3px;
+  }
+}
+`;
+
+document.head.appendChild(styleElement);
+  
+  
   const DELAYS = {
       botThink: 2200,    // Tempo que o bot "pensa" antes de jogar
       cardPlay: 1000,     // Tempo de animação ao jogar carta
@@ -1034,3 +1517,4 @@ function removeUnoEffect(container) {
     }
   }
 }
+
