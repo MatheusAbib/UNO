@@ -2,12 +2,208 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>UnoGame</title>
+  <title>UNO Arcade</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="card.png">
+  <style>
+    .scanlines {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.03) 50%, transparent 100%);
+      background-size: 100% 4px;
+      pointer-events: none;
+      z-index: 9999;
+      animation: scanline 1s linear infinite;
+    }
+    @keyframes scanline {
+      0% { background-position: 0 0; }
+      100% { background-position: 0 100vh; }
+    }
+    .top-right-decoration {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 80px;
+      height: 80px;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><polygon points="50,0 90,50 50,100 10,50" fill="none" stroke="%2305d9e8" stroke-width="2"/></svg>');
+      background-size: contain;
+      background-repeat: no-repeat;
+      opacity: 0.7;
+      z-index: 9998;
+      pointer-events: none;
+      animation: spin 15s linear infinite reverse;
+    }
+    .bottom-left-decoration {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      width: 80px;
+      height: 80px;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M10,10 L90,10 L90,90 L10,90 Z M30,30 L70,30 L70,70 L30,70 Z" fill="none" stroke="%2300ff9d" stroke-width="2"/></svg>');
+      background-size: contain;
+      background-repeat: no-repeat;
+      opacity: 0.7;
+      z-index: 9998;
+      pointer-events: none;
+      animation: spin 25s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .animated-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .floating-cards {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+    .floating-cards .fc {
+      position: absolute;
+      width: 30px;
+      height: 45px;
+      border-radius: 8px;
+      opacity: 0.2;
+      animation: float 15s infinite linear;
+      box-shadow: 0 0 20px currentColor;
+    }
+    .neon-particles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+    .neon-particles span {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: white;
+      box-shadow: 0 0 10px white, 0 0 20px white;
+      animation: particle-move 10s infinite linear;
+      opacity: 0;
+    }
+    .colorful-dots {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+    .colorful-dots span {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      animation: dot-pulse 4s infinite ease-in-out;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      25% { transform: translateY(-20px) rotate(10deg); }
+      75% { transform: translateY(20px) rotate(-10deg); }
+    }
+    @keyframes particle-move {
+      0% { transform: translate(0, 0); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translate(100px, 100px); opacity: 0; }
+    }
+    @keyframes dot-pulse {
+      0%, 100% { transform: scale(1); opacity: 0.3; }
+      50% { transform: scale(1.5); opacity: 0.6; }
+    }
+  </style>
 </head>
 <body>
+  <div class="scanlines"></div>
+  <div class="top-right-decoration"></div>
+  <div class="bottom-left-decoration"></div>
+  <div class="animated-background">
+    <div class="floating-cards" id="floating-cards"></div>
+    <div class="neon-particles" id="neon-particles"></div>
+    <div class="colorful-dots" id="colorful-dots"></div>
+  </div>
+
   <app-root></app-root>
+
+  <script>
+    (function() {
+      var container = document.getElementById('floating-cards');
+      if (!container) return;
+      var colors = ['#ff2a6d', '#05d9e8', '#00ff9d', '#f9f002', '#d300c5'];
+      var positions = [
+        { top: '5%', left: '3%', delay: '0s' },
+        { top: '20%', left: '85%', delay: '2s' },
+        { top: '50%', left: '5%', delay: '4s' },
+        { top: '70%', left: '90%', delay: '6s' },
+        { top: '85%', left: '10%', delay: '8s' },
+        { top: '40%', left: '50%', delay: '3s' },
+        { top: '10%', left: '50%', delay: '5s' },
+        { top: '90%', left: '50%', delay: '7s' },
+        { top: '60%', left: '30%', delay: '1s' },
+        { top: '30%', left: '70%', delay: '9s' },
+        { top: '15%', left: '15%', delay: '1.5s' },
+        { top: '80%', left: '80%', delay: '4.5s' },
+        { top: '45%', left: '10%', delay: '6.5s' },
+        { top: '55%', left: '85%', delay: '8.5s' },
+        { top: '25%', left: '60%', delay: '2.5s' }
+      ];
+      positions.forEach(function(pos, index) {
+        var card = document.createElement('div');
+        card.className = 'fc';
+        card.style.top = pos.top;
+        card.style.left = pos.left;
+        card.style.animationDelay = pos.delay;
+        card.style.background = colors[index % colors.length];
+        container.appendChild(card);
+      });
+    })();
+
+    (function() {
+      var container = document.getElementById('neon-particles');
+      if (!container) return;
+      var colors = ['#ff2a6d', '#05d9e8', '#00ff9d', '#f9f002'];
+      for (var i = 0; i < 40; i++) {
+        var particle = document.createElement('span');
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 10 + 's';
+        particle.style.animationDuration = 5 + Math.random() * 10 + 's';
+        particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+        particle.style.boxShadow = '0 0 10px currentColor, 0 0 20px currentColor';
+        container.appendChild(particle);
+      }
+    })();
+
+    (function() {
+      var container = document.getElementById('colorful-dots');
+      if (!container) return;
+      var dotColors = [
+        'rgba(255, 42, 109, 0.5)',
+        'rgba(5, 217, 232, 0.5)',
+        'rgba(0, 255, 157, 0.5)',
+        'rgba(249, 240, 2, 0.5)',
+        'rgba(211, 0, 197, 0.5)'
+      ];
+      for (var i = 0; i < 35; i++) {
+        var dot = document.createElement('span');
+        dot.style.left = Math.random() * 100 + '%';
+        dot.style.top = Math.random() * 100 + '%';
+        dot.style.animationDelay = Math.random() * 4 + 's';
+        dot.style.background = dotColors[Math.floor(Math.random() * dotColors.length)];
+        container.appendChild(dot);
+      }
+    })();
+  </script>
 </body>
 </html>

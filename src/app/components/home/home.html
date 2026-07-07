@@ -1,0 +1,39 @@
+<div class="home-container">
+  <div class="home-content">
+    <h1 class="home-title">UNO</h1>
+    <div class="home-subtitle">Arcade Edition</div>
+
+    <div class="home-settings">
+      <div class="setting-group">
+        <label>Seu nome</label>
+        <input
+          type="text"
+          [(ngModel)]="playerName"
+          class="home-input"
+          placeholder="Digite seu nome"
+        >
+      </div>
+
+      <div class="setting-group">
+        <label>Número de adversários</label>
+        <div class="bot-control">
+          <button (click)="changeBotCount(-1)" class="btn-control">-</button>
+          <span class="bot-count">{{ botCount }}</span>
+          <button (click)="changeBotCount(1)" class="btn-control">+</button>
+        </div>
+      </div>
+
+      <button
+        (click)="startGame()"
+        class="btn-start"
+        [disabled]="isLoading"
+      >
+        {{ isLoading ? 'Iniciando...' : '▶ INICIAR JOGO' }}
+      </button>
+    </div>
+
+    <div class="home-footer">
+      <span class="neon-text">✦ Pressione INICIAR para jogar ✦</span>
+    </div>
+  </div>
+</div>

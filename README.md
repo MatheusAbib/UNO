@@ -1,59 +1,52 @@
-# UnoGame
+# 🎮 UNO Arcade
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.18.
+Bem-vindo ao **UNO Arcade**, uma versão digital do clássico jogo de cartas UNO com um visual **neon retro** inspirado nos anos 80!
 
-## Development server
+Este projeto foi desenvolvido com **Angular** e traz toda a experiência do UNO com efeitos visuais impressionantes, bots inteligentes e uma interface totalmente responsiva.
 
-To start a local development server, run:
+---
 
-```bash
-ng serve
-```
+## ✨ Funcionalidades
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- 🎮 **Jogo Completo** - Todas as regras do UNO implementadas
+- 🤖 **3 Bots Inteligentes** - Hanna, Lucia e Pedro com personalidades próprias
+- 🌈 **Design Neon Retro** - Cores vibrantes e efeitos de brilho
+- 🎇 **Efeitos Visuais** - Confetes animados, partículas e cartas com brilho
+- 💬 **Chat de Ações** - Histórico completo de todas as jogadas
+- 📱 **100% Responsivo** - Funciona em desktop, tablet e mobile
+- 🃏 **Cartas Especiais** - Pular, Inverter, +2, +4 e Coringa
+- 🏆 **Tela de Vitória** - Confetes e celebração ao vencer
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 🎯 Como Jogar
 
-```bash
-ng generate component component-name
-```
+1. **Inicie o jogo** na tela inicial
+2. **Escolha seu nome** e número de adversários
+3. **Jogue suas cartas** clicando nelas
+4. **Use cartas especiais** para ganhar vantagem:
+   - **Pular (⊘)** : Pula o próximo jogador
+   - **Inverter (⟳)** : Inverte a direção do jogo
+   - **+2** : O próximo jogador compra 2 cartas
+   - **+4** : Escolha a cor e o próximo compra 4 cartas
+   - **Coringa (★)** : Escolha a cor que vai continuar
+5. **Grite UNO!** quando tiver 1 carta
+6. **Vença** sendo o primeiro a ficar sem cartas!
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
-```bash
-ng generate --help
-```
+## 🛠️ Tecnologias Utilizadas
 
-## Building
+<div style="display: flex; gap: 10px; flex-wrap: wrap;">
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angularjs/angularjs-original.svg" alt="Angular" width="40" height="40">
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" alt="TypeScript" width="40" height="40">
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5" width="40" height="40">
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3" width="40" height="40">
+</div>
 
-To build the project run:
+- **Angular 17+** - Framework frontend
+- **TypeScript** - Tipagem e segurança
+- **HTML5 & CSS3** - Estrutura e estilização neon
+- **RxJS** - Gerenciamento de estado e reatividade
 
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+---
