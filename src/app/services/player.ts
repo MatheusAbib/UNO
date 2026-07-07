@@ -1286,6 +1286,7 @@ export interface PlayerStats {
   demonstratingAgain: number;
   provingAgain: number;
 
+
   graphingAgain: number;
   diagrammingAgain: number;
   sketchingAgain: number;
