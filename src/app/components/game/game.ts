@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
@@ -15,20 +15,19 @@ import { ColorModalComponent } from '../color-modal/color-modal';
   templateUrl: './game.html',
   styleUrls: ['./game.css']
 })
-export class GameComponent implements OnInit, OnDestroy, AfterViewChecked {
+export class GameComponent implements OnInit, OnDestroy {
   gameState: GameState | null = null;
   private subscription: Subscription | null = null;
   private confettiSub: Subscription | null = null;
+  private speechSub: Subscription | null = null;
   currentPlayer: Player | null = null;
   isProcessing: boolean = false;
   showColorModal: boolean = false;
   showRulesModal: boolean = false;
   pendingCardIndex: number = -1;
   chatMessages: { name: string; text: string; isBot: boolean }[] = [];
-  private previousState: string = '';
   private hasStarted: boolean = false;
-
-  @ViewChild('chatContainer') private chatContainer!: ElementRef;
+  speechMessages: { [key: string]: string } = {};
 
   constructor(
     private router: Router,
@@ -61,6 +60,17 @@ export class GameComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.chatMessages.shift();
       }
       this.cdr.detectChanges();
+      setTimeout(() => {
+        this.scrollToBottom();
+      }, 50);
+    });
+
+    this.speechSub = this.gameService.getSpeech().subscribe(speech => {
+      this.speechMessages[speech.name] = speech.text;
+      setTimeout(() => {
+        this.speechMessages[speech.name] = '';
+        this.cdr.detectChanges();
+      }, 3000);
     });
 
     this.confettiSub = this.gameService.getConfetti().subscribe(() => {
@@ -70,16 +80,17 @@ export class GameComponent implements OnInit, OnDestroy, AfterViewChecked {
     });
   }
 
-  ngAfterViewChecked(): void {
-    this.scrollToBottom();
-  }
-
   private scrollToBottom(): void {
     try {
-      if (this.chatContainer) {
-        this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight;
+      const container = document.querySelector('.chat-container');
+      if (container) {
+        container.scrollTop = container.scrollHeight;
       }
     } catch (err) { }
+  }
+
+  trackByMessage(index: number, msg: any): number {
+    return index;
   }
 
   addChatMessage(name: string, text: string, isBot: boolean = false): void {
@@ -88,6 +99,9 @@ export class GameComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.chatMessages.shift();
     }
     this.cdr.detectChanges();
+    setTimeout(() => {
+      this.scrollToBottom();
+    }, 50);
   }
 
   ngOnDestroy(): void {
@@ -96,6 +110,9 @@ export class GameComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
     if (this.confettiSub) {
       this.confettiSub.unsubscribe();
+    }
+    if (this.speechSub) {
+      this.speechSub.unsubscribe();
     }
   }
 
@@ -204,16 +221,21 @@ export class GameComponent implements OnInit, OnDestroy, AfterViewChecked {
         return;
       }
       this.isProcessing = true;
-      this.gameService.playCard(this.currentPlayer.id, cardIndex);
+      const success = this.gameService.playCard(this.currentPlayer.id, cardIndex);
+      if (!success) {
+        this.isProcessing = false;
+      }
     }
   }
 
   onColorSelected(color: string): void {
     this.showColorModal = false;
     if (this.currentPlayer && this.pendingCardIndex >= 0) {
-      this.gameService.playCard(this.currentPlayer.id, this.pendingCardIndex, color);
+      const success = this.gameService.playCard(this.currentPlayer.id, this.pendingCardIndex, color);
       this.pendingCardIndex = -1;
-      this.isProcessing = false;
+      if (!success) {
+        this.isProcessing = false;
+      }
     }
   }
 

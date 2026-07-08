@@ -9,7 +9,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 25px 20px;
+  padding: 20px 20px;
   margin-bottom: 30px;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 10px;
@@ -98,13 +98,111 @@
 .pile-container {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  align-items: center;
+  gap: 8px;
 }
 
+.draw-pile-wrapper {
+  position: relative;
+  width: calc(var(--card-width) * 1.2);
+  height: calc(var(--card-height) * 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.draw-pile-wrapper .pile-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(var(--card-width) * 0.9);
+  height: calc(var(--card-height) * 0.8);
+  border-radius: 8px;
+  background: url('https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/fed3bb24-454f-4bdf-a721-6aa8f23e7cef/d9gnihf-ec16caeb-ec9c-4870-9480-57c7711d844f.png/v1/fill/w_486,h_759,strp/uno_card_back_by_wackosamurai_d9gnihf-fullview.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NzU5IiwicGF0aCI6IlwvZlwvZmVkM2JiMjQtNDU0Zi00YmRmLWE3MjEtNmFhOGYyM2U3Y2VmXC9kOWduaWhmLWVjMTZjYWViLWVjOWMtNDg3MC05NDgwLTU3Yzc3MTFkODQ0Zi5wbmciLCJ3aWR0aCI6Ijw9NDg2In1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.TMtpsV_KVjgkIMqwza3ooob2Xq5bihDuT0JVsOldrpA') center/cover no-repeat;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 5px rgba(211, 0, 197, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.draw-pile-wrapper .pile-card:nth-child(1) {
+  transform: translate(calc(-50% - 4px), calc(-50% - 3px)) rotate(-3deg);
+  z-index: 1;
+}
+
+.draw-pile-wrapper .pile-card:nth-child(2) {
+  transform: translate(calc(-50% + 3px), calc(-50% - 2px)) rotate(2deg);
+  z-index: 2;
+}
+
+.draw-pile-wrapper .pile-card:nth-child(3) {
+  transform: translate(calc(-50% - 3px), calc(-50% + 2px)) rotate(-2deg);
+  z-index: 3;
+}
+
+.draw-pile-wrapper .pile-card:nth-child(4) {
+  transform: translate(calc(-50% + 4px), calc(-50% + 3px)) rotate(3deg);
+  z-index: 4;
+}
+
+.draw-pile-wrapper .pile-card:nth-child(5) {
+  transform: translate(calc(-50% - 2px), calc(-50% + 4px)) rotate(-1deg);
+  z-index: 5;
+}
+
+.draw-pile-wrapper .pile-card:nth-child(n+6) {
+  transform: translate(-50%, -50%) rotate(0deg);
+  z-index: 6;
+}
+
+.draw-pile-wrapper .pile-card:last-child {
+  transform: translate(-50%, -50%) rotate(0deg);
+  z-index: 999;
+}
+
+.draw-pile-wrapper .pile-card:hover {
+  transform: scale(1.05) !important;
+  z-index: 999 !important;
+}
 .draw-pile {
   position: relative;
   min-width: calc(var(--card-width) * 1.2);
   min-height: calc(var(--card-height) * 1.2);
+}
+
+.btn-draw {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.6rem;
+  padding: 8px 16px;
+  background: linear-gradient(135deg, var(--neon-purple), #ff00e6);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  box-shadow: 0 5px 15px rgba(210, 0, 200, 0.5);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  width: 100%;
+  max-width: 120px;
+  margin-top: 4px;
+}
+
+.btn-draw:hover:not(:disabled) {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 25px rgba(210, 0, 200, 0.8);
+}
+
+.btn-draw:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-draw:active:not(:disabled) {
+  transform: translateY(1px);
 }
 
 .draw-pile .pile-card {
@@ -226,12 +324,24 @@
   z-index: 1000;
 }
 
+.pile-jogue {
+  position: absolute;
+  bottom: -5px;
+  right: -5px;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  min-width: 20px;
+  text-align: center;
+  z-index: 1000;
+}
+
 .discard-pile {
   position: relative;
   width: calc(var(--card-width) * 1.3);
-  height: calc(var(--card-height) * 1.3);
+  height: calc(var(--card-height) * 0.3);
   min-width: calc(var(--card-width) * 1.3);
-  min-height: calc(var(--card-height) * 1.3);
+  min-height: calc(var(--card-height) * 0.95);
 }
 
 .discard-pile .pile-card {
@@ -400,6 +510,7 @@
   font-size: 0.6rem;
   color: rgba(255, 255, 255, 0.5);
   letter-spacing: 2px;
+  margin-top: 4px;
 }
 
 .winner-banner {
@@ -421,7 +532,7 @@
 .chat-container {
   flex: 1;
   max-width: 400px;
-  max-height: 45px;
+  max-height: 55px;
   overflow-y: auto;
   background: rgba(0, 0, 0, 0.5);
   border-radius: 8px;

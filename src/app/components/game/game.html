@@ -60,14 +60,14 @@
       <button class="btn-rules" (click)="openRulesModal()">?</button>
     </div>
     <div class="game-info">
-      <div class="chat-container">
-        <div class="chat-messages" #chatContainer>
-          <div *ngFor="let msg of chatMessages" class="chat-message" [class.bot-message]="msg.isBot">
-            <span class="chat-name">{{ msg.name }}:</span>
-            <span class="chat-text">{{ msg.text }}</span>
-          </div>
-        </div>
-      </div>
+<div class="chat-container">
+<div class="chat-messages" #chatContainer>
+  <div *ngFor="let msg of chatMessages; trackBy: trackByMessage" class="chat-message" [class.bot-message]="msg.isBot">
+    <span class="chat-name">{{ msg.name }}:</span>
+    <span class="chat-text">{{ msg.text }}</span>
+  </div>
+</div>
+</div>
       <span class="turn-indicator" [class.active]="isHumanTurn()">
         {{ isHumanTurn() ? '▶ SUA VEZ' : '▶ VEZ DE ' + (currentPlayer?.name || '').toUpperCase() }}
       </span>
@@ -83,6 +83,7 @@
         [player]="gameState.players[2]"
         [position]="'top'"
         [isCurrent]="gameState.currentPlayerIndex === 2"
+        [speechMessage]="speechMessages[gameState.players[2]?.name || ''] || ''"
       ></app-player-hand>
     </div>
 
@@ -92,25 +93,26 @@
           [player]="gameState.players[1]"
           [position]="'left'"
           [isCurrent]="gameState.currentPlayerIndex === 1"
+          [speechMessage]="speechMessages[gameState.players[1]?.name || ''] || ''"
         ></app-player-hand>
       </div>
 
       <div class="table-center">
         <div class="pile-container draw-pile">
-          <div class="draw-pile-wrapper" style="position: relative; width: calc(var(--card-width) * 1.2); height: calc(var(--card-height) * 0.8);" (click)="isHumanTurn() ? drawCard() : null" [style.cursor]="isHumanTurn() ? 'pointer' : 'default'">
+          <div class="draw-pile-wrapper">
             <div class="pile-card"
-                 *ngFor="let card of getLastCards(gameState.drawPile, 15); let i = index"
-                 [style.transform]="getDrawPileOffset(i)">
+                *ngFor="let card of getLastCards(gameState.drawPile, 5); let i = index"
+                [style.transform]="getDrawPileOffset(i)">
             </div>
-            <!-- <span class="pile-count">{{ gameState.drawPile.length }}</span> -->
+            <span class="pile-count">{{ gameState.drawPile.length }}</span>
           </div>
-          <div class="pile-label">COMPRAR</div>
+          <button class="btn-draw" (click)="isHumanTurn() ? drawCard() : null" [disabled]="!isHumanTurn()">COMPRAR</button>
         </div>
 
         <div class="pile-container discard-pile">
-          <div class="discard-pile-wrapper" style="position: relative; width: calc(var(--card-width) * 1.2); height: calc(var(--card-height) * 0.8);">
+          <div class="discard-pile-wrapper">
             <div class="pile-card"
-                 *ngFor="let card of getLastCards(gameState.discardPile, 10); let i = index; let last = last"
+                 *ngFor="let card of getLastCards(gameState.discardPile, 5); let i = index; let last = last"
                  [class.vermelho]="card.color === 'red'"
                  [class.verde]="card.color === 'green'"
                  [class.azul]="card.color === 'blue'"
@@ -126,8 +128,9 @@
                 <span>{{ getCardDisplay(card) }}</span>
               </div>
             </div>
+              <span class="pile-jogue">Jogue</span>
+
           </div>
-          <!-- <div class="pile-label">DESCARTE</div> -->
         </div>
 
         <div class="winner-banner" *ngIf="gameState.isGameOver">
@@ -141,6 +144,7 @@
           [player]="gameState.players[3]"
           [position]="'right'"
           [isCurrent]="gameState.currentPlayerIndex === 3"
+          [speechMessage]="speechMessages[gameState.players[3]?.name || ''] || ''"
         ></app-player-hand>
       </div>
     </div>

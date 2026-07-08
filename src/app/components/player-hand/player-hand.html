@@ -1,9 +1,14 @@
-<div class="player-hand" [class]="position" [class.active-player]="isCurrent" [class.uno-warning]="player?.isUno" *ngIf="player">
+<div class="player-hand" [class]="position" [class.active-player]="isCurrent" [class.uno-warning]="player.isUno"*ngIf="player">
   <div class="player-header">
-    <div class="player-avatar" [class.active]="isCurrent" [style.background]="getAvatarColor(player.name)">
-      <img *ngIf="hasImage(player.name)" [src]="getAvatarImage(player.name)" [alt]="player.name" class="avatar-image">
-      <span *ngIf="!hasImage(player.name)" class="avatar-text">{{ getAvatarInitial(player.name) }}</span>
-      <div class="avatar-glow" *ngIf="isCurrent"></div>
+    <div class="player-avatar-wrapper">
+      <div class="player-avatar" [class.active]="isCurrent" [style.background]="getAvatarColor(player.name)">
+        <img *ngIf="hasImage(player.name)" [src]="getAvatarImage(player.name)" [alt]="player.name" class="avatar-image">
+        <span *ngIf="!hasImage(player.name)" class="avatar-text">{{ getAvatarInitial(player.name) }}</span>
+        <div class="avatar-glow" *ngIf="isCurrent"></div>
+      </div>
+<div class="speech-bubble" [class.show]="showSpeech()">
+  {{ speechMessage }}
+</div>
     </div>
     <div class="player-info">
       <span class="player-name" [class.active]="isCurrent">
@@ -44,4 +49,5 @@
       </div>
     </div>
   </div>
+  <div class="uno-text" *ngIf="player.isUno">UNO!</div>
 </div>

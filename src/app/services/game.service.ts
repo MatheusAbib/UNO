@@ -11,11 +11,13 @@ import { DeckService } from './deck';
 export class GameService {
   private gameState = new BehaviorSubject<GameState | null>(null);
   private chatMessageSubject = new Subject<{ name: string; text: string; isBot: boolean }>();
+  private speechSubject = new Subject<{ name: string; text: string }>();
   private confettiSubject = new Subject<void>();
   private deckService: DeckService;
   private botTimer: any = null;
   private waitingForDraw: boolean = false;
   private confettiTriggered: boolean = false;
+  private isProcessing: boolean = false;
 
   constructor(deckService: DeckService) {
     this.deckService = deckService;
@@ -27,6 +29,10 @@ export class GameService {
 
   getChatMessages(): Observable<{ name: string; text: string; isBot: boolean }> {
     return this.chatMessageSubject.asObservable();
+  }
+
+  getSpeech(): Observable<{ name: string; text: string }> {
+    return this.speechSubject.asObservable();
   }
 
   getConfetti(): Observable<void> {
@@ -43,6 +49,10 @@ export class GameService {
 
   private addChatMessage(name: string, text: string, isBot: boolean = false): void {
     this.chatMessageSubject.next({ name, text, isBot });
+  }
+
+  private addSpeech(name: string, text: string): void {
+    this.speechSubject.next({ name, text });
   }
 
   private getCardDisplayName(card: Card): string {
@@ -66,6 +76,7 @@ export class GameService {
 
   initializeGame(playerNames: string[]): void {
     this.confettiTriggered = false;
+    this.isProcessing = false;
     const fullDeck = this.deckService.createDeck();
 
     const botNames = ['Hanna', 'Lucia', 'Pedro'];
@@ -111,20 +122,28 @@ export class GameService {
     this.triggerBotIfNeeded();
   }
 
-  playCard(playerId: string, cardIndex: number, chosenColor?: string): void {
+  playCard(playerId: string, cardIndex: number, chosenColor?: string): boolean {
+    if (this.isProcessing) {
+      return false;
+    }
+    this.isProcessing = true;
+
     const state = this.gameState.getValue();
     if (!state || state.isGameOver) {
-      return;
+      this.isProcessing = false;
+      return false;
     }
 
     const player = state.players.find(p => p.id === playerId);
     if (!player) {
-      return;
+      this.isProcessing = false;
+      return false;
     }
 
     const card = player.hand[cardIndex];
     if (!this.isValidPlay(card, state)) {
-      return;
+      this.isProcessing = false;
+      return false;
     }
 
     this.waitingForDraw = false;
@@ -146,6 +165,17 @@ export class GameService {
 
     if (card.value === 'skip') {
       this.addChatMessage(player.name, `PULOU O PRÓXIMO!`, !player.isHuman);
+      const nextPlayer = state.players[(state.currentPlayerIndex + state.direction + state.players.length) % state.players.length];
+      if (nextPlayer && !nextPlayer.isHuman) {
+        const skipMessages = [
+          `AF ME PULOU`,
+          `QUE FDP!`,
+          `AH NÂO NÉ!`,
+          `NEM DEIXARAM EU JOGAR!`
+        ];
+        const msg = skipMessages[Math.floor(Math.random() * skipMessages.length)];
+        this.addSpeech(nextPlayer.name, msg);
+      }
       this.nextTurn(state);
       this.nextTurn(state);
     } else if (card.value === 'reverse') {
@@ -163,6 +193,17 @@ export class GameService {
           }
         }
         this.addChatMessage(player.name, `DEU +2 EM ${nextPlayer.name}`, !player.isHuman);
+        if (!nextPlayer.isHuman) {
+          const draw2Messages = [
+            `OH NÃO! +2 PARA MIM?`,
+            `QUE SACANAGEM!`,
+            `+2?! INJUSTO!`,
+            `SEU LIXO`,
+            `MALDITO +2!`
+          ];
+          const msg = draw2Messages[Math.floor(Math.random() * draw2Messages.length)];
+          this.addSpeech(nextPlayer.name, msg);
+        }
       }
       this.nextTurn(state);
     } else if (card.value === 'wild_draw_four') {
@@ -176,6 +217,17 @@ export class GameService {
           }
         }
         this.addChatMessage(player.name, `DEU +4 EM ${nextPlayer.name}`, !player.isHuman);
+        if (!nextPlayer.isHuman) {
+          const draw4Messages = [
+            `+4!? INJUSTO!`,
+            `ISSO É CRUEL!`,
+            `+4?! TÔ FORA!`,
+            `RANÇOOO`,
+            `QUE ÓDIO!`
+          ];
+          const msg = draw4Messages[Math.floor(Math.random() * draw4Messages.length)];
+          this.addSpeech(nextPlayer.name, msg);
+        }
       }
       this.nextTurn(state);
     } else {
@@ -188,22 +240,45 @@ export class GameService {
       state.isGameOver = true;
       state.winner = player;
       this.addChatMessage(player.name, `🏆 VENCEU! 🏆`, !player.isHuman);
+      if (!player.isHuman) {
+        const winMessages = [
+          `VENCEU! SOU O MELHOR!`,
+          `MAIS UMA VITÓRIA!`,
+          `NINGUÉM ME SEGURA!`,
+          `VITÓRIA CERTA!`
+        ];
+        const msg = winMessages[Math.floor(Math.random() * winMessages.length)];
+        this.addSpeech(player.name, msg);
+      }
       this.triggerConfetti();
       this.gameState.next(state);
       if (this.botTimer) {
         clearTimeout(this.botTimer);
         this.botTimer = null;
       }
-      return;
+      this.isProcessing = false;
+      return true;
     }
 
     if (player.hand.length === 1 && !player.isUno) {
       this.addChatMessage(player.name, `ESTÁ EM UNO!`, !player.isHuman);
+      if (!player.isHuman) {
+        const unoMessages = [
+          `UNO!`,
+          `UNO!!!`,
+          `CUIDADO, TÔ DE UNO!`,
+          `QUASE LÁ!`
+        ];
+        const msg = unoMessages[Math.floor(Math.random() * unoMessages.length)];
+        this.addSpeech(player.name, msg);
+      }
     }
 
     player.isUno = player.hand.length === 1;
     this.gameState.next(state);
+    this.isProcessing = false;
     this.triggerBotIfNeeded();
+    return true;
   }
 
   private tryDrawCard(state: GameState): Card | null {
@@ -248,15 +323,22 @@ export class GameService {
     this.waitingForDraw = false;
   }
 
-  drawCard(playerId: string): void {
+  drawCard(playerId: string): boolean {
+    if (this.isProcessing) {
+      return false;
+    }
+    this.isProcessing = true;
+
     const state = this.gameState.getValue();
     if (!state || state.isGameOver) {
-      return;
+      this.isProcessing = false;
+      return false;
     }
 
     const player = state.players.find(p => p.id === playerId);
     if (!player) {
-      return;
+      this.isProcessing = false;
+      return false;
     }
 
     const drawnCard = this.tryDrawCard(state);
@@ -271,26 +353,43 @@ export class GameService {
       const isPlayable = this.isValidPlay(drawnCard, state);
 
       if (isPlayable && player.isHuman) {
-        return;
+        this.isProcessing = false;
+        return true;
       } else if (isPlayable && !player.isHuman) {
         const cardIndex = player.hand.length - 1;
         const chosenColor = drawnCard.color === 'wild' ? this.getRandomColor() : undefined;
+        this.isProcessing = false;
         this.playCard(player.id, cardIndex, chosenColor);
-        return;
+        return true;
       } else {
-        this.addChatMessage(player.name, `COMPROU MAS NÃO PODE JOGAR`, !player.isHuman);
+        if (!player.isHuman) {
+          const noPlayMessages = [
+            `PRECISO COMPRAR!`,
+            `NÃO TENHO CARTA!`,
+            `QUE BOSTA!`,
+            `TENHO QUE COMPRAR...`,
+            `NÃO TEM JOGADA!`
+          ];
+          const msg = noPlayMessages[Math.floor(Math.random() * noPlayMessages.length)];
+          this.addSpeech(player.name, msg);
+        } else {
+          this.addChatMessage(player.name, `COMPROU MAS NÃO PODE JOGAR`, !player.isHuman);
+        }
         this.waitingForDraw = false;
         this.nextTurn(state);
         this.gameState.next(state);
+        this.isProcessing = false;
         this.triggerBotIfNeeded();
-        return;
+        return true;
       }
     } else {
       this.addChatMessage(player.name, `NÃO CONSEGUIU COMPRAR`, !player.isHuman);
       this.waitingForDraw = false;
       this.nextTurn(state);
       this.gameState.next(state);
+      this.isProcessing = false;
       this.triggerBotIfNeeded();
+      return false;
     }
   }
 
@@ -309,6 +408,19 @@ export class GameService {
     if (!currentPlayer) return;
 
     if (!currentPlayer.isHuman) {
+      const turnMessages = [
+        `MINHA VEZ!`,
+        `DEIXEM EU PENSAR...`,
+        `VAMOS LÁ!`,
+        `HMM...`,
+        `VOU GANHAR ESSA!`,
+        `AH SEI...`,
+        `VAMOS VER...`,
+        `HORA DA ESTRATÉGIA!`
+      ];
+      const randomMessage = turnMessages[Math.floor(Math.random() * turnMessages.length)];
+      this.addSpeech(currentPlayer.name, randomMessage);
+
       this.botTimer = setTimeout(() => {
         this.botPlay();
       }, 1500);
@@ -351,6 +463,7 @@ export class GameService {
     }
     this.waitingForDraw = false;
     this.confettiTriggered = false;
+    this.isProcessing = false;
     this.gameState.next(null);
   }
 }

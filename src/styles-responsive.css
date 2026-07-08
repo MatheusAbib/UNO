@@ -190,15 +190,6 @@
     --card-height: calc(var(--card-width) * 1.5);
   }
 
-  /* .player-hand.top {
-    width: 80% !important;
-    max-width: 900px !important;
-  } */
-
-  /* .player-hand.bottom {
-    width: 90% !important;
-    max-width: 1000px !important;
-  } */
 
   .table-center {
     gap: 60px !important;

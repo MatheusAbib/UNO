@@ -15,6 +15,7 @@ export class PlayerHandComponent {
   @Input() position: 'top' | 'bottom' | 'left' | 'right' = 'bottom';
   @Input() isCurrent: boolean = false;
   @Input() isHuman: boolean = false;
+  @Input() speechMessage: string = '';
   @Output() cardPlayed = new EventEmitter<number>();
 
   constructor(private cdr: ChangeDetectorRef) {}
@@ -96,5 +97,9 @@ export class PlayerHandComponent {
     if (this.isHuman && this.isCurrent) {
       this.cardPlayed.emit(index);
     }
+  }
+
+  showSpeech(): boolean {
+    return !this.isHuman && !!this.speechMessage;
   }
 }
