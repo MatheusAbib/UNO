@@ -604,19 +604,3 @@
   100% { background-position: 0% 50%; }
 }
 
-.uno-text {
-  position: absolute;
-  bottom: -25px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: white;
-  font-family: 'Press Start 2P', cursive;
-  font-size: 0.8rem;
-  text-shadow: 0 0 10px var(--neon-red),
-              0 0 20px var(--neon-yellow);
-  animation: flicker 1.5s infinite alternate;
-  white-space: nowrap;
-  z-index: 10;
-  pointer-events: none;
-}
-
