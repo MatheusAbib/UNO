@@ -17,11 +17,6 @@
     padding: 12px 20px !important;
   }
 
-  .game-header {
-    flex-direction: column;
-    gap: 10px;
-  }
-
   .table-center {
     flex-direction: column !important;
     gap: 15px !important;
@@ -65,11 +60,6 @@
     max-height: 200px !important;
   }
 
-  .chat-container {
-    max-width: 200px !important;
-    max-height: 35px !important;
-  }
-
   .chat-message {
     font-size: 0.4rem !important;
   }
@@ -87,13 +77,8 @@
     padding: 5px 8px !important;
   }
 
-  .direction-indicator {
-    font-size: 1rem !important;
-  }
-
   .turn-indicator {
     font-size: 0.6rem !important;
-    padding: 3px 10px !important;
   }
 
   .btn-home, .btn-rules {
@@ -122,23 +107,14 @@
     --card-height: calc(var(--card-width) * 1.5);
   }
 
-  .game-middle {
+  /* .game-middle {
     flex-direction: column !important;
-  }
-
-  .player-left, .player-right {
-    display: none !important;
-  }
+  } */
 
   .table-center {
     flex-direction: row !important;
     flex-wrap: wrap;
     gap: 20px !important;
-  }
-
-  .chat-container {
-    max-width: 280px !important;
-    max-height: 40px !important;
   }
 
   .player-hand.top {
@@ -182,6 +158,9 @@
   .chat-container {
     max-width: 350px !important;
   }
+  .cards-container.bot-hand{
+    min-height: calc(var(--card-height) + 60px) !important;
+  }
 }
 
 @media (min-width: 1025px) {
@@ -189,7 +168,6 @@
     --card-width: 85px;
     --card-height: calc(var(--card-width) * 1.5);
   }
-
 
   .table-center {
     gap: 60px !important;
@@ -202,8 +180,17 @@
 }
 
 @media (max-width: 768px) {
+
+  .pile-container{
+    align-items: normal;
+  }
   body {
     font-size: 10px;
+  }
+
+  .table-center{
+    flex: 0 !important;
+    display: block !important;
   }
 
   .game-container {
@@ -211,21 +198,20 @@
   }
 
   .player-hand {
-    padding: 5px !important;
+    padding: 15px !important;
   }
 
   .cards-container {
-    gap: 3px !important;
+    gap: 7px !important;
   }
 
   .card {
-    width: calc(var(--card-width) * 0.8) !important;
-    height: calc(var(--card-height) * 0.8) !important;
-
+    width: calc(var(--card-width) * 0.75) !important;
+    height: calc(var(--card-height) * 0.75) !important;
   }
 
-  .value{
- font-size: 1rem !important;
+  .value {
+    font-size: 0.75rem !important;
   }
 
   .player-info {
@@ -247,28 +233,42 @@
   }
 
   .discard-pile {
-    width: calc(var(--card-width) * 1) !important;
-    height: calc(var(--card-height) * 1) !important;
+    height: calc(var(--card-height) * 1.1) !important;
     min-width: calc(var(--card-width) * 1) !important;
     min-height: calc(var(--card-height) * 1) !important;
-
   }
 
-  .discard-pile[_ngcontent-ng-c2632657460] .pile-card[_ngcontent-ng-c2632657460] .card-display[_ngcontent-ng-c2632657460]{
+  .modal-title{
+    font-size: 1.2rem !important;
+    letter-spacing: 0 !important;
+  }
+
+  .speech-bubble{
+    display: none !important;
+  }
+
+  .pile-jogue{
+    right: -15px !important;
+  }
+
+
+  .discard-pile .pile-card .card-display {
     font-size: 1rem !important;
   }
-
 
   .draw-pile {
     min-width: calc(var(--card-width) * 1) !important;
     min-height: calc(var(--card-height) * 1) !important;
   }
 
-  .draw-pile .pile-card {
-    width: calc(var(--card-width) * 0.9) !important;
-    height: calc(var(--card-height) * 0.9) !important;
-    font-size: 0.8rem !important;
+
+  .draw-pile .pile-card, .pile-count {
+    display: none;
   }
+
+  .draw-pile-wrapper{
+    display: none !important;
+}
 
   .discard-pile .pile-card {
     width: calc(var(--card-width) * 0.9) !important;
@@ -277,6 +277,10 @@
 
   .pile-label {
     display: none;
+  }
+
+  .chat-container{
+    display: none !important;
   }
 
   .rules-content {
@@ -386,7 +390,6 @@
   .player-hand.left, .player-hand.right {
     min-height: 200px !important;
     max-height: 300px !important;
-
   }
 
   .player-hand.top {
@@ -425,15 +428,6 @@
   .chat-container {
     max-width: 500px !important;
   }
-
-  /* .player-avatar {
-    width: 60px !important;
-    height: 60px !important;
-  }
-
-  .avatar-text {
-    font-size: 1.8rem !important;
-  } */
 
   .player-name {
     font-size: 1rem !important;
@@ -486,10 +480,6 @@
     font-size: 0.9rem !important;
   }
 
-  .chat-container {
-    max-height: 30px !important;
-  }
-
   .chat-message {
     font-size: 0.4rem !important;
   }
@@ -516,16 +506,6 @@
 
   .status {
     font-size: 0.5rem !important;
-  }
-
-  button {
-    font-size: 0.5rem !important;
-    padding: 5px 10px !important;
-  }
-
-  .chat-container {
-    max-width: 120px !important;
-    max-height: 25px !important;
   }
 
   .chat-message {
