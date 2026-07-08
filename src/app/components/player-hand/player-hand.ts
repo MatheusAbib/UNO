@@ -26,9 +26,9 @@ export class PlayerHandComponent {
 
   getAvatarImage(name: string): string {
     const avatars: {[key: string]: string} = {
-      'Hanna': '/avatars/hanna.webp',
-      'Lucia': '/avatars/lucy.avif',
-      'Pedro': '/avatars/pedro.jpg'
+      'Hanna': 'avatars/hanna.webp',
+      'Lucia': 'avatars/lucy.avif',
+      'Pedro': 'avatars/pedro.jpg'
     };
     return avatars[name] || '';
   }
