@@ -147,6 +147,8 @@
     width: 85% !important;
   }
 
+  
+
   .player-hand.bottom {
     width: 85% !important;
   }
@@ -220,7 +222,7 @@
 
   .winner-banner {
     font-size: 0.8rem !important;
-    padding: 10px !important;
+    width: 300px !important;
   }
 
   .game-table {
@@ -403,6 +405,13 @@
   .table-center {
     min-height: 150px !important;
     padding: 15px !important;
+  }
+}
+
+@media (max-width: 1900px) {
+    .winner-banner {
+    font-size: 0.8rem !important;
+    width: 350px !important;
   }
 }
 

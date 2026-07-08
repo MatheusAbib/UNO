@@ -255,6 +255,15 @@ export class GameComponent implements OnInit, OnDestroy {
     this.router.navigate(['/']);
   }
 
+  getCardClass(card: any): string {
+  if (card.color === 'red') return 'vermelho';
+  if (card.color === 'green') return 'verde';
+  if (card.color === 'blue') return 'azul';
+  if (card.color === 'yellow') return 'amarelo';
+  if (card.color === 'wild') return 'preto';
+  return '';
+}
+
   createConfetti(): void {
     const colors = ['#ff2a6d', '#05d9e8', '#00ff9d', '#f9f002', '#d300c5'];
 

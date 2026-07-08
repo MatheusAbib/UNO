@@ -109,29 +109,24 @@
           <button class="btn-draw" (click)="isHumanTurn() ? drawCard() : null" [disabled]="!isHumanTurn()">COMPRAR</button>
         </div>
 
-        <div class="pile-container discard-pile">
-          <div class="discard-pile-wrapper">
-            <div class="pile-card"
-                 *ngFor="let card of getLastCards(gameState.discardPile, 5); let i = index; let last = last"
-                 [class.vermelho]="card.color === 'red'"
-                 [class.verde]="card.color === 'green'"
-                 [class.azul]="card.color === 'blue'"
-                 [class.amarelo]="card.color === 'yellow'"
-                 [class.preto]="card.color === 'wild'"
-                 [class.wild-card-played]="card.color === 'wild' && card.chosenColor"
-                 [class.wild-color-red]="isWildCardWithColor(card, 'red')"
-                 [class.wild-color-green]="isWildCardWithColor(card, 'green')"
-                 [class.wild-color-blue]="isWildCardWithColor(card, 'blue')"
-                 [class.wild-color-yellow]="isWildCardWithColor(card, 'yellow')"
-                 [style.transform]="getDiscardPileOffset(i)">
-              <div class="card-display" *ngIf="last">
-                <span>{{ getCardDisplay(card) }}</span>
-              </div>
-            </div>
-              <span class="pile-jogue">Jogue</span>
-
-          </div>
-        </div>
+<div class="pile-container discard-pile">
+  <div class="discard-pile-wrapper">
+    <div class="pile-card"
+         *ngFor="let card of getLastCards(gameState.discardPile, 5); let i = index; let last = last"
+         [class]="getCardClass(card)"
+         [class.wild-card-played]="card.color === 'wild' && card.chosenColor"
+         [class.wild-color-red]="isWildCardWithColor(card, 'red')"
+         [class.wild-color-green]="isWildCardWithColor(card, 'green')"
+         [class.wild-color-blue]="isWildCardWithColor(card, 'blue')"
+         [class.wild-color-yellow]="isWildCardWithColor(card, 'yellow')"
+         [style.transform]="getDiscardPileOffset(i)">
+      <div class="card-display" *ngIf="last">
+        <span>{{ getCardDisplay(card) }}</span>
+      </div>
+    </div>
+    <span class="pile-jogue">Jogue</span>
+  </div>
+</div>
 
         <div class="winner-banner" *ngIf="gameState.isGameOver">
           <div>✦ {{ gameState.winner?.name }} VENCEU! ✦</div>
