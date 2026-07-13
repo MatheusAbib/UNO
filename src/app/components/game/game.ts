@@ -181,26 +181,29 @@ export class GameComponent implements OnInit, OnDestroy {
     return `translate(0px, 0px) rotate(0deg)`;
   }
 
-  getDiscardPileOffset(index: number): string {
-    const offsets = [
-      { x: -6, y: -4, r: -3 },
-      { x: 4, y: -2, r: 2 },
-      { x: -3, y: 2, r: -1 },
-      { x: 5, y: 4, r: 3 },
-      { x: -2, y: 6, r: -2 },
-      { x: 3, y: 8, r: 1 },
-      { x: -4, y: 10, r: -3 },
-      { x: 2, y: 12, r: 2 },
-      { x: -5, y: 14, r: -1 },
-      { x: 4, y: 16, r: 3 }
-    ];
-
-    if (index < offsets.length) {
-      const o = offsets[index];
-      return `translate(${o.x}px, ${o.y}px) rotate(${o.r}deg)`;
-    }
-    return `translate(0px, 18px) rotate(0deg)`;
+getDiscardPileOffset(index: number): string {
+  const total = this.gameState?.discardPile?.length || 0;
+  const maxCards = 5;
+  const startIndex = Math.max(0, total - maxCards);
+  const relativeIndex = index - startIndex;
+  
+  if (relativeIndex < 0) {
+    return 'translate(-50%, -50%) rotate(0deg) scale(0.7)';
   }
+  
+  const offsets = [
+    { x: -4, y: -2, r: -2, s: 0.85 },
+    { x: 3, y: -1, r: 1, s: 0.90 },
+    { x: -2, y: 2, r: -1, s: 0.95 },
+    { x: 4, y: 3, r: 2, s: 0.98 },
+    { x: 0, y: 0, r: 0, s: 1 }
+  ];
+  
+  const offsetIndex = Math.min(relativeIndex, offsets.length - 1);
+  const o = offsets[offsetIndex];
+  
+  return `translate(calc(-50% + ${o.x}px), calc(-50% + ${o.y}px)) rotate(${o.r}deg) scale(${o.s})`;
+}
 
   drawCard(): void {
     if (this.isProcessing) return;
@@ -256,13 +259,13 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
   getCardClass(card: any): string {
-  if (card.color === 'red') return 'vermelho';
-  if (card.color === 'green') return 'verde';
-  if (card.color === 'blue') return 'azul';
-  if (card.color === 'yellow') return 'amarelo';
-  if (card.color === 'wild') return 'preto';
-  return '';
-}
+    if (card.color === 'red') return 'vermelho';
+    if (card.color === 'green') return 'verde';
+    if (card.color === 'blue') return 'azul';
+    if (card.color === 'yellow') return 'amarelo';
+    if (card.color === 'wild') return 'preto';
+    return '';
+  }
 
   createConfetti(): void {
     const colors = ['#ff2a6d', '#05d9e8', '#00ff9d', '#f9f002', '#d300c5'];

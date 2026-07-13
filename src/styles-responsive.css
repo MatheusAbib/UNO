@@ -4,6 +4,10 @@
     --card-height: calc(var(--card-width) * 1.5);
   }
 
+    .uno-indicator {
+    display: none !important;
+  }
+
   .home-title {
     font-size: 2rem !important;
   }
@@ -15,17 +19,6 @@
   .btn-start {
     font-size: 0.7rem !important;
     padding: 12px 20px !important;
-  }
-
-  .table-center {
-    flex-direction: column !important;
-    gap: 15px !important;
-    padding: 10px !important;
-  }
-
-  .pile-card {
-    width: calc(var(--card-width) * 1) !important;
-    height: calc(var(--card-height) * 1) !important;
   }
 
   .home-settings {
@@ -99,6 +92,162 @@
     flex-wrap: wrap !important;
     justify-content: center !important;
   }
+
+  .table-center {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 10px !important;
+    padding: 5px !important;
+    min-height: auto !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .pile-container {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 2px !important;
+    flex: 1 !important;
+    max-width: 48% !important;
+  }
+
+  .draw-pile {
+    min-width: auto !important;
+    min-height: auto !important;
+  }
+
+  .draw-pile-wrapper {
+    display: flex !important;
+    width: calc(var(--card-width) * 0.8) !important;
+    height: calc(var(--card-height) * 0.6) !important;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .draw-pile-wrapper .pile-card {
+    display: block !important;
+    width: calc(var(--card-width) * 0.65) !important;
+    height: calc(var(--card-height) * 0.55) !important;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .draw-pile .pile-card {
+    display: none !important;
+  }
+
+  .pile-count {
+    display: block !important;
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    background: var(--neon-red);
+    color: white;
+    font-size: 0.4rem !important;
+    padding: 1px 4px !important;
+    border-radius: 50%;
+    border: 1px solid white;
+    min-width: 14px !important;
+    text-align: center;
+    z-index: 1000;
+  }
+
+  .btn-draw {
+    font-size: 0.35rem !important;
+    margin-top: 2px !important;
+  }
+
+  .discard-pile {
+    width: auto !important;
+    min-width: auto !important;
+    min-height: auto !important;
+    height: auto !important;
+  }
+
+  .discard-pile-wrapper {
+    display: flex !important;
+    width: calc(var(--card-width) * 0.8) !important;
+    height: calc(var(--card-height) * 0.6) !important;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .discard-pile-wrapper .pile-card {
+    width: calc(var(--card-width) * 0.65) !important;
+    height: calc(var(--card-height) * 0.55) !important;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+  }
+
+  .discard-pile-wrapper .pile-card .card-display {
+    font-size: 0.7rem !important;
+  }
+
+  .discard-pile .pile-card {
+    width: calc(var(--card-width) * 0.65) !important;
+    height: calc(var(--card-height) * 0.55) !important;
+  }
+
+  .discard-pile .pile-card .card-display {
+    font-size: 0.7rem !important;
+  }
+
+  .pile-jogue {
+    font-size: 0.35rem !important;
+    margin-top: 0px !important;
+    position: relative !important;
+    right: auto !important;
+    bottom: auto !important;
+  }
+
+  .pile-card {
+    width: calc(var(--card-width) * 0.65) !important;
+    height: calc(var(--card-height) * 0.55) !important;
+  }
+
+  .pile-label {
+    display: none !important;
+  }
+
+  .game-info {
+    gap: 5px !important;
+  }
+
+  .turn-indicator {
+    font-size: 0.5rem !important;
+    padding: 5px 10px !important;
+  }
+
+  .direction-indicator {
+    font-size: 0.8rem !important;
+  }
+
+  .btn-home, .btn-rules {
+    padding: 5px 10px !important;
+    font-size: 0.78rem !important;
+  }
+
+  .btn-home svg {
+    width: 13px !important;
+    height: 13px !important;
+  }
+
+  .header-buttons {
+    gap: 3px !important;
+  }
+
+  .chat-message {
+    font-size: 0.3rem !important;
+  }
 }
 
 @media (min-width: 481px) and (max-width: 768px) {
@@ -106,10 +255,6 @@
     --card-width: 50px;
     --card-height: calc(var(--card-width) * 1.5);
   }
-
-  /* .game-middle {
-    flex-direction: column !important;
-  } */
 
   .table-center {
     flex-direction: row !important;
@@ -129,6 +274,7 @@
   .player-hand.left, .player-hand.right {
     min-height: 180px !important;
     max-height: 250px !important;
+    width: 225px !important;
   }
 
   .winner-banner {
@@ -146,8 +292,6 @@
     min-width: auto !important;
     width: 85% !important;
   }
-
-  
 
   .player-hand.bottom {
     width: 85% !important;
@@ -183,16 +327,9 @@
 
 @media (max-width: 768px) {
 
-  .pile-container{
-    align-items: normal;
-  }
+
   body {
     font-size: 10px;
-  }
-
-  .table-center{
-    flex: 0 !important;
-    display: block !important;
   }
 
   .game-container {
@@ -204,12 +341,12 @@
   }
 
   .cards-container {
-    gap: 7px !important;
+    gap: 8px !important;
   }
 
   .card {
-    width: calc(var(--card-width) * 0.75) !important;
-    height: calc(var(--card-height) * 0.75) !important;
+    width: calc(var(--card-width) * 0.85) !important;
+    height: calc(var(--card-height) * 0.85) !important;
   }
 
   .value {
@@ -234,55 +371,20 @@
     margin-bottom: 15px !important;
   }
 
-  .discard-pile {
-    width: calc(var(--card-width) * 0.8) !important;
-    height: calc(var(--card-height) * 1.1) !important;
-    min-width: calc(var(--card-width) * 1) !important;
-    min-height: calc(var(--card-height) * 1) !important;
-  }
-
-  .modal-title{
+  .modal-title {
     font-size: 1.2rem !important;
     letter-spacing: 0 !important;
   }
 
-  .speech-bubble{
+  .speech-bubble {
     display: none !important;
-  }
-
-  .pile-jogue{
-    right: -25px !important;
-  }
-
-
-  .discard-pile .pile-card .card-display {
-    font-size: 1rem !important;
-  }
-
-  .draw-pile {
-    min-width: calc(var(--card-width) * 1) !important;
-    min-height: calc(var(--card-height) * 1) !important;
-  }
-
-
-  .draw-pile .pile-card, .pile-count {
-    display: none;
-  }
-
-  .draw-pile-wrapper{
-    display: none !important;
-}
-
-  .discard-pile .pile-card {
-    width: calc(var(--card-width) * 0.9) !important;
-    height: calc(var(--card-height) * 0.9) !important;
   }
 
   .pile-label {
     display: none;
   }
 
-  .chat-container{
+  .chat-container {
     display: none !important;
   }
 
@@ -315,6 +417,258 @@
   .card-count {
     font-size: 0.5rem !important;
     padding: 1px 6px !important;
+  }
+
+  .player-card-container:hover .player-card {
+    transform: none !important;
+    box-shadow: none !important;
+    animation: none !important;
+    filter: none !important;
+  }
+
+  .player-card:hover {
+    transform: none !important;
+    box-shadow: none !important;
+    animation: none !important;
+    filter: none !important;
+  }
+
+  .player-card:hover .value {
+    animation: none !important;
+  }
+
+  .player-card:hover::after {
+    opacity: 0 !important;
+  }
+
+  .player-card:hover::before {
+    animation: none !important;
+  }
+
+  .bot-hand .card-wrapper:hover {
+    transform: none !important;
+  }
+
+  .table-center {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 20px !important;
+    padding: 10px !important;
+    min-height: auto !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    flex: 0 !important;
+  }
+
+  .pile-container {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    flex: 1 !important;
+    max-width: 45% !important;
+  }
+
+  .draw-pile {
+    min-width: auto !important;
+    min-height: auto !important;
+  }
+
+  .draw-pile-wrapper {
+    display: flex !important;
+    height: calc(var(--card-height) * 0) !important;
+  }
+
+  .draw-pile-wrapper .pile-card {
+    display: block !important;
+    width: calc(var(--card-width) * 0.8) !important;
+    height: calc(var(--card-height) * 0.65) !important;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .draw-pile .pile-card {
+    display: none !important;
+  }
+
+  .pile-count {
+    display: none !important;
+  }
+
+  .btn-draw {
+    font-size: 0.5rem !important;
+    margin-top: 2px !important;
+  }
+
+  .discard-pile {
+    width: auto !important;
+    min-width: auto !important;
+    min-height: auto !important;
+    height: auto !important;
+  }
+
+  .discard-pile-wrapper {
+    display: flex !important;
+    width: calc(var(--card-width) * 1) !important;
+    height: calc(var(--card-height) * 0.7) !important;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .discard-pile-wrapper .pile-card {
+    width: calc(var(--card-width) * 0.8) !important;
+    height: calc(var(--card-height) * 0.65) !important;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+  }
+
+  .discard-pile-wrapper .pile-card .card-display {
+    font-size: 0.9rem !important;
+  }
+
+  .discard-pile .pile-card {
+    width: calc(var(--card-width) * 0.9) !important;
+    height: calc(var(--card-height) * 0.9) !important;
+  }
+
+  .discard-pile .pile-card .card-display {
+    font-size: 0.9rem !important;
+  }
+
+  .pile-jogue {
+    display: none;
+  }
+}
+
+@media (min-width: 480px) and (max-width: 627px) {
+  .player-hand.left, .player-hand.right {
+    min-height: 120px !important;
+    max-height: 180px !important;
+    width: 160px !important;
+    padding: 5px 20px !important;
+  }
+
+    .uno-indicator {
+    display: none !important;
+  }
+
+  .player-hand.left .player-avatar,
+  .player-hand.right .player-avatar {
+    width: 28px !important;
+    height: 28px !important;
+  }
+
+  .player-hand.left .player-name,
+  .player-hand.right .player-name {
+    font-size: 0.5rem !important;
+  }
+
+  .player-hand.left .card-count,
+  .player-hand.right .card-count {
+    font-size: 0.4rem !important;
+  }
+
+  .table-center {
+    gap: 15px !important;
+  }
+
+  .draw-pile-wrapper {
+    width: calc(var(--card-width) * 0.9) !important;
+    height: calc(var(--card-height) * 0.6) !important;
+  }
+
+  .discard-pile-wrapper {
+    width: calc(var(--card-width) * 0.9) !important;
+    height: calc(var(--card-height) * 0.6) !important;
+  }
+
+  .btn-draw {
+    font-size: 0.4rem !important;
+    padding: 3px 8px !important;
+  }
+}
+
+@media (min-width: 810px) and (max-width: 1183px) {
+  .table-center {
+    gap: 30px !important;
+    max-width: 750px !important;
+  }
+
+  .player-hand{
+    background: none !important;
+    border: 2px solid rgba(255, 255, 255, 0.1)  !important;
+  }
+
+  .player-hand.top {
+    width: 75% !important;
+    max-width: 800px !important;
+  }
+
+  .player-hand.bottom {
+    width: 80% !important;
+    max-width: 900px !important;
+  }
+
+  .player-hand.left, .player-hand.right {
+    min-height: 220px !important;
+    max-height: 350px !important;
+    width: 180px !important;
+    padding: 5px 25px !important;
+  }
+
+  .player-hand.left .player-avatar,
+  .player-hand.right .player-avatar {
+    width: 32px !important;
+    height: 32px !important;
+  }
+
+  .player-hand.left .player-name,
+  .player-hand.right .player-name {
+    font-size: 0.55rem !important;
+  }
+
+  .cards-container.bot-hand {
+    min-height: calc(var(--card-height) + 30px) !important;
+  }
+
+  .discard-pile-wrapper {
+    width: calc(var(--card-width) * 1) !important;
+    height: calc(var(--card-height) * 0.8) !important;
+  }
+
+  .draw-pile-wrapper {
+    width: calc(var(--card-width) * 1) !important;
+    height: calc(var(--card-height) * 0.8) !important;
+  }
+
+  .chat-container {
+    max-width: 250px !important;
+    max-height: 45px !important;
+  }
+
+  .chat-message {
+    font-size: 0.5rem !important;
+  }
+
+  .game-table {
+    height: calc(85vh - 80px) !important;
+  }
+
+  .pile-jogue {
+    font-size: 0.5rem !important;
+  }
+
+  .btn-draw {
+    font-size: 0.5rem !important;
+    padding: 5px 12px !important;
+    max-width: 100px !important;
   }
 }
 
@@ -702,9 +1056,13 @@
     padding-top: 5px !important;
   }
 
+  .game-middle{
+    flex: 0.8 !important;
+  }
   .player-hand.left, .player-hand.right {
     min-height: 100px !important;
     max-height: 160px !important;
+    width: 130px !important;
   }
 
   .cards-container.bot-hand {
@@ -732,11 +1090,6 @@
 
   .direction-indicator {
     font-size: 0.9rem !important;
-  }
-
-  .btn-draw {
-    padding: 4px 10px !important;
-    font-size: 0.4rem !important;
   }
 
   .pile-jogue {

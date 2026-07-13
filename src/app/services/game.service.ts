@@ -122,165 +122,137 @@ export class GameService {
     this.triggerBotIfNeeded();
   }
 
-playCard(playerId: string, cardIndex: number, chosenColor?: string): boolean {
-  if (this.isProcessing) {
-    return false;
-  }
-  this.isProcessing = true;
-
-  const state = this.gameState.getValue();
-  if (!state || state.isGameOver) {
-    this.isProcessing = false;
-    return false;
-  }
-
-  const player = state.players.find(p => p.id === playerId);
-  if (!player) {
-    this.isProcessing = false;
-    return false;
-  }
-
-  const card = player.hand[cardIndex];
-  if (!this.isValidPlay(card, state)) {
-    this.isProcessing = false;
-    return false;
-  }
-
-  this.waitingForDraw = false;
-  player.hand.splice(cardIndex, 1);
-  state.discardPile.push(card);
-
-  // ATUALIZA currentValue E currentColor
-  if (card.color === 'wild') {
-    const selectedColor = chosenColor || this.getRandomColor();
-    state.currentColor = selectedColor;
-    state.currentValue = card.value;
-    (card as any).chosenColor = selectedColor;
-    const colorLabel = this.getColorName(selectedColor);
-    this.addChatMessage(player.name, `JOGOU ${this.getCardDisplayName(card)} E ESCOLHEU ${colorLabel.toUpperCase()}`, !player.isHuman);
-  } else {
-    state.currentColor = card.color;
-    state.currentValue = card.value;
-    this.addChatMessage(player.name, `JOGOU ${this.getCardDisplayName(card)} ${this.getColorName(card.color).toUpperCase()}`, !player.isHuman);
-  }
-
-  if (card.value === 'skip') {
-    this.addChatMessage(player.name, `PULOU O PRÓXIMO!`, !player.isHuman);
-    const nextPlayer = state.players[(state.currentPlayerIndex + state.direction + state.players.length) % state.players.length];
-    if (nextPlayer && !nextPlayer.isHuman) {
-      const skipMessages = [
-        `AF ME PULOU`,
-        `QUE FDP!`,
-        `AH NÂO NÉ!`,
-        `NEM DEIXARAM EU JOGAR!`
-      ];
-      const msg = skipMessages[Math.floor(Math.random() * skipMessages.length)];
-      this.addSpeech(nextPlayer.name, msg);
+  playCard(playerId: string, cardIndex: number, chosenColor?: string): boolean {
+    if (this.isProcessing) {
+      return false;
     }
-    this.nextTurn(state);
-    this.nextTurn(state);
-  } else if (card.value === 'reverse') {
-    this.addChatMessage(player.name, `INVERTEU O SENTIDO!`, !player.isHuman);
-    this.reverseDirection(state);
-    this.nextTurn(state);
-  } else if (card.value === 'draw2') {
-    this.nextTurn(state);
-    const nextPlayer = state.players[state.currentPlayerIndex];
-    if (nextPlayer) {
-      for (let i = 0; i < 2; i++) {
-        const drawn = this.tryDrawCard(state);
-        if (drawn) {
-          nextPlayer.hand.push(drawn);
-        }
-      }
-      this.addChatMessage(player.name, `DEU +2 EM ${nextPlayer.name}`, !player.isHuman);
-      if (!nextPlayer.isHuman) {
-        const draw2Messages = [
-          `OH NÃO! +2 PARA MIM?`,
-          `QUE SACANAGEM!`,
-          `+2?! INJUSTO!`,
-          `SEU LIXO`,
-          `MALDITO +2!`
-        ];
-        const msg = draw2Messages[Math.floor(Math.random() * draw2Messages.length)];
+    this.isProcessing = true;
+
+    const state = this.gameState.getValue();
+    if (!state || state.isGameOver) {
+      this.isProcessing = false;
+      return false;
+    }
+
+    const player = state.players.find(p => p.id === playerId);
+    if (!player) {
+      this.isProcessing = false;
+      return false;
+    }
+
+    const card = player.hand[cardIndex];
+    if (!this.isValidPlay(card, state)) {
+      this.isProcessing = false;
+      return false;
+    }
+
+    this.waitingForDraw = false;
+    player.hand.splice(cardIndex, 1);
+    state.discardPile.push(card);
+
+    if (card.color === 'wild') {
+      const selectedColor = chosenColor || this.getRandomColor();
+      state.currentColor = selectedColor;
+      state.currentValue = card.value;
+      (card as any).chosenColor = selectedColor;
+      const colorLabel = this.getColorName(selectedColor);
+      this.addChatMessage(player.name, `JOGOU ${this.getCardDisplayName(card)} E ESCOLHEU ${colorLabel.toUpperCase()}`, !player.isHuman);
+    } else {
+      state.currentColor = card.color;
+      state.currentValue = card.value;
+      this.addChatMessage(player.name, `JOGOU ${this.getCardDisplayName(card)} ${this.getColorName(card.color).toUpperCase()}`, !player.isHuman);
+    }
+
+    if (card.value === 'skip') {
+      this.addChatMessage(player.name, `PULOU O PRÓXIMO!`, !player.isHuman);
+      const nextPlayer = state.players[(state.currentPlayerIndex + state.direction + state.players.length) % state.players.length];
+      if (nextPlayer && !nextPlayer.isHuman) {
+        const skipMessages = ['AF ME PULOU', 'QUE FDP!', 'AH NÂO NÉ!', 'NEM DEIXARAM EU JOGAR!'];
+        const msg = skipMessages[Math.floor(Math.random() * skipMessages.length)];
         this.addSpeech(nextPlayer.name, msg);
       }
-    }
-    this.nextTurn(state);
-  } else if (card.value === 'wild_draw_four') {
-    this.nextTurn(state);
-    const nextPlayer = state.players[state.currentPlayerIndex];
-    if (nextPlayer) {
-      for (let i = 0; i < 4; i++) {
-        const drawn = this.tryDrawCard(state);
-        if (drawn) {
-          nextPlayer.hand.push(drawn);
-        }
-      }
-      this.addChatMessage(player.name, `DEU +4 EM ${nextPlayer.name}`, !player.isHuman);
-      if (!nextPlayer.isHuman) {
-        const draw4Messages = [
-          `+4!? INJUSTO!`,
-          `ISSO É CRUEL!`,
-          `+4?! TÔ FORA!`,
-          `RANÇOOO`,
-          `QUE ÓDIO!`
-        ];
-        const msg = draw4Messages[Math.floor(Math.random() * draw4Messages.length)];
-        this.addSpeech(nextPlayer.name, msg);
-      }
-    }
-    this.nextTurn(state);
-  } else {
-    if (!state.isGameOver) {
       this.nextTurn(state);
+      this.nextTurn(state);
+    } else if (card.value === 'reverse') {
+      this.addChatMessage(player.name, `INVERTEU O SENTIDO!`, !player.isHuman);
+      this.reverseDirection(state);
+      this.nextTurn(state);
+    } else if (card.value === 'draw2') {
+      this.nextTurn(state);
+      const nextPlayer = state.players[state.currentPlayerIndex];
+      if (nextPlayer) {
+        for (let i = 0; i < 2; i++) {
+          const drawn = this.tryDrawCard(state);
+          if (drawn) {
+            nextPlayer.hand.push(drawn);
+          }
+        }
+        this.addChatMessage(player.name, `DEU +2 EM ${nextPlayer.name}`, !player.isHuman);
+        if (!nextPlayer.isHuman) {
+          const draw2Messages = ['OH NÃO! +2 PARA MIM?', 'QUE SACANAGEM!', '+2?! INJUSTO!', 'SEU LIXO', 'MALDITO +2!'];
+          const msg = draw2Messages[Math.floor(Math.random() * draw2Messages.length)];
+          this.addSpeech(nextPlayer.name, msg);
+        }
+      }
+      this.nextTurn(state);
+    } else if (card.value === 'wild_draw_four') {
+      this.nextTurn(state);
+      const nextPlayer = state.players[state.currentPlayerIndex];
+      if (nextPlayer) {
+        for (let i = 0; i < 4; i++) {
+          const drawn = this.tryDrawCard(state);
+          if (drawn) {
+            nextPlayer.hand.push(drawn);
+          }
+        }
+        this.addChatMessage(player.name, `DEU +4 EM ${nextPlayer.name}`, !player.isHuman);
+        if (!nextPlayer.isHuman) {
+          const draw4Messages = ['+4!? INJUSTO!', 'ISSO É CRUEL!', '+4?! TÔ FORA!', 'RANÇOOO', 'QUE ÓDIO!'];
+          const msg = draw4Messages[Math.floor(Math.random() * draw4Messages.length)];
+          this.addSpeech(nextPlayer.name, msg);
+        }
+      }
+      this.nextTurn(state);
+    } else {
+      if (!state.isGameOver) {
+        this.nextTurn(state);
+      }
     }
-  }
 
-  if (player.hand.length === 0) {
-    state.isGameOver = true;
-    state.winner = player;
-    this.addChatMessage(player.name, `🏆 VENCEU! 🏆`, !player.isHuman);
-    if (!player.isHuman) {
-      const winMessages = [
-        `VENCEU! SOU O MELHOR!`,
-        `MAIS UMA VITÓRIA!`,
-        `NINGUÉM ME SEGURA!`,
-        `VITÓRIA CERTA!`
-      ];
-      const msg = winMessages[Math.floor(Math.random() * winMessages.length)];
-      this.addSpeech(player.name, msg);
+    if (player.hand.length === 0) {
+      state.isGameOver = true;
+      state.winner = player;
+      this.addChatMessage(player.name, `🏆 VENCEU! 🏆`, !player.isHuman);
+      if (!player.isHuman) {
+        const winMessages = ['VENCEU! SOU O MELHOR!', 'MAIS UMA VITÓRIA!', 'NINGUÉM ME SEGURA!', 'VITÓRIA CERTA!'];
+        const msg = winMessages[Math.floor(Math.random() * winMessages.length)];
+        this.addSpeech(player.name, msg);
+      }
+      this.triggerConfetti();
+      this.gameState.next(state);
+      if (this.botTimer) {
+        clearTimeout(this.botTimer);
+        this.botTimer = null;
+      }
+      this.isProcessing = false;
+      return true;
     }
-    this.triggerConfetti();
+
+    if (player.hand.length === 1 && !player.isUno) {
+      this.addChatMessage(player.name, `ESTÁ EM UNO!`, !player.isHuman);
+      if (!player.isHuman) {
+        const unoMessages = ['UNO!', 'UNO!!!', 'CUIDADO, TÔ DE UNO!', 'QUASE LÁ!'];
+        const msg = unoMessages[Math.floor(Math.random() * unoMessages.length)];
+        this.addSpeech(player.name, msg);
+      }
+    }
+
+    player.isUno = player.hand.length === 1;
     this.gameState.next(state);
-    if (this.botTimer) {
-      clearTimeout(this.botTimer);
-      this.botTimer = null;
-    }
     this.isProcessing = false;
+    this.triggerBotIfNeeded();
     return true;
   }
-
-  if (player.hand.length === 1 && !player.isUno) {
-    this.addChatMessage(player.name, `ESTÁ EM UNO!`, !player.isHuman);
-    if (!player.isHuman) {
-      const unoMessages = [
-        `UNO!`,
-        `UNO!!!`,
-        `CUIDADO, TÔ DE UNO!`,
-        `QUASE LÁ!`
-      ];
-      const msg = unoMessages[Math.floor(Math.random() * unoMessages.length)];
-      this.addSpeech(player.name, msg);
-    }
-  }
-
-  player.isUno = player.hand.length === 1;
-  this.gameState.next(state);
-  this.isProcessing = false;
-  this.triggerBotIfNeeded();
-  return true;
-}
 
   private tryDrawCard(state: GameState): Card | null {
     if (state.drawPile.length === 0) {
@@ -364,13 +336,7 @@ playCard(playerId: string, cardIndex: number, chosenColor?: string): boolean {
         return true;
       } else {
         if (!player.isHuman) {
-          const noPlayMessages = [
-            `PRECISO COMPRAR!`,
-            `NÃO TENHO CARTA!`,
-            `QUE BOSTA!`,
-            `TENHO QUE COMPRAR...`,
-            `NÃO TEM JOGADA!`
-          ];
+          const noPlayMessages = ['PRECISO COMPRAR!', 'NÃO TENHO CARTA!', 'QUE BOSTA!', 'TENHO QUE COMPRAR...', 'NÃO TEM JOGADA!'];
           const msg = noPlayMessages[Math.floor(Math.random() * noPlayMessages.length)];
           this.addSpeech(player.name, msg);
         } else {
@@ -409,16 +375,7 @@ playCard(playerId: string, cardIndex: number, chosenColor?: string): boolean {
     if (!currentPlayer) return;
 
     if (!currentPlayer.isHuman) {
-      const turnMessages = [
-        `MINHA VEZ!`,
-        `DEIXEM EU PENSAR...`,
-        `VAMOS LÁ!`,
-        `HMM...`,
-        `VOU GANHAR ESSA!`,
-        `AH SEI...`,
-        `VAMOS VER...`,
-        `HORA DA ESTRATÉGIA!`
-      ];
+      const turnMessages = ['MINHA VEZ!', 'DEIXEM EU PENSAR...', 'VAMOS LÁ!', 'HMM...', 'VOU GANHAR ESSA!', 'AH SEI...', 'VAMOS VER...', 'HORA DA ESTRATÉGIA!'];
       const randomMessage = turnMessages[Math.floor(Math.random() * turnMessages.length)];
       this.addSpeech(currentPlayer.name, randomMessage);
 

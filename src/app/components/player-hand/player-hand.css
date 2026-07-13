@@ -2,7 +2,8 @@
   padding: 10px;
   border-radius: 10px;
   transition: all 0.3s ease;
-  background: rgb(255 255 255 / 10%) !important;
+  background: rgb(255 255 255 / 10%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   position: relative;
 }
 
@@ -33,8 +34,8 @@
   justify-content: center;
   min-height: 280px;
   max-height: 420px;
-  background: rgb(255 255 255 / 10%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background: rgb(255 255 255 / 10%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   margin: -5% 0;
 }
@@ -605,3 +606,39 @@
   100% { background-position: 0% 50%; }
 }
 
+@media (hover: none) and (pointer: coarse) {
+  .player-card-container:hover .player-card {
+    transform: none !important;
+    box-shadow: none !important;
+    animation: none !important;
+    filter: none !important;
+  }
+
+  .player-card:hover {
+    transform: none !important;
+    box-shadow: none !important;
+    animation: none !important;
+    filter: none !important;
+  }
+
+  .player-card:hover .value {
+    animation: none !important;
+  }
+
+  .player-card:hover::after {
+    opacity: 0 !important;
+  }
+
+  .player-card:hover::before {
+    animation: none !important;
+  }
+
+  .card-wrapper.playable:active .player-card {
+    transform: scale(0.95) !important;
+    transition: transform 0.1s !important;
+  }
+
+  .bot-hand .card-wrapper:hover {
+    transform: none !important;
+  }
+}
