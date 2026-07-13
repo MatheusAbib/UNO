@@ -496,7 +496,7 @@
 .chat-container {
   flex: 1;
   max-width: 400px;
-  max-height: 55px;
+  max-height: 50px;
   overflow-y: auto;
   background: rgba(0, 0, 0, 0.5);
   border-radius: 8px;

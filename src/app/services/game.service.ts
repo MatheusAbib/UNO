@@ -75,52 +75,62 @@ export class GameService {
   }
 
   initializeGame(playerNames: string[]): void {
-    this.confettiTriggered = false;
-    this.isProcessing = false;
-    const fullDeck = this.deckService.createDeck();
+  this.confettiTriggered = false;
+  this.isProcessing = false;
+  const fullDeck = this.deckService.createDeck();
 
-    const botNames = ['Hanna', 'Lucia', 'Pedro'];
-    const players: Player[] = playerNames.map((name, index) => ({
-      id: `player-${index}`,
-      name: index === 0 ? name : botNames[index - 1],
-      hand: [],
-      isHuman: index === 0,
-      isUno: false,
-      score: 0
-    }));
+  const botNames = ['Hanna', 'Lucia', 'Pedro'];
+  const players: Player[] = playerNames.map((name, index) => ({
+    id: `player-${index}`,
+    name: index === 0 ? name : botNames[index - 1],
+    hand: [],
+    isHuman: index === 0,
+    isUno: false,
+    score: 0
+  }));
 
-    const drawPile = [...fullDeck];
-    const discardPile: Card[] = [];
+  const drawPile = [...fullDeck];
+  const discardPile: Card[] = [];
 
-    let firstCard = this.deckService.drawCards(drawPile, 1)[0];
-    while (firstCard.color === 'wild') {
-      drawPile.push(firstCard);
-      firstCard = this.deckService.drawCards(drawPile, 1)[0];
-    }
-    discardPile.push(firstCard);
-
-    players.forEach(player => {
-      player.hand = this.deckService.drawCards(drawPile, 7);
-    });
-
-    const state: GameState = {
-      players: players,
-      currentPlayerIndex: 0,
-      discardPile: discardPile,
-      drawPile: drawPile,
-      currentColor: firstCard.color,
-      currentValue: firstCard.value,
-      direction: 1,
-      isGameOver: false,
-      winner: null,
-      mustDraw: 0
-    };
-
-    this.waitingForDraw = false;
-    this.gameState.next(state);
-    this.addChatMessage('SISTEMA', 'JOGO INICIADO!', false);
-    this.triggerBotIfNeeded();
+  let firstCard = this.deckService.drawCards(drawPile, 1)[0];
+  while (firstCard.color === 'wild') {
+    drawPile.push(firstCard);
+    firstCard = this.deckService.drawCards(drawPile, 1)[0];
   }
+  discardPile.push(firstCard);
+
+  players.forEach(player => {
+    player.hand = this.deckService.drawCards(drawPile, 7);
+  });
+
+  const state: GameState = {
+    players: players,
+    currentPlayerIndex: 0,
+    discardPile: discardPile,
+    drawPile: drawPile,
+    currentColor: firstCard.color,
+    currentValue: firstCard.value,
+    direction: 1,
+    isGameOver: false,
+    winner: null,
+    mustDraw: 0
+  };
+
+  this.waitingForDraw = false;
+  this.gameState.next(state);
+
+  setTimeout(() => {
+    this.addChatMessage('SISTEMA', 'JOGO INICIADO!', false);
+    const currentPlayer = state.players[state.currentPlayerIndex];
+    if (currentPlayer && currentPlayer.isHuman) {
+      this.addChatMessage('SISTEMA', 'SUA VEZ!', false);
+    } else if (currentPlayer) {
+      this.addChatMessage('SISTEMA', `VEZ DE ${currentPlayer.name.toUpperCase()}!`, false);
+    }
+  }, 500);
+
+  this.triggerBotIfNeeded();
+}
 
   playCard(playerId: string, cardIndex: number, chosenColor?: string): boolean {
     if (this.isProcessing) {
@@ -167,7 +177,7 @@ export class GameService {
       this.addChatMessage(player.name, `PULOU O PRÓXIMO!`, !player.isHuman);
       const nextPlayer = state.players[(state.currentPlayerIndex + state.direction + state.players.length) % state.players.length];
       if (nextPlayer && !nextPlayer.isHuman) {
-        const skipMessages = ['AF ME PULOU', 'QUE FDP!', 'AH NÂO NÉ!', 'NEM DEIXARAM EU JOGAR!'];
+        const skipMessages = ['AF ME PULOU', 'QUE FDP!', 'AH NÂO NÉ!', 'DEIXEM EU JOGAR!'];
         const msg = skipMessages[Math.floor(Math.random() * skipMessages.length)];
         this.addSpeech(nextPlayer.name, msg);
       }

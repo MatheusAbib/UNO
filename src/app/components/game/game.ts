@@ -36,23 +36,32 @@ export class GameComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.subscription = this.gameService.getGameState().subscribe(state => {
-      if (!state) {
-        this.router.navigate(['/']);
-        return;
-      }
-      this.gameState = state;
-      this.currentPlayer = state.players[state.currentPlayerIndex];
-      this.isProcessing = false;
-      this.cdr.detectChanges();
+this.subscription = this.gameService.getGameState().subscribe(state => {
+  if (!state) {
+    this.router.navigate(['/']);
+    return;
+  }
+  this.gameState = state;
+  this.currentPlayer = state.players[state.currentPlayerIndex];
+  this.isProcessing = false;
+  this.cdr.detectChanges();
 
-      if (state.players && state.players.length > 0 && !this.hasStarted) {
-        this.hasStarted = true;
-        setTimeout(() => {
-          this.createConfetti();
-        }, 300);
-      }
-    });
+  if (state.players && state.players.length > 0 && !this.hasStarted) {
+    this.hasStarted = true;
+    
+    this.addChatMessage('SISTEMA', 'JOGO INICIADO!', false);
+    const currentPlayer = state.players[state.currentPlayerIndex];
+    if (currentPlayer && currentPlayer.isHuman) {
+      this.addChatMessage('SISTEMA', 'SUA VEZ!', false);
+    } else if (currentPlayer) {
+      this.addChatMessage('SISTEMA', `VEZ DE ${currentPlayer.name.toUpperCase()}!`, false);
+    }
+    
+    setTimeout(() => {
+      this.createConfetti();
+    }, 300);
+  }
+});
 
     this.gameService.getChatMessages().subscribe(msg => {
       this.chatMessages.push(msg);

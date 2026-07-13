@@ -10,6 +10,7 @@
 
   .home-title {
     font-size: 2rem !important;
+            text-shadow: none !important;
   }
 
   .home-content {
@@ -330,6 +331,14 @@
     font-size: 10px;
   }
 
+  .modal-content{
+    padding: 20px 30px  !important;
+  }
+
+  .color-btn{
+    padding: 12px 20px !important;
+
+  }
   .game-container {
     padding: 5px !important;
   }
@@ -848,7 +857,7 @@ margin-top: 10px !important;
   .home-content {
     padding: 20px 15px !important;
   }
-  
+
 .game-middle{
   flex: 0.7 !important;
 }
@@ -993,13 +1002,7 @@ margin-top: 10px !important;
   .modal-title {
     font-size: 0.8rem !important;
   }
-
-  .color-btn {
-    font-size: 0.4rem !important;
-    padding: 5px 10px !important;
-    min-width: 50px !important;
-  }
-
+  
   .pile-jogue {
     font-size: 0.4rem !important;
     right: -10px !important;
