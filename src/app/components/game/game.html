@@ -11,7 +11,7 @@
       <h2 class="rules-title">REGRAS DO UNO</h2>
       <div class="rules-body">
         <div class="rule-item">
-          <span class="rule-icon">▶</span>
+          <span class="rule-icon">►</span>
           <span class="rule-text">O objetivo é ser o primeiro a ficar sem cartas na mão.</span>
         </div>
         <div class="rule-item">
@@ -69,7 +69,7 @@
 </div>
 </div>
       <span class="turn-indicator" [class.active]="isHumanTurn()">
-        {{ isHumanTurn() ? '▶ SUA VEZ' : '▶ VEZ DE ' + (currentPlayer?.name || '').toUpperCase() }}
+        {{ isHumanTurn() ? '► SUA VEZ' : '► VEZ DE ' + (currentPlayer?.name || '').toUpperCase() }}
       </span>
       <span class="direction-indicator">
         {{ gameState.direction === 1 ? '↻' : '↺' }}

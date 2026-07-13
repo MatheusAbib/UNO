@@ -6,7 +6,7 @@ import { RouterOutlet } from '@angular/router';
   standalone: true,
   imports: [RouterOutlet],
   templateUrl: './app.html',
-  styleUrls: ['./app.css']
+  // styleUrls: ['./app.css']
 })
 export class AppComponent implements OnInit {
   title = 'uno-game';

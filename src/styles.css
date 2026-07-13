@@ -169,3 +169,19 @@ body {
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
+
+.btn-start,
+.rule-icon,
+.turn-indicator,
+.turn-indicator.active {
+  font-variant-emoji: text;
+  -webkit-font-variant-emoji: text;
+  font-feature-settings: "emoji" 0;
+}
+
+.btn-start::before,
+.rule-icon::before,
+.turn-indicator::before {
+  font-variant-emoji: text;
+  -webkit-font-variant-emoji: text;
+}

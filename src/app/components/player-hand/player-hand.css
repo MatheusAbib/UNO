@@ -19,6 +19,7 @@
   width: 55%;
   max-width: 1000px;
   margin: 0 auto;
+  z-index: 1000;
 }
 
 .player-hand.left, .player-hand.right {
