@@ -22,7 +22,7 @@
   }
 
   .home-settings {
-    gap: 15px !important;
+    gap: 20px !important;
   }
 
   .bot-control {
@@ -326,8 +326,6 @@
 }
 
 @media (max-width: 768px) {
-
-
   body {
     font-size: 10px;
   }
@@ -502,7 +500,7 @@
 
   .btn-draw {
     font-size: 0.5rem !important;
-    margin-top: 2px !important;
+    margin-bottom: 10px !important;
   }
 
   .discard-pile {
@@ -534,8 +532,8 @@
   }
 
   .discard-pile .pile-card {
-    width: calc(var(--card-width) * 0.9) !important;
-    height: calc(var(--card-height) * 0.9) !important;
+    width: calc(var(--card-width) * 1) !important;
+    height: calc(var(--card-height) * 1) !important;
   }
 
   .discard-pile .pile-card .card-display {
@@ -579,19 +577,9 @@
     gap: 15px !important;
   }
 
-  .draw-pile-wrapper {
-    width: calc(var(--card-width) * 0.9) !important;
-    height: calc(var(--card-height) * 0.6) !important;
-  }
-
   .discard-pile-wrapper {
     width: calc(var(--card-width) * 0.9) !important;
     height: calc(var(--card-height) * 0.6) !important;
-  }
-
-  .btn-draw {
-    font-size: 0.4rem !important;
-    padding: 3px 8px !important;
   }
 }
 
@@ -666,9 +654,7 @@
   }
 
   .btn-draw {
-    font-size: 0.5rem !important;
-    padding: 5px 12px !important;
-    max-width: 100px !important;
+margin-top: 10px !important;
   }
 }
 
@@ -859,46 +845,48 @@
     --card-width: 30px;
     --card-height: calc(var(--card-width) * 1.5);
   }
-
-  .home-title {
-    font-size: 1.5rem !important;
-  }
-
   .home-content {
-    padding: 15px !important;
+    padding: 20px 15px !important;
   }
-
+  
+.game-middle{
+  flex: 0.7 !important;
+}
   .home-subtitle {
     font-size: 0.5rem !important;
   }
 
   .btn-start {
+    font-size: 0.6rem !important;
+    padding: 15px 15px !important;
+  }
+
+  .neon-text{
     font-size: 0.5rem !important;
-    padding: 8px 15px !important;
   }
 
   .game-header {
-    padding: 5px 8px !important;
+    padding: 10px 8px !important;
     margin-bottom: 5px !important;
   }
 
   .btn-home, .btn-rules {
-    padding: 3px 6px !important;
-    font-size: 0.6rem !important;
+    padding: 5px 10px !important;
+    font-size: 0.8rem !important;
   }
 
   .btn-home svg {
-    width: 12px !important;
-    height: 12px !important;
+    width: 13px !important;
+    height: 13px !important;
   }
 
   .turn-indicator {
-    font-size: 0.4rem !important;
-    padding: 2px 6px !important;
+    font-size: 0.55rem !important;
+    padding: 5px 10px !important;
   }
 
   .direction-indicator {
-    font-size: 0.7rem !important;
+    font-size: 1rem !important;
   }
 
   .game-table {
@@ -918,9 +906,7 @@
   }
 
   .player-hand.left, .player-hand.right {
-    min-height: 80px !important;
-    max-height: 120px !important;
-    padding: 3px 10px !important;
+    padding: 5px 12px !important;
   }
 
   .player-avatar {
@@ -942,16 +928,16 @@
   }
 
   .cards-container {
-    gap: 3px !important;
+    gap: 5px !important;
   }
 
   .card {
-    width: calc(var(--card-width) * 0.7) !important;
-    height: calc(var(--card-height) * 0.7) !important;
+    width: calc(var(--card-width) * 0.8) !important;
+    height: calc(var(--card-height) * 0.8) !important;
   }
 
   .value {
-    font-size: 0.55rem !important;
+    font-size: 0.75rem !important;
   }
 
   .discard-pile {
@@ -961,18 +947,14 @@
   }
 
   .discard-pile .pile-card {
-    width: calc(var(--card-width) * 0.7) !important;
-    height: calc(var(--card-height) * 0.7) !important;
+    width: calc(var(--card-width) * 0.85) !important;
+    height: calc(var(--card-height) * 0.85) !important;
   }
 
   .discard-pile .pile-card .card-display {
     font-size: 0.7rem !important;
   }
 
-  .draw-pile {
-    min-width: calc(var(--card-width) * 0.8) !important;
-    min-height: calc(var(--card-height) * 0.8) !important;
-  }
 
   .btn-draw {
     font-size: 0.35rem !important;
