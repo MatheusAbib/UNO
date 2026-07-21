@@ -1,0 +1,605 @@
+.tournament-container {
+  min-height: 100vh;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: transparent;
+  position: relative;
+}
+
+.tournament-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 70%;
+  padding: 20px;
+  margin-bottom: 30px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-back {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.6rem;
+  padding: 8px 16px;
+  background: transparent;
+  border: 2px solid var(--neon-blue);
+  color: var(--neon-blue);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-back:hover {
+  background: var(--neon-blue);
+  color: var(--dark-bg);
+  box-shadow: 0 0 20px var(--neon-blue);
+}
+
+.tournament-title {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 1.2rem;
+  color: var(--neon-yellow);
+  text-shadow: 0 0 20px var(--neon-yellow);
+  letter-spacing: 3px;
+}
+
+.tournament-start {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: 70%;
+  width: 100%;
+}
+
+.tournament-info-cards {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.info-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 15px 25px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  min-width: 80px;
+  flex: 1;
+}
+
+.info-icon {
+  font-size: 1.5rem;
+  color: var(--neon-yellow);
+  margin-bottom: 5px;
+}
+
+.info-value {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 1.5rem;
+  color: white;
+}
+
+.info-label {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.55rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 6px;
+  text-align: center;
+}
+
+.tournament-how-it-works {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.how-title {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.7rem;
+  color: var(--neon-yellow);
+  text-align: center;
+  margin-bottom: 15px;
+  letter-spacing: 2px;
+}
+
+.how-steps {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 30px;
+}
+
+.how-step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.55rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+}
+
+.step-number {
+  background: var(--neon-purple);
+  color: white;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.5rem;
+  flex-shrink: 0;
+  font-weight: bold;
+}
+
+.step-text strong {
+  color: var(--neon-yellow);
+}
+
+.tournament-history-list {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.history-list-container {
+  max-height: 400px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 5px;
+}
+
+.history-list-container::-webkit-scrollbar {
+  width: 4px;
+}
+
+.history-list-container::-webkit-scrollbar-thumb {
+  background: var(--neon-purple);
+  border-radius: 4px;
+}
+
+.history-list-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+.history-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 12px 16px;
+  transition: all 0.3s;
+}
+
+.history-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.history-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.history-date {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.6rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.history-winner-label {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.6rem;
+  color: var(--neon-yellow);
+}
+
+.history-card-players {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.history-player {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.history-player-pos {
+  font-size: 0.8rem;
+  min-width: 30px;
+  text-align: center;
+}
+
+
+.history-player-name {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.5rem;
+  color: rgba(255, 255, 255, 0.7);
+  flex: 1;
+}
+
+.history-player-name.is-winner {
+  color: var(--neon-yellow);
+}
+
+.history-player-position {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.45rem;
+  color: rgba(255, 255, 255, 0.7);
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.tournament-history-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 30px;
+  color: rgba(255, 255, 255, 0.5);
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.5rem;
+}
+
+.tournament-history-empty i {
+  font-size: 2rem;
+}
+
+.btn-clear-history {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.6rem;
+  padding: 8px 16px;
+  background: transparent;
+  border: 1px solid var(--neon-red);
+  color: var(--neon-red);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 10px;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-clear-history i{
+  font-size: 1rem;
+}
+
+.btn-clear-history:hover {
+  background: var(--neon-red);
+  color: var(--dark-bg);
+  box-shadow: 0 0 20px var(--neon-red);
+}
+
+.btn-start-tournament {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 1rem;
+  padding: 12px 28px;
+  background: linear-gradient(135deg, var(--neon-purple), #ff00e6);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  box-shadow: 0 5px 15px rgba(210, 0, 200, 0.5);
+}
+
+.btn-start-tournament i{
+  font-size: 1.1rem !important;
+}
+
+.btn-start-tournament:hover:not(:disabled) {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 25px rgba(210, 0, 200, 0.8);
+}
+
+.btn-start-tournament:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.tournament-active {
+  width: 100%;
+  max-width: 70%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.tournament-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.status-badge {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.6rem;
+  padding: 6px 15px;
+  border-radius: 20px;
+}
+
+.status-badge.active {
+  background: rgba(0, 255, 157, 0.2);
+  color: var(--neon-green);
+  border: 1px solid var(--neon-green);
+}
+
+.status-badge.finished {
+  background: rgba(249, 240, 2, 0.2);
+  color: var(--neon-yellow);
+  border: 1px solid var(--neon-yellow);
+}
+
+.tournament-round-info {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.5rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.tournament-ranking {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.ranking-title {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.6rem;
+  color: var(--neon-blue);
+  margin-bottom: 12px;
+  letter-spacing: 2px;
+}
+
+.ranking-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ranking-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 15px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+
+.ranking-item.eliminated {
+  opacity: 0.8;
+  border-left: 3px solid var(--neon-red);
+}
+
+.ranking-item.champion {
+  background: rgba(249, 240, 2, 0.15);
+  border-left: 3px solid var(--neon-yellow);
+  animation: champion-glow 5s ease-in-out infinite;
+}
+
+.ranking-item.classified {
+  border-left: 3px solid var(--neon-green);
+}
+
+.rank-pos {
+  font-size: 1.2rem;
+  min-width: 30px;
+  text-align: center;
+}
+
+.rank-name {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.6rem;
+  color: white;
+  flex: 1;
+}
+
+.rank-status {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.4rem;
+  padding: 4px 12px;
+  border-radius: 12px;
+}
+
+.rank-status.status-champion {
+  background: rgba(249, 240, 2, 0.2);
+  color: var(--neon-yellow);
+  border: 1px solid var(--neon-yellow);
+}
+
+.rank-status.status-classified {
+  background: rgba(0, 255, 157, 0.2);
+  color: var(--neon-green);
+  border: 1px solid var(--neon-green);
+}
+
+.rank-status.status-eliminated {
+  background: rgba(255, 42, 109, 0.15);
+  color: var(--neon-red);
+  border: 1px solid var(--neon-red);
+}
+
+.rank-status.status-playing {
+  background: rgba(5, 217, 232, 0.2);
+  color: var(--neon-blue);
+  border: 1px solid var(--neon-blue);
+}
+
+.tournament-history {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.history-title {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.7rem;
+  color: var(--neon-yellow);
+  margin-bottom: 12px;
+  letter-spacing: 2px;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.history-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 6px;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.45rem;
+  color: rgba(255, 255, 255, 0.6);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  flex-wrap: wrap;
+}
+
+.history-round {
+  color: var(--neon-blue);
+  min-width: 80px;
+}
+
+.history-winner {
+  color: var(--neon-green);
+}
+
+.history-eliminated {
+  color: var(--neon-red);
+}
+
+.history-description {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.btn-next-match {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.7rem;
+  padding: 12px 30px;
+  background: linear-gradient(135deg, var(--neon-green), #00cc7a);
+  color: var(--dark-bg);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  box-shadow: 0 5px 15px rgba(0, 255, 157, 0.5);
+  align-self: center;
+}
+
+.btn-next-match:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 25px rgba(0, 255, 157, 0.8);
+}
+
+.btn-home-header {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 1rem;
+  padding: 8px 16px;
+  background: transparent;
+  border: 2px solid var(--neon-blue);
+  color: var(--neon-blue);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-home-header i {
+  font-size: 1.1rem !important;
+}
+
+
+.btn-home-header:hover {
+  background: var(--neon-blue);
+  color: var(--dark-bg);
+  box-shadow: 0 0 20px var(--neon-blue);
+}
+
+@keyframes champion-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(249, 240, 2, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(249, 240, 2, 0.6);
+  }
+}
+
+@media (max-width: 768px) {
+  .how-steps {
+    grid-template-columns: 1fr;
+  }
+
+  .tournament-header {
+    max-width: 95%;
+  }
+
+  .tournament-start {
+    max-width: 96%;
+    padding: 10px;
+  }
+
+  .tournament-active {
+    max-width: 95%;
+  }
+
+  .history-item {
+    font-size: 0.35rem;
+  }
+
+  .history-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .history-player {
+    flex-wrap: wrap;
+  }
+
+  .history-list-container {
+    max-height: 300px;
+  }
+}

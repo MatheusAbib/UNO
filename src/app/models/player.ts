@@ -7,4 +7,5 @@ export interface Player {
   isHuman: boolean;
   isUno: boolean;
   score: number;
+  isObserver?: boolean;
 }

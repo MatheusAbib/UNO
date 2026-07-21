@@ -4,4 +4,5 @@ export interface Card {
   value: string | number;
   type: 'number' | 'action' | 'wild';
   isSpecial: boolean;
+  chosenColor?: 'red' | 'blue' | 'green' | 'yellow';
 }

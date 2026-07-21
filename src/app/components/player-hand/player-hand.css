@@ -17,7 +17,7 @@
 
 .player-hand.bottom {
   text-align: center;
-  width: 55%;
+  width: 60%;
   max-width: 1000px;
   margin: 0 auto;
   z-index: 1000;
@@ -40,19 +40,23 @@
 }
 
 .player-hand.top.active-player {
-  border-color: rgba(5, 217, 232, 0.3);
+   border-color: var(--neon-yellow) !important;
+      box-shadow: 0 0 5px var(--neon-yellow), 0 0 10px rgba(240, 230, 1, 0.05);
 }
 
 .player-hand.bottom.active-player {
-  border-color: rgba(0, 255, 157, 0.3);
+    border-color: var(--neon-yellow) !important;
+      box-shadow: 0 0 5px var(--neon-yellow), 0 0 10px rgba(240, 230, 1, 0.05);
 }
 
 .player-hand.left.active-player {
-  border-color: rgba(249, 240, 2, 0.3);
+     border-color: var(--neon-yellow) !important;
+      box-shadow: 0 0 5px var(--neon-yellow), 0 0 10px rgba(240, 230, 1, 0.05);
 }
 
 .player-hand.right.active-player {
-  border-color: rgba(211, 0, 197, 0.3);
+     border-color: var(--neon-yellow) !important;
+  box-shadow: 0 0 5px var(--neon-yellow), 0 0 10px rgba(240, 230, 1, 0.05);
 }
 
 .player-header {
@@ -237,6 +241,7 @@
   text-shadow: 0 0 20px var(--neon-yellow), 0 0 40px rgba(249, 240, 2, 0.3);
 }
 
+
 .uno-indicator {
   color: white;
   font-size: 0.6rem;
@@ -335,9 +340,12 @@
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s;
   transform-style: preserve-3d;
-  animation: card-deal 0.5s ease-out forwards;
   border: 2px solid white;
   filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.5));
+}
+
+.card-deal {
+  animation: card-deal 0.5s ease-out forwards;
 }
 
 .card:hover {
@@ -640,4 +648,36 @@
   .bot-hand .card-wrapper:hover {
     transform: none !important;
   }
+}
+
+.card-wrapper.invalid {
+  cursor: not-allowed !important;
+}
+
+.card-wrapper.invalid .player-card {
+  opacity: 0.6 !important;
+  filter: grayscale(0.3) !important;
+  transform: none !important;
+  animation: none !important;
+  transition: none !important;
+}
+
+.card-wrapper.invalid .player-card:hover {
+  transform: none !important;
+  animation: none !important;
+  box-shadow: none !important;
+  filter: grayscale(0.3) !important;
+  opacity: 0.6 !important;
+}
+
+.card-wrapper.invalid .player-card:hover::before {
+  animation: none !important;
+}
+
+.card-wrapper.invalid .player-card:hover .value {
+  animation: none !important;
+}
+
+.card-wrapper.invalid .player-card::after {
+  opacity: 0 !important;
 }

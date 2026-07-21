@@ -1,0 +1,168 @@
+<div class="tournament-container">
+  <div class="tournament-header">
+    <button class="btn-home-header" (click)="goHome()">
+      <i class="pi pi-home"></i> HOME
+    </button>
+    <h1 class="tournament-title">TORNEIO</h1>
+  </div>
+
+  <div class="tournament-start" *ngIf="!tournamentState || (!tournamentState.isActive && !tournamentState.winner)">
+
+    <!-- Info Cards -->
+    <div class="tournament-info-cards">
+      <div class="info-card">
+        <i class="pi pi-users info-icon"></i>
+        <span class="info-value">4</span>
+        <span class="info-label">JOGADORES</span>
+      </div>
+      <div class="info-card">
+        <i class="pi pi-star info-icon"></i>
+        <span class="info-value">6</span>
+        <span class="info-label">RODADAS</span>
+      </div>
+      <div class="info-card">
+        <i class="pi pi-bolt info-icon"></i>
+        <span class="info-value">+1</span>
+        <span class="info-label">VITÓRIA NO RANKING</span>
+      </div>
+    </div>
+
+<div class="tournament-how-it-works">
+  <div class="how-title">COMO FUNCIONA</div>
+  <div class="how-steps">
+    <div class="how-step">
+      <span class="step-number">1</span>
+      <span class="step-text">Todos os 4 jogadores disputam a <strong>primeira rodada</strong></span>
+    </div>
+    <div class="how-step">
+      <span class="step-number">2</span>
+      <span class="step-text">Os perdedores jogam entre si até sobrar <strong>1 vencedor</strong></span>
+    </div>
+    <div class="how-step">
+      <span class="step-number">3</span>
+      <span class="step-text">O perdedor da <strong>3ª rodada</strong> fica em <strong>4º lugar</strong></span>
+    </div>
+    <div class="how-step">
+      <span class="step-number">4</span>
+      <span class="step-text">Os vencedores disputam a <strong>4ª rodada</strong> para definir a final</span>
+    </div>
+    <div class="how-step">
+      <span class="step-number">5</span>
+      <span class="step-text">O perdedor da <strong>5ª rodada</strong> fica em <strong>3º lugar</strong></span>
+    </div>
+    <div class="how-step">
+      <span class="step-number">6</span>
+      <span class="step-text"><strong>Final:</strong> Vencedor é <strong>CAMPEÃO</strong> e perdedor fica em <strong>2º lugar</strong></span>
+    </div>
+  </div>
+</div>
+
+    <button class="btn-start-tournament" (click)="startTournament()" [disabled]="isStarting">
+      <i class="pi pi-play"></i> {{ isStarting ? 'INICIANDO...' : 'INICIAR TORNEIO' }}
+    </button>
+
+    <!-- HISTÓRICO DE TORNEIOS - ABAIXO DO BOTÃO -->
+    <div class="tournament-history-list" *ngIf="getTournamentHistory().length > 0">
+      <div class="history-title">
+        <i class="pi pi-clock"></i> HISTÓRICO DE TORNEIOS
+      </div>
+      <div class="history-list-container">
+        <div class="history-card" *ngFor="let h of getTournamentHistory(); let i = index">
+          <div class="history-card-header">
+            <span class="history-date">
+              <i class="pi pi-calendar"></i> {{ h.date }}
+            </span>
+            <span class="history-winner-label">
+              <i class="pi pi-trophy" style="color: var(--neon-yellow);"></i>
+              {{ h.winner }}
+            </span>
+          </div>
+          <div class="history-card-players">
+            <div class="history-player" *ngFor="let p of getSortedHistoryPlayers(h.players)">
+              <span class="history-player-pos">
+                <i class="pi pi-trophy" *ngIf="p.position === 1" style="color: var(--neon-yellow); font-size: 1.2rem;"></i>
+                <i class="pi pi-star" *ngIf="p.position === 2" style="color: var(--neon-blue); font-size: 1.2rem;"></i>
+                <i class="pi pi-star" *ngIf="p.position === 3" style="color: var(--neon-green); font-size: 1.2rem;"></i>
+                <i class="pi pi-circle" *ngIf="p.position === 4" style="color: var(--neon-red); font-size: 1.2rem;"></i>
+              </span>
+              <span class="history-player-name" [class.is-winner]="p.position === 1">
+                {{ p.name }}
+              </span>
+              <span class="history-player-position">
+                {{ p.position === 1 ? 'CAMPEÃO' : p.position + 'º LUGAR' }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="btn-clear-history" (click)="clearHistory()" *ngIf="getTournamentHistory().length > 0">
+        <i class="pi pi-trash"></i> LIMPAR HISTÓRICO
+      </button>
+    </div>
+
+    <div class="tournament-history-empty" *ngIf="getTournamentHistory().length === 0">
+      <i class="pi pi-inbox"></i>
+      <span>Nenhum torneio finalizado ainda</span>
+    </div>
+
+  </div>
+
+  <!-- TORNEIO ATIVO / FINALIZADO -->
+  <div class="tournament-active" *ngIf="tournamentState && (tournamentState.isActive || tournamentState.winner)">
+    <div class="tournament-status">
+      <span class="status-badge" [class.active]="tournamentState.isActive" [class.finished]="!tournamentState.isActive">
+        <i class="pi" [class.pi-sync]="tournamentState.isActive" [class.pi-check-circle]="!tournamentState.isActive"></i>
+        {{ tournamentState.isActive ? 'EM ANDAMENTO' : 'FINALIZADO' }}
+      </span>
+      <span class="tournament-round-info">
+      {{ tournamentState.isActive ? 'RODADA ' + (tournamentState.currentRound - 1) + ' DE 6' : 'RODADA 6 DE 6' }}
+    </span>
+    </div>
+
+    <div class="tournament-ranking">
+      <div class="ranking-title">CLASSIFICAÇÃO</div>
+      <div class="ranking-list">
+        <div class="ranking-item" *ngFor="let player of getSortedPlayers(); let i = index"
+             [class.eliminated]="player.eliminated"
+             [class.champion]="player.group === 'champion'"
+             [class.classified]="player.group === 'winners' && !player.eliminated">
+          <span class="rank-pos">
+            <i class="pi pi-trophy" *ngIf="player.position === 1" style="color: var(--neon-yellow);"></i>
+            <i class="pi pi-star" *ngIf="player.position === 2" style="color: var(--neon-blue);"></i>
+            <i class="pi pi-star" *ngIf="player.position === 3" style="color: var(--neon-green);"></i>
+            <i class="pi pi-circle" *ngIf="player.position === 4" style="color: var(--neon-red);"></i>
+            <i class="pi pi-circle-fill" *ngIf="!player.position" style="color: rgba(255,255,255,0.3);"></i>
+          </span>
+          <span class="rank-name">{{ player.name }}</span>
+          <span class="rank-status" [class]="getRankStatusClass(player)">
+            {{ getTournamentStatusLabel(player) }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tournament-history" *ngIf="tournamentState.roundHistory.length > 0">
+      <div class="history-title">HISTÓRICO DAS RODADAS</div>
+      <div class="history-list">
+        <div class="history-item" *ngFor="let h of tournamentState.roundHistory; let i = index">
+          <span class="history-round">RODADA {{ h.round }}</span>
+          <span class="history-winner"><i class="pi pi-trophy"></i> {{ h.winner }}</span>
+          <span class="history-eliminated" *ngIf="h.eliminated && h.eliminated.length > 0">
+            <i class="pi pi-times-circle"></i> {{ h.eliminated.join(', ') }} ELIMINADO
+          </span>
+          <span class="history-description" *ngIf="!h.eliminated || h.eliminated.length === 0">
+            <i class="pi pi-minus-circle"></i> NINGUÉM ELIMINADO
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-confirm-modal
+  *ngIf="showClearHistoryModal"
+  title="LIMPAR HISTÓRICO"
+  message="Tem certeza que deseja limpar todo o histórico de torneios? Esta ação não pode ser desfeita!"
+  (confirm)="confirmClearHistory()"
+  (cancel)="cancelClearHistory()"
+></app-confirm-modal>

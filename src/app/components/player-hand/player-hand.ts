@@ -2,6 +2,8 @@ import { Component, Input, Output, EventEmitter, ChangeDetectorRef } from '@angu
 import { CommonModule } from '@angular/common';
 import { Player } from '../../models/player';
 import { Card } from '../../models/card';
+import { GameState } from '../../models/game-state';
+import { GameService } from '../../services/game.service';
 
 @Component({
   selector: 'app-player-hand',
@@ -16,16 +18,28 @@ export class PlayerHandComponent {
   @Input() isCurrent: boolean = false;
   @Input() isHuman: boolean = false;
   @Input() speechMessage: string = '';
+  @Input() gameService: GameService | null = null;
+  @Input() gameState: GameState | null = null;
   @Output() cardPlayed = new EventEmitter<number>();
+
+  shakeIndex: number | null = null;
 
   constructor(private cdr: ChangeDetectorRef) {}
 
-  ngOnChanges(): void {
-    this.cdr.detectChanges();
-  }
+ngOnChanges(): void {
+  console.log('🟢 player-hand ngOnChanges:', {
+    player: this.player?.name,
+    position: this.position,
+    isCurrent: this.isCurrent,
+    isHuman: this.isHuman,
+    hasPlayer: !!this.player
+  });
+  this.cdr.detectChanges();
+}
 
   getAvatarImage(name: string): string {
     const avatars: {[key: string]: string} = {
+      'Mãe': 'avatars/mae.png',
       'Hanna': 'avatars/hanna.webp',
       'Lucia': 'avatars/lucy.avif',
       'Pedro': 'avatars/pedro.jpg'
@@ -40,9 +54,14 @@ export class PlayerHandComponent {
     return name.charAt(0).toUpperCase();
   }
 
-  hasImage(name: string): boolean {
-    return name === 'Hanna' || name === 'Lucia' || name === 'Pedro';
-  }
+hasImage(name: string): boolean {
+  return name === 'Mãe' || name === 'Hanna' || name === 'Lucia' || name === 'Pedro';
+}
+
+  isNewCard(index: number): boolean {
+  if (!this.player) return false;
+  return index === this.player.hand.length - 1;
+}
 
   getAvatarColor(name: string): string {
     const colors: {[key: string]: string} = {
@@ -68,6 +87,8 @@ export class PlayerHandComponent {
     if (card.value === 'skip') return '⊘';
     if (card.value === 'reverse') return '⟳';
     if (card.value === 'draw2') return '+2';
+    if (card.value === 'swap') return '⇆';
+    if (card.value === 'peek') return '👁';
     if (card.value === 'wild') return '★';
     if (card.value === 'wild_draw_four') return '+4';
     return card.value.toString();
@@ -91,6 +112,11 @@ export class PlayerHandComponent {
       return `rotate(${angle}deg) translateX(${-translateY}px)`;
     }
     return '';
+  }
+
+  isCardPlayable(card: Card): boolean {
+    if (!this.isHuman || !this.isCurrent || !this.gameService || !this.gameState) return false;
+    return this.gameService.isValidPlay(card, this.gameState);
   }
 
   playCard(index: number): void {

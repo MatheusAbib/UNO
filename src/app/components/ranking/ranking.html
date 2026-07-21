@@ -1,0 +1,66 @@
+<div class="ranking-modal" (click)="onClose()">
+  <div class="ranking-content" (click)="$event.stopPropagation()">
+    <button class="ranking-close" (click)="onClose()">✕</button>
+
+    <h2 class="ranking-title">RANKING</h2>
+
+    <div class="ranking-modes">
+      <button
+        class="mode-btn"
+        *ngFor="let mode of getModes()"
+        [class.active]="isSelected(mode)"
+        (click)="selectMode(mode)">
+        {{ getModeLabel(mode) }}
+      </button>
+    </div>
+
+    <div class="ranking-summary">
+      <span>Partidas: {{ getTotalGames(selectedMode) }}</span>
+      <span>Vitórias totais: {{ getTotalWins(selectedMode) }}</span>
+    </div>
+
+    <div class="ranking-table-wrapper">
+      <table class="ranking-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Jogador</th>
+            <th>Vitórias</th>
+            <th>Partidas</th>
+            <th>% Vitórias</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let player of getPlayers(selectedMode); let i = index">
+            <td class="rank-number">{{ i + 1 }}</td>
+            <td class="player-name-ranking" [class.is-human]="isHumanPlayer(player.name)">
+              {{ player.name }}
+              <span class="human-badge" *ngIf="isHumanPlayer(player.name)">★</span>
+            </td>
+            <td class="wins">{{ player.stats.wins }}</td>
+            <td class="games">{{ player.stats.games }}</td>
+            <td class="win-rate">{{ getWinRate(player.stats) }}</td>
+          </tr>
+          <tr *ngIf="getPlayers(selectedMode).length === 0">
+            <td colspan="5" class="empty-message">
+              Nenhuma partida registrada ainda.<br>
+              Jogue algumas partidas para ver o ranking!
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <button class="btn-clear" (click)="clearRanking()" *ngIf="getTotalGames(selectedMode) > 0">
+      <i class="pi pi-trash"></i>LIMPAR RANKING
+    </button>
+  </div>
+</div>
+
+<app-confirm-modal
+  *ngIf="showClearRankingModal"
+  title="LIMPAR RANKING"
+  message="Tem certeza que deseja limpar todo o ranking? Esta ação não pode ser desfeita!"
+  (confirm)="confirmClearRanking()"
+  (cancel)="cancelClearRanking()"
+></app-confirm-modal>

@@ -39,7 +39,7 @@
 .home-title {
   font-size: 4rem;
   color: var(--neon-red);
-  text-shadow: 0 0 20px var(--neon-red), 0 0 30px var(--neon-red);
+  text-shadow: 0 0 15px var(--neon-red), 0 0 25px var(--neon-red);
   margin-bottom: 5px;
   letter-spacing: 10px;
 }
@@ -72,7 +72,7 @@
   letter-spacing: 2px;
 }
 
-.home-input {
+.player-name-display {
   padding: 12px 20px;
   background: rgba(255, 255, 255, 0.05);
   border: 2px solid var(--neon-purple);
@@ -84,7 +84,7 @@
   transition: all 0.3s;
 }
 
-.home-input:focus {
+.player-name-display:focus {
   outline: none;
   border-color: var(--neon-blue);
   box-shadow: 0 0 20px rgba(5, 217, 232, 0.3);
@@ -163,4 +163,48 @@
   color: var(--neon-blue);
   animation: neon-pulse 2s infinite;
   letter-spacing: 2px;
+}
+
+.btn-tournament {
+  padding: 15px 30px;
+  background: transparent;
+  border: 2px solid var(--neon-yellow);
+  color: var(--neon-yellow);
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.9rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-shadow: 0 0 10px var(--neon-yellow);
+  letter-spacing: 3px;
+  margin-top: 10px;
+}
+
+.btn-tournament:hover {
+  background: var(--neon-yellow);
+  color: var(--dark-bg);
+  box-shadow: 0 0 30px var(--neon-yellow);
+  transform: scale(1.05);
+}
+
+.btn-ranking {
+  padding: 15px 30px;
+  background: transparent;
+  border: 2px solid var(--neon-blue);
+  color: var(--neon-blue);
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.9rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-shadow: 0 0 10px var(--neon-blue);
+  letter-spacing: 3px;
+  margin-top: 10px;
+}
+
+.btn-ranking:hover {
+  background: var(--neon-blue);
+  color: var(--dark-bg);
+  box-shadow: 0 0 30px var(--neon-blue);
+  transform: scale(1.05);
 }

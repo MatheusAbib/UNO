@@ -5,13 +5,10 @@
 
     <div class="home-settings">
       <div class="setting-group">
-        <label>Seu nome</label>
-        <input
-          type="text"
-          [(ngModel)]="playerName"
-          class="home-input"
-          placeholder="Digite seu nome"
-        >
+        <label>Seu Nome</label>
+        <div class="player-name-display">
+          <span class="player-name-fixed">MÃE</span>
+        </div>
       </div>
 
       <div class="setting-group">
@@ -30,10 +27,29 @@
       >
         {{ isLoading ? 'Iniciando...' : '► INICIAR JOGO' }}
       </button>
+
+      <button
+        (click)="startTournament()"
+        class="btn-tournament"
+      >
+        ► MODO TORNEIO
+      </button>
+
+      <button
+        (click)="openRanking()"
+        class="btn-ranking"
+      >
+        ► RANKING
+      </button>
     </div>
 
     <div class="home-footer">
       <span class="neon-text">✦ INICIAR JOGO para jogar ✦</span>
     </div>
   </div>
+
+  <app-ranking
+    *ngIf="showRanking"
+    (close)="closeRanking()"
+  ></app-ranking>
 </div>

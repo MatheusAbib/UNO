@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
@@ -16,6 +16,15 @@ export class AppComponent implements OnInit {
       this.createFloatingCards();
       this.createParticles();
     }, 100);
+  }
+
+  @HostListener('mousemove', ['$event'])
+  onMouseMove(event: MouseEvent): void {
+    const cursor = document.getElementById('customCursor');
+    if (cursor) {
+      cursor.style.left = event.clientX + 'px';
+      cursor.style.top = event.clientY + 'px';
+    }
   }
 
   createFloatingCards(): void {

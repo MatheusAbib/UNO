@@ -7,67 +7,129 @@
 
   <div class="rules-modal" *ngIf="showRulesModal" (click)="closeRulesModal()">
     <div class="rules-content" (click)="$event.stopPropagation()">
-      <button class="rules-close" (click)="closeRulesModal()">✕</button>
+      <button class="rules-close" (click)="closeRulesModal()">
+        <i class="pi pi-times"></i>
+      </button>
       <h2 class="rules-title">REGRAS DO UNO</h2>
       <div class="rules-body">
         <div class="rule-item">
-          <span class="rule-icon">►</span>
+          <i class="pi pi-bullseye rule-icon"></i>
           <span class="rule-text">O objetivo é ser o primeiro a ficar sem cartas na mão.</span>
         </div>
         <div class="rule-item">
-          <span class="rule-icon">◆</span>
-          <span class="rule-text">Você pode jogar uma carta se ela tiver a <strong>mesma cor</strong> ou o <strong>mesmo número/símbolo</strong> da carta no descarte.</span>
+          <i class="pi pi-palette rule-icon"></i>
+          <span class="rule-text">Jogue uma carta com a <strong>mesma cor</strong> ou o <strong>mesmo número/símbolo</strong> da carta no descarte.</span>
         </div>
         <div class="rule-item">
-          <span class="rule-icon">★</span>
-          <span class="rule-text"><strong>CORINGA (★):</strong> Pode ser jogada em qualquer cor. Escolha a cor que vai continuar.</span>
+          <i class="pi pi-star rule-icon"></i>
+          <span class="rule-text"><strong>CORINGA:</strong> Pode ser jogada em qualquer cor. Escolha a cor que vai continuar.</span>
         </div>
         <div class="rule-item">
-          <span class="rule-icon">+4</span>
+          <i class="pi pi-plus-circle rule-icon"></i>
           <span class="rule-text"><strong>+4:</strong> O próximo jogador compra 4 cartas e perde a vez.</span>
         </div>
         <div class="rule-item">
-          <span class="rule-icon">+2</span>
+          <i class="pi pi-plus rule-icon"></i>
           <span class="rule-text"><strong>+2:</strong> O próximo jogador compra 2 cartas e perde a vez.</span>
         </div>
         <div class="rule-item">
-          <span class="rule-icon">⊘</span>
+          <i class="pi pi-forward rule-icon"></i>
           <span class="rule-text"><strong>PULAR:</strong> O próximo jogador perde a vez.</span>
         </div>
         <div class="rule-item">
-          <span class="rule-icon">⟳</span>
+          <i class="pi pi-replay rule-icon"></i>
           <span class="rule-text"><strong>INVERTER:</strong> Inverte a direção do jogo.</span>
         </div>
         <div class="rule-item">
-          <span class="rule-icon">⚠</span>
-          <span class="rule-text"><strong>UNO:</strong> Quando você tem 1 carta, grite UNO! Se não gritar, pode ser penalizado.</span>
+          <i class="pi pi-sync rule-icon"></i>
+          <span class="rule-text"><strong>TROCAR MÃOS:</strong> Troca todas as cartas da sua mão com o jogador escolhido.</span>
         </div>
         <div class="rule-item">
-          <span class="rule-icon">◆</span>
+          <i class="pi pi-eye rule-icon"></i>
+          <span class="rule-text"><strong>OLHAR:</strong> Você pode ver a mão de um adversário por 2 segundos.</span>
+        </div>
+        <div class="rule-item">
+          <i class="pi pi-shopping-cart rule-icon"></i>
           <span class="rule-text"><strong>COMPRAR:</strong> Se não tiver carta para jogar, compre 1 carta. Se for jogável, jogue; se não, passe a vez.</span>
         </div>
       </div>
     </div>
   </div>
 
+  <div class="swap-modal" *ngIf="showSwapModal" (click)="onSwapCancel()">
+    <div class="swap-content" (click)="$event.stopPropagation()">
+      <div class="swap-icon">⇆</div>
+      <div class="swap-title">TROCA DE MÃOS</div>
+      <div class="swap-message">{{ swapFromPlayer }} vai trocar de mão com você!</div>
+      <div class="swap-buttons">
+        <button class="swap-btn swap-btn-confirm" (click)="onSwapConfirm()">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="swap-choose-modal" *ngIf="showSwapChooseModal" (click)="onSwapChooseClose()">
+    <div class="swap-choose-content" (click)="$event.stopPropagation()">
+      <div class="swap-icon">⇆</div>
+      <div class="swap-title">ESCOLHA A TROCA</div>
+      <div class="swap-choose-options">
+        <button class="swap-choose-btn" *ngFor="let target of swapChooseTargets" (click)="onSwapChoose(target.id)">
+          TROCAR COM {{ target.name.toUpperCase() }}
+        </button>
+      </div>
+      <button class="swap-choose-cancel" (click)="onSwapChooseClose()">CANCELAR</button>
+    </div>
+  </div>
+
+  <div class="peek-choose-modal" *ngIf="showPeekChooseModal" (click)="onPeekChooseClose()">
+    <div class="peek-choose-content" (click)="$event.stopPropagation()">
+      <div class="peek-icon">👁</div>
+      <div class="peek-title">ESCOLHA QUEM OLHAR</div>
+      <div class="peek-choose-options">
+        <button class="peek-choose-btn" *ngFor="let target of peekChooseTargets" (click)="onPeekChoose(target.id)">
+          OLHAR {{ target.name.toUpperCase() }}
+        </button>
+      </div>
+      <button class="peek-choose-cancel" (click)="onPeekChooseClose()">CANCELAR</button>
+    </div>
+  </div>
+
+  <div class="peek-modal" *ngIf="showPeekModal">
+    <div class="peek-content">
+      <div class="peek-header">
+        <span class="peek-icon">👁</span>
+        <span class="peek-title">MÃO DE {{ peekPlayerName.toUpperCase() }}</span>
+      </div>
+      <div class="peek-cards">
+        <div class="peek-card" *ngFor="let card of peekHand" [class]="getCardClass(card)">
+          <span class="peek-card-display">{{ getCardDisplay(card) }}</span>
+        </div>
+      </div>
+      <div class="peek-timer">Olhe por 2 segundos...</div>
+    </div>
+  </div>
+
   <div class="game-header">
     <div class="header-buttons">
-     <button class="btn-home" (click)="goHome()">
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1"/>
-  </svg>
-</button>
-      <button class="btn-rules" (click)="openRulesModal()">?</button>
+      <button class="btn-home-header" (click)="goHome()">
+        <i class="pi pi-home"></i> HOME
+      </button>
+      <button class="btn-rules" *ngIf="!gameService.isTournamentMode" (click)="openRulesModal()">
+        <i class="pi pi-question-circle"></i>
+      </button>
+      <button class="btn-tournament-status" *ngIf="gameService.isTournamentMode" (click)="openTournamentModal()">
+        <span class="tournament-round-label">{{ getTournamentRoundLabel() }}</span>
+      </button>
     </div>
+
     <div class="game-info">
-<div class="chat-container">
-<div class="chat-messages" #chatContainer>
-  <div *ngFor="let msg of chatMessages; trackBy: trackByMessage" class="chat-message" [class.bot-message]="msg.isBot">
-    <span class="chat-name">{{ msg.name }}:</span>
-    <span class="chat-text">{{ msg.text }}</span>
-  </div>
-</div>
-</div>
+      <div class="chat-container">
+        <div class="chat-messages" #chatContainer>
+          <div *ngFor="let msg of chatMessages; trackBy: trackByMessage" class="chat-message" [class.bot-message]="msg.isBot">
+            <span class="chat-name">{{ msg.name }}:</span>
+            <span class="chat-text">{{ msg.text }}</span>
+          </div>
+        </div>
+      </div>
       <span class="turn-indicator" [class.active]="isHumanTurn()">
         {{ isHumanTurn() ? '► SUA VEZ' : '► VEZ DE ' + (currentPlayer?.name || '').toUpperCase() }}
       </span>
@@ -78,24 +140,60 @@
   </div>
 
   <div class="game-table">
-    <div class="player-top" *ngIf="gameState.players[2]">
-      <app-player-hand
-        [player]="gameState.players[2]"
-        [position]="'top'"
-        [isCurrent]="gameState.currentPlayerIndex === 2"
-        [speechMessage]="speechMessages[gameState.players[2]?.name || ''] || ''"
-      ></app-player-hand>
+    <!-- PLAYER TOP (POSIÇÃO 2) -->
+<!-- PLAYER TOP (POSIÇÃO 2) -->
+<div class="player-top" *ngIf="gameState.players.length > 2 && gameState.players[2]">
+  <app-player-hand
+    *ngIf="!gameState.players[2].isObserver && !isEliminated(gameState.players[2]?.name)"
+    [player]="gameState.players[2]"
+    [position]="'top'"
+    [isCurrent]="gameState.currentPlayerIndex === 2"
+    [speechMessage]="speechMessages[gameState.players[2]?.name || ''] || ''"
+  ></app-player-hand>
+  <div class="observer-spectator" *ngIf="gameState.players[2].isObserver || isEliminated(gameState.players[2]?.name)">
+    <div class="spectator-avatar" [style.background]="getAvatarColor(gameState.players[2]?.name)">
+      <img *ngIf="hasImage(gameState.players[2]?.name)" [src]="getAvatarImage(gameState.players[2]?.name)" [alt]="gameState.players[2]?.name" class="avatar-image">
+      <span *ngIf="!hasImage(gameState.players[2]?.name)" class="avatar-text">{{ getAvatarInitial(gameState.players[2]?.name) }}</span>
     </div>
+    <span class="spectator-name">{{ gameState.players[2]?.name }}</span>
+    <span class="spectator-badge" [class.eliminated]="isEliminated(gameState.players[2]?.name)">
+      {{ getSpectatorStatus(gameState.players[2]?.name) }}
+    </span>
+    <div class="spectator-cards">
+      <div class="card hidden spectator-card"></div>
+      <div class="card hidden spectator-card"></div>
+      <div class="card hidden spectator-card"></div>
+    </div>
+  </div>
+</div>
 
     <div class="game-middle">
-      <div class="player-left" *ngIf="gameState.players[1]">
-        <app-player-hand
-          [player]="gameState.players[1]"
-          [position]="'left'"
-          [isCurrent]="gameState.currentPlayerIndex === 1"
-          [speechMessage]="speechMessages[gameState.players[1]?.name || ''] || ''"
-        ></app-player-hand>
-      </div>
+      <!-- PLAYER LEFT (POSIÇÃO 1) -->
+<!-- PLAYER LEFT (POSIÇÃO 1) -->
+<div class="player-left" *ngIf="gameState.players.length > 1 && gameState.players[1]">
+  <app-player-hand
+    *ngIf="!gameState.players[1].isObserver && !isEliminated(gameState.players[1]?.name)"
+    [player]="gameState.players[1]"
+    [position]="'left'"
+    [isCurrent]="gameState.currentPlayerIndex === 1"
+    [speechMessage]="speechMessages[gameState.players[1]?.name || ''] || ''"
+  ></app-player-hand>
+  <div class="observer-spectator" *ngIf="gameState.players[1].isObserver || isEliminated(gameState.players[1]?.name)">
+    <div class="spectator-avatar" [style.background]="getAvatarColor(gameState.players[1]?.name)">
+      <img *ngIf="hasImage(gameState.players[1]?.name)" [src]="getAvatarImage(gameState.players[1]?.name)" [alt]="gameState.players[1]?.name" class="avatar-image">
+      <span *ngIf="!hasImage(gameState.players[1]?.name)" class="avatar-text">{{ getAvatarInitial(gameState.players[1]?.name) }}</span>
+    </div>
+    <span class="spectator-name">{{ gameState.players[1]?.name }}</span>
+    <span class="spectator-badge" [class.eliminated]="isEliminated(gameState.players[1]?.name)">
+      {{ getSpectatorStatus(gameState.players[1]?.name) }}
+    </span>
+    <div class="spectator-cards">
+      <div class="card hidden spectator-card"></div>
+      <div class="card hidden spectator-card"></div>
+      <div class="card hidden spectator-card"></div>
+    </div>
+  </div>
+</div>
 
       <div class="table-center">
         <div class="pile-container draw-pile">
@@ -109,49 +207,139 @@
           <button class="btn-draw" (click)="isHumanTurn() ? drawCard() : null" [disabled]="!isHumanTurn()">COMPRAR</button>
         </div>
 
-<div class="pile-container discard-pile">
-  <div class="discard-pile-wrapper">
-    <div class="pile-card"
-         *ngFor="let card of getLastCards(gameState.discardPile, 5); let i = index; let last = last"
-         [class]="getCardClass(card)"
-         [class.wild-card-played]="card.color === 'wild' && card.chosenColor"
-         [class.wild-color-red]="isWildCardWithColor(card, 'red')"
-         [class.wild-color-green]="isWildCardWithColor(card, 'green')"
-         [class.wild-color-blue]="isWildCardWithColor(card, 'blue')"
-         [class.wild-color-yellow]="isWildCardWithColor(card, 'yellow')"
-         [style.transform]="getDiscardPileOffset(i)">
-      <div class="card-display" *ngIf="last">
-        <span>{{ getCardDisplay(card) }}</span>
-      </div>
-    </div>
-  </div>
-  <span class="pile-jogue">Jogue</span>
-</div>
+        <div class="pile-container discard-pile">
+          <div class="discard-pile-wrapper">
+            <div class="pile-card"
+                 *ngFor="let card of getLastCards(gameState.discardPile, 5); let i = index; let last = last"
+                 [class]="getCardClass(card)"
+                 [class.wild-card-played]="card.color === 'wild' && card.chosenColor"
+                 [class.wild-color-red]="isWildCardWithColor(card, 'red')"
+                 [class.wild-color-green]="isWildCardWithColor(card, 'green')"
+                 [class.wild-color-blue]="isWildCardWithColor(card, 'blue')"
+                 [class.wild-color-yellow]="isWildCardWithColor(card, 'yellow')"
+                 [style.transform]="getDiscardPileOffset(i)">
+              <div class="card-display" *ngIf="last">
+                <span>{{ getCardDisplay(card) }}</span>
+              </div>
+            </div>
+          </div>
+          <span class="pile-jogue">Jogue</span>
+        </div>
 
-        <div class="winner-banner" *ngIf="gameState.isGameOver">
+        <div class="winner-banner" *ngIf="gameState.isGameOver && !gameService.isTournamentMode">
           <div>✦ {{ gameState.winner?.name }} VENCEU! ✦</div>
-          <button class="btn-restart" (click)="goHome()">NOVO JOGO</button>
+          <button class="btn-restart" (click)="onGameOver()">NOVO JOGO</button>
         </div>
       </div>
 
-      <div class="player-right" *ngIf="gameState.players[3]">
-        <app-player-hand
-          [player]="gameState.players[3]"
-          [position]="'right'"
-          [isCurrent]="gameState.currentPlayerIndex === 3"
-          [speechMessage]="speechMessages[gameState.players[3]?.name || ''] || ''"
-        ></app-player-hand>
-      </div>
+      <!-- PLAYER RIGHT (POSIÇÃO 3) -->
+<!-- PLAYER RIGHT (POSIÇÃO 3) -->
+<div class="player-right" *ngIf="gameState.players.length > 3 && gameState.players[3]">
+  <app-player-hand
+    *ngIf="!gameState.players[3].isObserver && !isEliminated(gameState.players[3]?.name)"
+    [player]="gameState.players[3]"
+    [position]="'right'"
+    [isCurrent]="gameState.currentPlayerIndex === 3"
+    [speechMessage]="speechMessages[gameState.players[3]?.name || ''] || ''"
+  ></app-player-hand>
+  <div class="observer-spectator" *ngIf="gameState.players[3].isObserver || isEliminated(gameState.players[3]?.name)">
+    <div class="spectator-avatar" [style.background]="getAvatarColor(gameState.players[3]?.name)">
+      <img *ngIf="hasImage(gameState.players[3]?.name)" [src]="getAvatarImage(gameState.players[3]?.name)" [alt]="gameState.players[3]?.name" class="avatar-image">
+      <span *ngIf="!hasImage(gameState.players[3]?.name)" class="avatar-text">{{ getAvatarInitial(gameState.players[3]?.name) }}</span>
+    </div>
+    <span class="spectator-name">{{ gameState.players[3]?.name }}</span>
+    <span class="spectator-badge" [class.eliminated]="isEliminated(gameState.players[3]?.name)">
+      {{ getSpectatorStatus(gameState.players[3]?.name) }}
+    </span>
+    <div class="spectator-cards">
+      <div class="card hidden spectator-card"></div>
+      <div class="card hidden spectator-card"></div>
+      <div class="card hidden spectator-card"></div>
+    </div>
+  </div>
+</div>
     </div>
 
-    <div class="player-bottom">
-      <app-player-hand
-        [player]="gameState.players[0]"
-        [position]="'bottom'"
-        [isCurrent]="gameState.currentPlayerIndex === 0"
-        [isHuman]="true"
-        (cardPlayed)="playCard($event)"
-      ></app-player-hand>
+<div class="player-bottom">
+  <!-- ✅ ESPECTADOR (CLASSIFICADO OU ELIMINADO) -->
+  <div *ngIf="gameState.players[0] && (gameState.players[0].isObserver || isEliminated(gameState.players[0]?.name))" class="observer-spectator">
+    <div class="spectator-avatar" [style.background]="getAvatarColor(gameState.players[0]?.name)">
+      <img *ngIf="hasImage(gameState.players[0]?.name)" [src]="getAvatarImage(gameState.players[0]?.name)" [alt]="gameState.players[0]?.name" class="avatar-image">
+      <span *ngIf="!hasImage(gameState.players[0]?.name)" class="avatar-text">{{ getAvatarInitial(gameState.players[0]?.name) }}</span>
+    </div>
+    <span class="spectator-name">{{ gameState.players[0]?.name }}</span>
+    <span class="spectator-badge" [class.eliminated]="isEliminated(gameState.players[0]?.name)">
+      {{ getSpectatorStatus(gameState.players[0]?.name) }}
+    </span>
+    <div class="spectator-cards">
+      <div class="card hidden spectator-card"></div>
+      <div class="card hidden spectator-card"></div>
+      <div class="card hidden spectator-card"></div>
+    </div>
+  </div>
+
+  <!-- ✅ MÃO DO JOGADOR (SÓ SE NÃO FOR OBSERVADOR E NÃO ESTIVER ELIMINADO) -->
+  <app-player-hand
+    *ngIf="gameState.players[0] && !gameState.players[0].isObserver && !isEliminated(gameState.players[0]?.name)"
+    [player]="gameState.players[0]"
+    [position]="'bottom'"
+    [isCurrent]="gameState.currentPlayerIndex === 0"
+    [isHuman]="true"
+    [gameService]="gameService"
+    [gameState]="gameState"
+    (cardPlayed)="playCard($event)"
+  ></app-player-hand>
+</div>
+
+    <div class="swap-animation-banner" *ngIf="showSwapBanner">
+      <div class="swap-animation-content">
+        <div class="swap-animation-icon">⇆</div>
+        <div class="swap-animation-text">{{ swapBannerFrom }} ↔ {{ swapBannerTo }}</div>
+        <div class="swap-animation-sub">TROCA DE MÃOS REALIZADA!</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tournament-modal-overlay" *ngIf="showTournamentModal" (click)="closeTournamentModal()">
+    <div class="tournament-modal-content" (click)="$event.stopPropagation()">
+      <button class="tournament-modal-close" (click)="closeTournamentModal()">✕</button>
+      <div class="tournament-modal-header">
+        <span class="tournament-modal-title">TORNEIO</span>
+        <span class="tournament-modal-round">RODADA {{ tournamentRound }} DE 6</span>
+      </div>
+
+      <div class="tournament-modal-players">
+        <div class="tournament-modal-player" *ngFor="let player of tournamentPlayers">
+          <span class="player-status-icon" [style.color]="getTournamentStatusColor(player)">
+            {{ getTournamentStatusIcon(player) }}
+          </span>
+          <span class="player-name">{{ player.name }}</span>
+          <span class="player-status-label" [style.color]="getTournamentStatusColor(player)">
+            {{ getTournamentStatusLabel(player) }}
+          </span>
+        </div>
+      </div>
+
+      <div class="tournament-modal-history" *ngIf="tournamentHistory.length > 0">
+        <span class="history-title">HISTÓRICO</span>
+        <div class="history-item" *ngFor="let h of tournamentHistory">
+          <span>RODADA {{ h.round }}</span>
+          <span>{{ h.description }}</span>
+          <span class="history-winner" *ngIf="h.winner">VENCEDOR: {{ h.winner }}</span>
+          <span class="history-eliminated" *ngIf="h.eliminated && h.eliminated.length > 0">ELIMINADO: {{ h.eliminated.join(', ') }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="round-result-modal" *ngIf="showRoundResultModal">
+    <div class="round-result-content">
+      <div class="round-result-icon">★</div>
+      <div class="round-result-title">{{ roundResultWinner }} VENCEU!</div>
+      <div class="round-result-position">POSIÇÃO: {{ roundResultPosition }}</div>
+      <div class="round-result-countdown">
+        PRÓXIMA RODADA EM {{ roundResultCountdown }} SEGUNDOS...
+      </div>
     </div>
   </div>
 </div>

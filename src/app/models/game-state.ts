@@ -12,4 +12,5 @@ export interface GameState {
   isGameOver: boolean;
   winner: Player | null;
   mustDraw: number;
+  observers: string[];
 }

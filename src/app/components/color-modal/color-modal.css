@@ -144,6 +144,8 @@
   -webkit-text-stroke: 1px rgba(102, 77, 0, 0.3);
 }
 
+
+
 @keyframes neon-pulse {
   0%, 100% { opacity: 0.9; }
   50% { opacity: 1; }

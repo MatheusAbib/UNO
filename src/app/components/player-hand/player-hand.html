@@ -1,4 +1,4 @@
-<div class="player-hand" [class]="position" [class.active-player]="isCurrent" [class.uno-warning]="player.isUno"*ngIf="player">
+<div class="player-hand" [class]="position" [class.active-player]="isCurrent" [class.uno-warning]="player.isUno" *ngIf="player">
   <div class="player-header">
     <div class="player-avatar-wrapper">
       <div class="player-avatar" [class.active]="isCurrent" [style.background]="getAvatarColor(player.name)">
@@ -6,9 +6,9 @@
         <span *ngIf="!hasImage(player.name)" class="avatar-text">{{ getAvatarInitial(player.name) }}</span>
         <div class="avatar-glow" *ngIf="isCurrent"></div>
       </div>
-<div class="speech-bubble" [class.show]="showSpeech()">
-  {{ speechMessage }}
-</div>
+      <div class="speech-bubble" [class.show]="showSpeech()">
+        {{ speechMessage }}
+      </div>
     </div>
     <div class="player-info">
       <span class="player-name" [class.active]="isCurrent">
@@ -20,27 +20,28 @@
   </div>
 
   <div class="cards-container" [class]="position" [class.bot-hand]="!isHuman">
-    <div
-      class="card-wrapper"
-      *ngFor="let card of player.hand; let i = index"
-      [class.player-card-container]="isHuman"
-      [class.playable]="isHuman && isCurrent"
-      [style.transform]="getCardTransform(i, player.hand.length)"
-      [style.z-index]="i"
-      (click)="isHuman && isCurrent ? playCard(i) : null"
-    >
-      <div
-        *ngIf="isHuman"
-        class="card player-card"
-        [class.vermelho]="card.color === 'red'"
-        [class.verde]="card.color === 'green'"
-        [class.azul]="card.color === 'blue'"
-        [class.amarelo]="card.color === 'yellow'"
-        [class.preto]="card.color === 'wild'"
-      >
-        <span class="value">{{ getCardDisplay(card) }}</span>
-      </div>
-
+<div
+  class="card-wrapper"
+  *ngFor="let card of player.hand; let i = index"
+  [class.player-card-container]="isHuman"
+  [class.playable]="isHuman && isCurrent"
+  [class.invalid]="isHuman && isCurrent && !isCardPlayable(card)"
+  [style.transform]="getCardTransform(i, player.hand.length)"
+  [style.z-index]="i"
+  (click)="isHuman && isCurrent ? playCard(i) : null"
+>
+<div
+  *ngIf="isHuman"
+  class="card player-card"
+  [class.vermelho]="card.color === 'red'"
+  [class.verde]="card.color === 'green'"
+  [class.azul]="card.color === 'blue'"
+  [class.amarelo]="card.color === 'yellow'"
+  [class.preto]="card.color === 'wild'"
+  [class.card-deal]="isNewCard(i)"
+>
+    <span class="value">{{ getCardDisplay(card) }}</span>
+  </div>
       <div
         *ngIf="!isHuman"
         class="card hidden"

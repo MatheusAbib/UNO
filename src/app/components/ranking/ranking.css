@@ -1,0 +1,231 @@
+.ranking-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.ranking-content {
+  background: rgba(13, 2, 33, 0.95);
+  padding: 30px;
+  border-radius: 20px;
+  border: 2px solid var(--neon-yellow);
+  box-shadow: 0 0 50px rgba(249, 240, 2, 0.3);
+  max-width: 700px;
+  width: 90%;
+  max-height: 80vh;
+  position: relative;
+  animation: modal-pop 0.3s ease;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.ranking-close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  font-family: 'Press Start 2P', cursive;
+  transition: all 0.3s;
+}
+
+.ranking-close:hover {
+  color: var(--neon-red);
+  transform: rotate(90deg);
+}
+
+.ranking-title {
+  color: var(--neon-yellow);
+  font-family: 'Press Start 2P', cursive;
+  font-size: 1.2rem;
+  text-align: center;
+  margin-bottom: 20px;
+  text-shadow: 0 0 20px var(--neon-yellow);
+  letter-spacing: 3px;
+}
+
+.ranking-modes {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.mode-btn {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.5rem;
+  padding: 8px 12px;
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.6);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.mode-btn:hover {
+  border-color: var(--neon-yellow);
+  color: var(--neon-yellow);
+}
+
+.mode-btn.active {
+  border-color: var(--neon-yellow);
+  color: var(--neon-yellow);
+  background: rgba(249, 240, 2, 0.1);
+  box-shadow: 0 0 20px rgba(249, 240, 2, 0.2);
+}
+
+.ranking-summary {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.5rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 15px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+}
+
+.ranking-table-wrapper {
+  overflow-y: auto;
+  flex: 1;
+  min-height: 200px;
+}
+
+.ranking-table-wrapper::-webkit-scrollbar {
+  width: 4px;
+}
+
+.ranking-table-wrapper::-webkit-scrollbar-thumb {
+  background: var(--neon-yellow);
+  border-radius: 4px;
+}
+
+.ranking-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.5rem;
+}
+
+.ranking-table thead th {
+  color: var(--neon-yellow);
+  text-align: left;
+  padding: 10px 8px;
+  border-bottom: 2px solid rgba(249, 240, 2, 0.3);
+  letter-spacing: 1px;
+  position: sticky;
+  top: 0;
+  background: rgba(13, 2, 33, 0.95);
+}
+
+.ranking-table tbody td {
+  padding: 10px 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.ranking-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.rank-number {
+  text-align: center;
+  color: var(--neon-yellow);
+  font-weight: bold;
+  width: 30px;
+}
+
+.player-name-ranking {
+    font-weight: bold;
+  color: rgba(255, 255, 255, 0.85);
+   font-size: 0.75rem;
+}
+
+.player-name-ranking.is-human {
+  color: var(--neon-green);
+}
+
+
+.human-badge {
+  color: var(--neon-yellow);
+  margin-left: 6px;
+  font-size: 0.7rem;
+}
+
+.wins {
+  color: var(--neon-green);
+  text-align: center;
+  font-size: 0.75rem;
+}
+
+.games {
+  text-align: center;
+  font-size: 0.75rem;
+}
+
+.win-rate {
+  text-align: center;
+  color: var(--neon-blue);
+  font-weight: bold;
+  font-size: 0.75rem;
+}
+
+.empty-message {
+  padding: 40px 20px;
+  color: rgba(255, 255, 255, 0.4);
+  line-height: 1.8;
+}
+
+.btn-clear {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.6rem;
+  padding: 8px 16px;
+  background: transparent;
+  border: 1px solid var(--neon-red);
+  color: var(--neon-red);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 10px;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-clear i{
+  font-size: 1rem !important;
+}
+
+.btn-clear:hover {
+  background: var(--neon-red);
+  color: var(--dark-bg);
+  box-shadow: 0 0 30px var(--neon-red);
+}
+
+@keyframes modal-pop {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
