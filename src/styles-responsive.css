@@ -42,7 +42,7 @@
     min-width: auto !important;
     width: 100% !important;
 
-        margin-bottom: 0.5rem !important;
+        margin-bottom: 0.3rem !important;
 
   }
   .player-hand.bottom {
@@ -143,7 +143,7 @@
     z-index: 1000;
   }
   .btn-draw {
-    font-size: 0.35rem !important;
+    font-size: 0.4rem !important;
     margin-top: 2px !important;
   }
   .discard-pile {
@@ -171,8 +171,8 @@
     font-size: 0.7rem !important;
   }
   .discard-pile .pile-card {
-    width: calc(var(--card-width) * 0.65) !important;
-    height: calc(var(--card-height) * 0.55) !important;
+    width: calc(var(--card-width) * 1) !important;
+    height: calc(var(--card-height) * 1) !important;
   }
   .discard-pile .pile-card .card-display {
     font-size: 0.7rem !important;
@@ -1300,8 +1300,8 @@
     gap: 5px !important;
   }
   .card {
-    width: calc(var(--card-width) * 0.8) !important;
-    height: calc(var(--card-height) * 0.8) !important;
+    width: calc(var(--card-width) * 1) !important;
+    height: calc(var(--card-height) * 1) !important;
   }
   .value {
     font-size: 0.85rem !important;
@@ -1311,17 +1311,11 @@
     min-width: calc(var(--card-width) * 0.8) !important;
     min-height: calc(var(--card-height) * 0.8) !important;
   }
-  .discard-pile .pile-card {
-    width: calc(var(--card-width) * 0.85) !important;
-    height: calc(var(--card-height) * 0.85) !important;
-  }
-  .discard-pile .pile-card .card-display {
-    font-size: 0.7rem !important;
-  }
+
   .btn-draw {
-    font-size: 0.5rem !important;
+    font-size: 0.55rem !important;
             border-radius: 6px !important;
-    padding: 5px 10px !important;
+    padding: 8px 15px !important;
   }
   .winner-banner {
     font-size: 0.5rem !important;
@@ -1461,13 +1455,9 @@
     width: calc(var(--card-width) * 0.6) !important;
     height: calc(var(--card-height) * 0.4) !important;
   }
-  .discard-pile-wrapper .pile-card,
-  .draw-pile-wrapper .pile-card {
-    width: calc(var(--card-width) * 0.8) !important;
-    height: calc(var(--card-height) * 0.8) !important;
-  }
+
   .discard-pile-wrapper .pile-card .card-display {
-    font-size: 0.4rem !important;
+    font-size: 0.8rem !important;
   }
 
   .pile-jogue {
