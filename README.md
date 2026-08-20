@@ -4,6 +4,8 @@ Bem-vindo ao **UNO Arcade**, uma versão digital do clássico jogo de cartas UNO
 
 Este projeto foi desenvolvido com **Angular** e traz toda a experiência do UNO com efeitos visuais impressionantes, bots inteligentes, sistema de torneio e uma interface totalmente responsiva.
 
+> Acesse o projeto online: (https://matheusabib.github.io/UNO/)
+
 ---
 
 ## ✨ Funcionalidades
