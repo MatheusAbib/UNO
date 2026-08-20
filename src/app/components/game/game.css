@@ -29,6 +29,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  touch-action: manipulation;
 }
 
 .btn-home-header i {
@@ -197,6 +198,7 @@
   box-shadow: 0 5px 15px rgba(210, 0, 200, 0.5);
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
   margin-top: 4px;
+  touch-action: manipulation;
 }
 
 .btn-draw:hover:not(:disabled) {
@@ -559,6 +561,7 @@
   cursor: pointer;
   transition: all 0.3s;
   margin-top: 10px;
+  touch-action: manipulation;
 }
 
 .btn-restart:hover {
@@ -575,6 +578,7 @@
 .btn-rules{
     border: 2px solid var(--neon-yellow) !important;
   color: var(--neon-yellow) !important;
+  touch-action: manipulation;
 }
 
 .btn-rules:hover{
@@ -597,6 +601,7 @@
   align-items: center;
   justify-content: center;
   line-height: 1;
+  touch-action: manipulation;
 }
 
 .btn-home:hover, .btn-rules:hover {
@@ -657,6 +662,7 @@
   transition: all 0.3s;
   padding: 5px;
   line-height: 1;
+  touch-action: manipulation;
 }
 
 .rules-close:hover {
@@ -795,6 +801,7 @@
   cursor: pointer;
   transition: all 0.3s;
   text-transform: uppercase;
+  touch-action: manipulation;
 }
 
 .swap-btn-confirm {
@@ -864,6 +871,7 @@
   cursor: pointer;
   transition: all 0.3s;
   text-transform: uppercase;
+  touch-action: manipulation;
 }
 
 .swap-choose-btn:hover {
@@ -885,6 +893,7 @@
   transition: all 0.3s;
   text-transform: uppercase;
   margin-top: 5px;
+  touch-action: manipulation;
 }
 
 .swap-choose-cancel:hover {
@@ -1136,6 +1145,7 @@
   cursor: pointer;
   transition: all 0.3s;
   text-transform: uppercase;
+  touch-action: manipulation;
 }
 
 .peek-choose-btn:hover {
@@ -1157,6 +1167,7 @@
   transition: all 0.3s;
   text-transform: uppercase;
   margin-top: 5px;
+  touch-action: manipulation;
 }
 
 .peek-choose-cancel:hover {
@@ -1263,6 +1274,7 @@
   cursor: pointer;
   font-family: 'Press Start 2P', cursive;
   transition: all 0.3s;
+  touch-action: manipulation;
 }
 
 .tournament-modal-close:hover {
@@ -1378,6 +1390,7 @@
   align-items: center;
   justify-content: center;
   font-family: 'Press Start 2P', cursive;
+  touch-action: manipulation;
 }
 
 .btn-tournament-status:hover {
@@ -1560,7 +1573,6 @@
   color: #c0c0c0;
   border-color: #c0c0c0;
 }
-
 
 @media (max-width: 768px) {
   .observer-spectator {

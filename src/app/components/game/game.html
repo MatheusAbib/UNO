@@ -82,7 +82,7 @@
 
   <div class="peek-choose-modal" *ngIf="showPeekChooseModal" (click)="onPeekChooseClose()">
     <div class="peek-choose-content" (click)="$event.stopPropagation()">
-      <div class="peek-icon">👁</div>
+      <div class="peek-icon"><i class="pi pi-eye"></i></div>
       <div class="peek-title">ESCOLHA QUEM OLHAR</div>
       <div class="peek-choose-options">
         <button class="peek-choose-btn" *ngFor="let target of peekChooseTargets" (click)="onPeekChoose(target.id)">
@@ -96,7 +96,7 @@
   <div class="peek-modal" *ngIf="showPeekModal">
     <div class="peek-content">
       <div class="peek-header">
-        <span class="peek-icon">👁</span>
+        <span class="peek-icon"><i class="pi pi-eye"></i></span>
         <span class="peek-title">MÃO DE {{ peekPlayerName.toUpperCase() }}</span>
       </div>
       <div class="peek-cards">

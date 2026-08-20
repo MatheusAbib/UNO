@@ -20,28 +20,34 @@
   </div>
 
   <div class="cards-container" [class]="position" [class.bot-hand]="!isHuman">
-<div
-  class="card-wrapper"
-  *ngFor="let card of player.hand; let i = index"
-  [class.player-card-container]="isHuman"
-  [class.playable]="isHuman && isCurrent"
-  [class.invalid]="isHuman && isCurrent && !isCardPlayable(card)"
-  [style.transform]="getCardTransform(i, player.hand.length)"
-  [style.z-index]="i"
-  (click)="isHuman && isCurrent ? playCard(i) : null"
->
-<div
-  *ngIf="isHuman"
-  class="card player-card"
-  [class.vermelho]="card.color === 'red'"
-  [class.verde]="card.color === 'green'"
-  [class.azul]="card.color === 'blue'"
-  [class.amarelo]="card.color === 'yellow'"
-  [class.preto]="card.color === 'wild'"
-  [class.card-deal]="isNewCard(i)"
->
-    <span class="value">{{ getCardDisplay(card) }}</span>
-  </div>
+    <div
+      class="card-wrapper"
+      *ngFor="let card of player.hand; let i = index"
+      [class.player-card-container]="isHuman"
+      [class.playable]="isHuman && isCurrent"
+      [class.invalid]="isHuman && isCurrent && !isCardPlayable(card)"
+      [style.transform]="getCardTransform(i, player.hand.length)"
+      [style.z-index]="i"
+      (click)="isHuman && isCurrent ? playCard(i) : null"
+    >
+      <div
+        *ngIf="isHuman"
+        class="card player-card"
+        [class.vermelho]="card.color === 'red'"
+        [class.verde]="card.color === 'green'"
+        [class.azul]="card.color === 'blue'"
+        [class.amarelo]="card.color === 'yellow'"
+        [class.preto]="card.color === 'wild'"
+        [class.card-deal]="isNewCard(i)"
+      >
+        <span class="value" *ngIf="card.value !== 'peek'">{{ getCardDisplay(card) }}</span>
+        <svg *ngIf="card.value === 'peek'" class="peek-icon-card" width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="12" cy="12" rx="10" ry="8" stroke="currentColor" stroke-width="2" fill="none"/>
+          <circle cx="12" cy="12" r="3" fill="currentColor"/>
+          <path d="M2 12 C6 6 18 6 22 12" stroke="currentColor" stroke-width="2" fill="none"/>
+          <path d="M2 12 C6 18 18 18 22 12" stroke="currentColor" stroke-width="2" fill="none"/>
+        </svg>
+      </div>
       <div
         *ngIf="!isHuman"
         class="card hidden"

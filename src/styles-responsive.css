@@ -1,6 +1,6 @@
 @media (max-width: 480px) {
   :root {
-    --card-width: 40px;
+    --card-width: 45px;
     --card-height: calc(var(--card-width) * 1.5);
   }
   .uno-indicator {
@@ -16,6 +16,7 @@
   .btn-start, .btn-tournament, .btn-ranking {
     font-size: 0.7rem !important;
     padding: 12px 20px !important;
+    touch-action: manipulation;
   }
   .home-footer {
     padding-top: 10px !important;
@@ -34,6 +35,7 @@
     width: 30px !important;
     height: 30px !important;
     font-size: 1rem !important;
+    touch-action: manipulation;
   }
   .game-table {
     height: calc(100dvh - 75px) !important;
@@ -41,9 +43,7 @@
   .player-hand.top {
     min-width: auto !important;
     width: 100% !important;
-
-        margin-bottom: 0.3rem !important;
-
+    margin-bottom: 0.3rem !important;
   }
   .player-hand.bottom {
     width: 100% !important;
@@ -66,10 +66,11 @@
     padding: 5px 8px !important;
   }
   .turn-indicator {
-    font-size: 0.6rem !important;
+    font-size: 0.8rem !important;
   }
   .btn-home-header, .btn-rules, .btn-tournament-status {
     padding: 5px 10px !important;
+    touch-action: manipulation;
   }
   .winner-banner {
     font-size: 0.7rem !important;
@@ -145,6 +146,7 @@
   .btn-draw {
     font-size: 0.4rem !important;
     margin-top: 2px !important;
+    touch-action: manipulation;
   }
   .discard-pile {
     width: auto !important;
@@ -195,18 +197,19 @@
     gap: 5px !important;
   }
   .turn-indicator {
-    font-size: 0.5rem !important;
+    font-size: 0.8rem !important;
     padding: 5px 10px !important;
   }
   .direction-indicator {
     display: none !important;
   }
   .btn-home-header, .btn-rules, .btn-tournament-status {
-    padding: 5px 15px !important;
-    font-size: 0.85rem !important;
+    padding: 6px 16px !important;
+    font-size: 0.9rem !important;
+    touch-action: manipulation;
   }
   .btn-home-header i {
-    font-size: 0.75rem !important;
+    font-size: 0.8rem !important;
   }
   .header-buttons {
     gap: 3px !important;
@@ -227,6 +230,7 @@
   .btn-home-header {
     font-size: 0.6rem;
     padding: 6px 12px;
+    touch-action: manipulation;
   }
   .tournament-info-cards {
     grid-template-columns: 1fr !important;
@@ -262,6 +266,7 @@
     font-size: 0.65rem !important;
     padding: 10px 15px !important;
     width: 100%;
+    touch-action: manipulation;
   }
   .tournament-status {
     flex-direction: column;
@@ -338,6 +343,7 @@
   .btn-clear-history {
     font-size: 0.5rem !important;
     padding: 5px 12px !important;
+    touch-action: manipulation;
   }
   .tournament-history-empty {
     font-size: 0.6rem;
@@ -456,8 +462,6 @@
     flex-wrap: wrap !important;
     justify-content: center !important;
   }
-
-
   .player-left .card-wrapper,
   .player-right .card-wrapper {
     transform: none !important;
@@ -494,7 +498,7 @@
 
 @media (min-width: 481px) and (max-width: 768px) {
   :root {
-    --card-width: 50px;
+    --card-width: 55px;
     --card-height: calc(var(--card-width) * 1.5);
   }
   .table-center {
@@ -540,6 +544,7 @@
   .btn-start-tournament {
     font-size: 0.8rem;
     padding: 16px 24px;
+    touch-action: manipulation;
   }
   .ranking-item {
     padding: 10px 16px;
@@ -555,7 +560,6 @@
   .history-player {
     font-size: 0.55rem;
   }
-
   .player-left, .player-right {
     flex: 1 !important;
     width: 48% !important;
@@ -590,7 +594,6 @@
     width: 100% !important;
     justify-content: center !important;
   }
-
   .player-left .player-hand,
   .player-right .player-hand {
     width: 100% !important;
@@ -676,10 +679,9 @@
   }
 }
 
-
 @media (min-width: 769px) and (max-width: 1024px) {
   :root {
-    --card-width: 65px;
+    --card-width: 70px;
     --card-height: calc(var(--card-width) * 1.5);
   }
   .player-hand.top {
@@ -729,7 +731,7 @@
 
 @media (min-width: 1025px) {
   :root {
-    --card-width: 85px;
+    --card-width: 90px;
     --card-height: calc(var(--card-width) * 1.5);
   }
   .table-center {
@@ -750,11 +752,11 @@
   }
   .color-btn {
     padding: 12px 20px !important;
+    touch-action: manipulation;
   }
   .game-container {
     padding: 5px !important;
   }
-
   .cards-container {
     gap: 8px !important;
   }
@@ -776,7 +778,7 @@
     height: calc(90dvh - 80px);
   }
   .game-header {
-    padding: 10px 15px !important;
+    padding: 20px 15px !important;
     margin-bottom: 15px !important;
   }
   .modal-title {
@@ -793,14 +795,14 @@
     display: none !important;
   }
   .rules-content {
-    padding: 25px 20px !important;
+    padding: 40px 15px !important;
   }
   .rules-title {
     font-size: 0.9rem !important;
   }
   .rule-item {
-    font-size: 0.5rem !important;
-    padding: 6px 10px !important;
+    font-size: 1em !important;
+    padding: 8px !important;
   }
   .player-avatar {
     width: 30px !important;
@@ -840,7 +842,6 @@
   .bot-hand .card-wrapper:hover {
     transform: none !important;
   }
-
   .pile-container {
     display: flex !important;
     flex-direction: column !important;
@@ -876,6 +877,7 @@
   .btn-draw {
     font-size: 0.5rem !important;
     margin-bottom: 10px !important;
+    touch-action: manipulation;
   }
   .discard-pile {
     width: auto !important;
@@ -966,7 +968,6 @@
     width: 100% !important;
     justify-content: center !important;
   }
-
   .player-left .player-hand,
   .player-right .player-hand {
     width: 100% !important;
@@ -1010,7 +1011,7 @@
     flex-direction: row !important;
     gap: 5px !important;
     align-items: center !important;
-            margin-bottom: 12px;
+    margin-bottom: 12px;
   }
   .player-left .cards-container.bot-hand,
   .player-right .cards-container.bot-hand {
@@ -1052,8 +1053,6 @@
     height: 28px !important;
   }
 }
-
-
 
 @media (min-width: 810px) and (max-width: 1183px) {
   .table-center {
@@ -1104,12 +1103,12 @@
   .chat-message {
     font-size: 0.5rem !important;
   }
-
   .pile-jogue {
     font-size: 0.5rem !important;
   }
   .btn-draw {
     margin-top: 10px !important;
+    touch-action: manipulation;
   }
 }
 
@@ -1166,7 +1165,7 @@
 
 @media (min-width: 1025px) and (max-height: 700px) {
   :root {
-    --card-width: 70px;
+    --card-width: 75px;
     --card-height: calc(var(--card-width) * 1.5);
   }
   .game-table {
@@ -1197,7 +1196,7 @@
 
 @media (min-width: 1600px) {
   :root {
-    --card-width: 100px;
+    --card-width: 105px;
     --card-height: calc(var(--card-width) * 1.5);
   }
   .player-hand.top {
@@ -1227,7 +1226,7 @@
 
 @media (max-width: 400px) {
   :root {
-    --card-width: 30px;
+    --card-width: 35px;
     --card-height: calc(var(--card-width) * 1.5);
   }
   .home-content {
@@ -1242,6 +1241,7 @@
   .btn-start, .btn-tournament, .btn-ranking {
     font-size: 0.6rem !important;
     padding: 15px 15px !important;
+    touch-action: manipulation;
   }
   .neon-text {
     font-size: 0.5rem !important;
@@ -1253,13 +1253,13 @@
   .btn-home-header, .btn-rules, .btn-tournament-status {
     padding: 5px 10px !important;
     font-size: 0.65rem !important;
+    touch-action: manipulation;
   }
   .btn-home-header i {
-            font-size: 0.65rem !important;
-
+    font-size: 0.65rem !important;
   }
   .turn-indicator {
-    font-size: 0.55rem !important;
+    font-size: 0.8rem !important;
     padding: 5px 10px !important;
   }
   .direction-indicator {
@@ -1280,7 +1280,7 @@
   .player-hand.left, .player-hand.right {
     padding: 5px 12px !important;
     min-height: 165px !important;
-            max-width: 100% !important;
+    max-width: 100% !important;
   }
   .player-avatar {
     width: 22px !important;
@@ -1311,11 +1311,11 @@
     min-width: calc(var(--card-width) * 0.8) !important;
     min-height: calc(var(--card-height) * 0.8) !important;
   }
-
   .btn-draw {
     font-size: 0.55rem !important;
-            border-radius: 6px !important;
+    border-radius: 6px !important;
     padding: 8px 15px !important;
+    touch-action: manipulation;
   }
   .winner-banner {
     font-size: 0.5rem !important;
@@ -1325,6 +1325,7 @@
   .btn-restart {
     font-size: 0.4rem !important;
     padding: 4px 10px !important;
+    touch-action: manipulation;
   }
   .rules-content {
     padding: 15px 10px !important;
@@ -1360,6 +1361,7 @@
   .btn-home-header {
     font-size: 0.5rem;
     padding: 4px 10px;
+    touch-action: manipulation;
   }
   .btn-home-header i {
     font-size: 0.6rem;
@@ -1408,6 +1410,7 @@
   .btn-clear-history {
     font-size: 0.45rem;
     padding: 6px 12px;
+    touch-action: manipulation;
   }
   .tournament-history-empty {
     font-size: 0.5rem;
@@ -1416,7 +1419,6 @@
   .tournament-history-empty i {
     font-size: 1.2rem;
   }
-
   .player-left .card,
   .player-right .card {
     width: calc(var(--card-width) * 0.8) !important;
@@ -1455,11 +1457,9 @@
     width: calc(var(--card-width) * 0.6) !important;
     height: calc(var(--card-height) * 0.4) !important;
   }
-
   .discard-pile-wrapper .pile-card .card-display {
     font-size: 0.8rem !important;
   }
-
   .pile-jogue {
     font-size: 0.25rem !important;
   }
@@ -1467,7 +1467,7 @@
 
 @media (max-height: 750px) {
   :root {
-    --card-width: 45px;
+    --card-width: 50px;
     --card-height: calc(var(--card-width) * 1.5);
   }
   .game-table {
@@ -1487,7 +1487,7 @@
     flex: 0.8;
   }
   .player-hand.left, .player-hand.right {
-    min-height: 100px ;
+    min-height: 100px;
     max-height: 160px !important;
     width: 130px;
   }
@@ -1506,7 +1506,7 @@
     font-size: 0.4rem !important;
   }
   .turn-indicator {
-    font-size: 0.5rem !important;
+    font-size: 0.8rem !important;
     padding: 2px 8px !important;
   }
   .direction-indicator {
@@ -1522,6 +1522,7 @@
   .btn-restart {
     padding: 6px 15px !important;
     font-size: 0.5rem !important;
+    touch-action: manipulation;
   }
   .player-avatar {
     width: 25px !important;
@@ -1554,7 +1555,7 @@
 
 @media (max-width: 350px) {
   :root {
-    --card-width: 32px;
+    --card-width: 35px;
     --card-height: calc(var(--card-width) * 1.5);
   }
   .home-title {

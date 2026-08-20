@@ -3,9 +3,18 @@
 <head>
   <meta charset="utf-8">
   <title>UNO Arcade</title>
+  <!-- <base href="/"> -->
   <base href="/UNO/">
-   <!-- <base href="/"> -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<style>
+  .pi, .icon, [class*="pi-"], [class*="primeicon"] {
+    font-family: 'primeicons', 'Segoe UI Emoji', 'Apple Color Emoji', sans-serif !important;
+    font-style: normal;
+  }
+  button, a, .clickable {
+    touch-action: manipulation;
+  }
+</style>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <link rel="icon" type="image/x-icon" href="card.png">
   <style>
@@ -197,7 +206,7 @@
         'rgba(249, 240, 2, 0.5)',
         'rgba(211, 0, 197, 0.5)'
       ];
-      for (var i = 0; i < 35; i++) {
+      for (var i = 0; i < 20; i++) {
         var dot = document.createElement('span');
         dot.style.left = Math.random() * 100 + '%';
         dot.style.top = Math.random() * 100 + '%';

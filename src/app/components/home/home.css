@@ -110,6 +110,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  touch-action: manipulation;
 }
 
 .btn-control:hover {
@@ -138,6 +139,7 @@
   text-shadow: 0 0 10px var(--neon-red);
   letter-spacing: 3px;
   margin-top: 10px;
+  touch-action: manipulation;
 }
 
 .btn-start:hover:not(:disabled) {
@@ -178,6 +180,7 @@
   text-shadow: 0 0 10px var(--neon-yellow);
   letter-spacing: 3px;
   margin-top: 10px;
+  touch-action: manipulation;
 }
 
 .btn-tournament:hover {
@@ -200,6 +203,7 @@
   text-shadow: 0 0 10px var(--neon-blue);
   letter-spacing: 3px;
   margin-top: 10px;
+  touch-action: manipulation;
 }
 
 .btn-ranking:hover {

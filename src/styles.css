@@ -10,7 +10,7 @@
   --dark-bg: #0d0221;
   --neon-coral: #ff5e5b;
   --glow: 0 0 10px, 0 0 20px, 0 0 30px;
-  --card-width: clamp(60px, 8vw, 100px);
+  --card-width: clamp(65px, 8.5vw, 105px);
   --card-height: calc(var(--card-width) * 1.5);
 }
 
@@ -188,3 +188,6 @@ body {
   -webkit-font-variant-emoji: text;
 }
 
+button, .btn, [role="button"], .clickable {
+  touch-action: manipulation;
+}
