@@ -894,8 +894,8 @@
     align-items: center;
   }
   .discard-pile-wrapper .pile-card {
-    width: calc(var(--card-width) * 0.8) !important;
-    height: calc(var(--card-height) * 0.65) !important;
+    width: calc(var(--card-width) * 0.8);
+    height: calc(var(--card-height) * 0.65);
     position: absolute;
     top: 50%;
     left: 50%;
@@ -904,8 +904,8 @@
     font-size: 0.9rem !important;
   }
   .discard-pile .pile-card {
-    width: calc(var(--card-width) * 1.1) !important;
-    height: calc(var(--card-height) * 1.1) !important;
+    width: calc(var(--card-width) * 1.1);
+    height: calc(var(--card-height) * 1.1);
   }
   .discard-pile .pile-card .card-display {
     font-size: 0.9rem !important;
@@ -1251,15 +1251,14 @@
     margin-bottom: 5px !important;
   }
   .btn-home-header, .btn-rules, .btn-tournament-status {
-    padding: 5px 10px !important;
-    font-size: 0.65rem !important;
+    font-size: 0.9rem !important;
     touch-action: manipulation;
   }
   .btn-home-header i {
-    font-size: 0.65rem !important;
+    font-size: 0.95rem !important;
   }
   .turn-indicator {
-    font-size: 0.8rem !important;
+    font-size: 0.65rem !important;
     padding: 5px 10px !important;
   }
   .direction-indicator {
@@ -1304,7 +1303,7 @@
     height: calc(var(--card-height) * 1) !important;
   }
   .value {
-    font-size: 0.85rem !important;
+    font-size: 0.95rem !important;
   }
   .discard-pile {
     height: calc(var(--card-height) * 0.8) !important;
@@ -1334,11 +1333,11 @@
     font-size: 0.6rem !important;
   }
   .rule-item {
-    font-size: 0.35rem !important;
-    padding: 4px 6px !important;
+    font-size: 0.5rem !important;
+    padding: 4px !important;
   }
   .rule-icon {
-    font-size: 0.5rem !important;
+    font-size: 0.75rem !important;
     min-width: 15px !important;
   }
   .modal-title {
@@ -1506,8 +1505,8 @@
     font-size: 0.4rem !important;
   }
   .turn-indicator {
-    font-size: 0.8rem !important;
-    padding: 2px 8px !important;
+    font-size: 0.8rem;
+    padding: 2px 8px;
   }
   .direction-indicator {
     display: none !important;
@@ -1540,7 +1539,7 @@
     height: calc(var(--card-height) * 0.75) !important;
   }
   .value {
-    font-size: 0.75rem !important;
+    font-size: 0.8rem;
   }
   .discard-pile .pile-card .card-display {
     font-size: 0.8rem !important;
@@ -1571,7 +1570,7 @@
     font-size: 0.3rem !important;
   }
   .card .value {
-    font-size: 0.8rem !important;
+    font-size: 0.9rem;
   }
   .winner-banner {
     font-size: 0.6rem !important;
