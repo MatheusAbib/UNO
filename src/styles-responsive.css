@@ -43,7 +43,7 @@
   .player-hand.top {
     min-width: auto !important;
     width: 100% !important;
-    margin-bottom: 0.3rem !important;
+    margin-bottom: 1rem !important;
   }
   .player-hand.bottom {
     width: 100% !important;
@@ -1488,14 +1488,14 @@
     padding: 1px 5px !important;
   }
   .card {
-    width: calc(var(--card-width) * 0.75) !important;
-    height: calc(var(--card-height) * 0.75) !important;
+    width: calc(var(--card-width) * 0.7) !important;
+    height: calc(var(--card-height) * 0.7) !important;
   }
   .value {
     font-size: 0.8rem;
   }
   .discard-pile .pile-card .card-display {
-    font-size: 0.8rem !important;
+    font-size: 0.95rem !important;
   }
   .speech-bubble {
     font-size: 0.35rem !important;

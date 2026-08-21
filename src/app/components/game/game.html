@@ -61,9 +61,9 @@
       <div class="swap-icon"><i class="pi pi-sync"></i></div>
       <div class="swap-title">TROCA DE MÃOS</div>
       <div class="swap-message">{{ swapFromPlayer }} vai trocar de mão com você!</div>
-      <div class="swap-buttons">
-        <button class="swap-btn swap-btn-confirm" (click)="onSwapConfirm()">OK</button>
-      </div>
+        <div class="swap-buttons">
+          <button class="swap-btn swap-btn-confirm" (click)="onSwapConfirm()">OK</button>
+        </div>
     </div>
   </div>
 
@@ -287,7 +287,7 @@
     <div class="swap-animation-banner" *ngIf="showSwapBanner">
       <div class="swap-animation-content">
         <div class="swap-animation-icon"><i class="pi pi-sync"></i></div>
-        <div class="swap-animation-text">{{ swapBannerFrom }} ↔ {{ swapBannerTo }}</div>
+        <div class="swap-animation-text">{{ swapBannerFrom }} > {{ swapBannerTo }}</div>
         <div class="swap-animation-sub">TROCA DE MÃOS REALIZADA!</div>
       </div>
     </div>

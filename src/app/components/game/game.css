@@ -70,8 +70,9 @@
 .game-table {
   display: flex;
   flex-direction: column;
-  height: calc(90vh - 25px);
-  gap: 10px;
+  height: auto !important;
+  min-height: calc(100dvh - 75px);
+  overflow-y: auto;
 }
 
 .player-top, .player-bottom {
@@ -79,15 +80,13 @@
 }
 
 .game-middle {
-  flex: 1;
+  flex: 1 1 auto;
+  min-height: 200px;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  min-height: 0;
-  margin: 0 auto;
-  width: 95%;
+  flex-direction: column;
+  justify-content: center;
 }
+
 
 .player-left, .player-right {
   flex: 0 0 auto;
@@ -99,10 +98,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 60px;
-  padding: 20px;
-  min-height: 200px;
-  max-width: 900px;
+
   position: relative;
 }
 
