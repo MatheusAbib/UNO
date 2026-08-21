@@ -485,7 +485,7 @@
   .player-hand.top {
     min-width: auto !important;
     width: 100% !important;
-    margin-bottom: 0.8rem !important;
+    margin-bottom: 1.5rem !important;
   }
   .player-hand.bottom {
     width: 100% !important;
@@ -653,6 +653,7 @@
   .player-hand.top {
     min-width: auto !important;
     width: 85% !important;
+            margin-bottom: 1.2rem !important;
   }
   .player-hand.bottom {
     width: 85% !important;
@@ -1026,6 +1027,7 @@
   .player-hand.top {
     width: 75% !important;
     max-width: 800px !important;
+            margin-bottom: 1rem !important;
   }
   .player-hand.bottom {
     width: 100% !important;
@@ -1217,8 +1219,8 @@
     font-size: 1rem !important;
   }
   .turn-indicator {
-    font-size: 0.65rem !important;
-    padding: 5px 10px !important;
+    font-size: 0.55rem !important;
+    padding: 5px !important;
   }
   .direction-indicator {
     display: none !important;

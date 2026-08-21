@@ -133,10 +133,6 @@
       <span class="turn-indicator" [class.active]="isHumanTurn()">
         {{ isHumanTurn() ? '► SUA VEZ' : '► VEZ DE ' + (currentPlayer?.name || '').toUpperCase() }}
       </span>
-      <span class="direction-indicator">
-        <i class="pi pi-arrow-right" *ngIf="gameState.direction === 1"></i>
-        <i class="pi pi-arrow-left" *ngIf="gameState.direction === -1"></i>
-      </span>
     </div>
   </div>
 
@@ -204,24 +200,25 @@
           <button class="btn-draw" (click)="isHumanTurn() ? drawCard() : null" [disabled]="!isHumanTurn()">COMPRAR</button>
         </div>
 
-        <div class="pile-container discard-pile">
-          <div class="discard-pile-wrapper">
-            <div class="pile-card"
-                 *ngFor="let card of getLastCards(gameState.discardPile, 5); let i = index; let last = last"
-                 [class]="getCardClass(card)"
-                 [class.wild-card-played]="card.color === 'wild' && card.chosenColor"
-                 [class.wild-color-red]="isWildCardWithColor(card, 'red')"
-                 [class.wild-color-green]="isWildCardWithColor(card, 'green')"
-                 [class.wild-color-blue]="isWildCardWithColor(card, 'blue')"
-                 [class.wild-color-yellow]="isWildCardWithColor(card, 'yellow')"
-                 [style.transform]="getDiscardPileOffset(i)">
-              <div class="card-display" *ngIf="last">
-                <span>{{ getCardDisplay(card) }}</span>
-              </div>
-            </div>
-          </div>
-          <span class="pile-jogue">Jogue</span>
-        </div>
+<div class="pile-container discard-pile">
+  <div class="discard-pile-wrapper">
+    <div class="pile-card"
+         *ngFor="let card of getLastCards(gameState.discardPile, 5); let i = index; let last = last"
+         [class]="getCardClass(card)"
+         [class.wild-card-played]="card.color === 'wild' && card.chosenColor"
+         [class.wild-color-red]="isWildCardWithColor(card, 'red')"
+         [class.wild-color-green]="isWildCardWithColor(card, 'green')"
+         [class.wild-color-blue]="isWildCardWithColor(card, 'blue')"
+         [class.wild-color-yellow]="isWildCardWithColor(card, 'yellow')"
+         [style.transform]="getDiscardPileOffset(i)">
+      <div class="card-display" *ngIf="last">
+        <span *ngIf="!isPeekCard(card)">{{ getCardDisplay(card) }}</span>
+        <i *ngIf="isPeekCard(card)" class="pi pi-eye" style="font-size: 1.2rem; color: white;"></i>
+      </div>
+    </div>
+  </div>
+  <span class="pile-jogue">Jogue</span>
+</div>
 
         <div class="winner-banner" *ngIf="gameState.isGameOver && !gameService.isTournamentMode">
           <div>✦ {{ gameState.winner?.name }} VENCEU! ✦</div>
@@ -287,7 +284,7 @@
     <div class="swap-animation-banner" *ngIf="showSwapBanner">
       <div class="swap-animation-content">
         <div class="swap-animation-icon"><i class="pi pi-sync"></i></div>
-        <div class="swap-animation-text">{{ swapBannerFrom }} > {{ swapBannerTo }}</div>
+        <div class="swap-animation-text">{{ swapBannerFrom }} pegou de {{ swapBannerTo }}</div>
         <div class="swap-animation-sub">TROCA DE MÃOS REALIZADA!</div>
       </div>
     </div>

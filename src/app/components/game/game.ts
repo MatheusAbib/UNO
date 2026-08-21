@@ -416,16 +416,20 @@ getObserverMessage(playerName: string | undefined): string {
     return colors[card.color] || 'white';
   }
 
-  getCardDisplay(card: any): string {
-    if (card.value === 'skip') return '⊘';
-    if (card.value === 'reverse') return '⟳';
-    if (card.value === 'draw2') return '+2';
-    if (card.value === 'swap') return '⇆';
-    if (card.value === 'peek') return '👁';
-    if (card.value === 'wild') return '★';
-    if (card.value === 'wild_draw_four') return '+4';
-    return card.value.toString();
-  }
+getCardDisplay(card: any): string {
+  if (card.value === 'skip') return '⊘';
+  if (card.value === 'reverse') return '⟳';
+  if (card.value === 'draw2') return '+2';
+  if (card.value === 'swap') return '⇆';
+  if (card.value === 'peek') return ''; // Retorna vazio
+  if (card.value === 'wild') return '★';
+  if (card.value === 'wild_draw_four') return '+4';
+  return card.value.toString();
+}
+
+isPeekCard(card: any): boolean {
+  return card.value === 'peek';
+}
 
   getLastCards(pile: any[], count: number): any[] {
     if (pile.length === 0) return [];

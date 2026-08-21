@@ -1,0 +1,19 @@
+# 1. Build com as alterações
+ng build --base-href /UNO/
+
+# 2. Limpar docs e copiar novo build
+Remove-Item -Path docs -Recurse -Force -ErrorAction SilentlyContinue
+Copy-Item -Path "dist/uno-game" -Destination "docs" -Recurse
+
+# 3. Mover arquivos da pasta browser para a raiz
+Move-Item -Path "docs/browser/*" -Destination "docs/" -Force
+Remove-Item -Path "docs/browser" -Recurse -Force
+
+# 4. Adicionar tudo (incluindo docs)
+git add .
+
+# 5. Commit
+git commit -m "Fix:"
+
+# 6. Push
+git push origin main
