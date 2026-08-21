@@ -84,17 +84,7 @@
     flex-wrap: wrap !important;
     justify-content: center !important;
   }
-  .table-center {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 10px !important;
-    padding: 5px !important;
-    min-height: auto !important;
-    max-width: 100% !important;
-    width: 100% !important;
-  }
+
   .pile-container {
     display: flex !important;
     flex-direction: column !important;
@@ -173,8 +163,8 @@
     font-size: 0.7rem !important;
   }
   .discard-pile .pile-card {
-    width: calc(var(--card-width) * 1) !important;
-    height: calc(var(--card-height) * 1) !important;
+    width: calc(var(--card-width) * 0.9) !important;
+    height: calc(var(--card-height) * 0.9) !important;
   }
   .discard-pile .pile-card .card-display {
     font-size: 0.7rem !important;
@@ -391,17 +381,7 @@
   .player-right {
     order: 2 !important;
   }
-  .table-center {
-    order: 3 !important;
-    flex: 0 0 100% !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    min-height: 120px !important;
-    padding: 10px !important;
-    gap: 20px !important;
-    flex-direction: row !important;
-    justify-content: center !important;
-  }
+
   .player-top {
     width: 100% !important;
     justify-content: center !important;
@@ -501,11 +481,7 @@
     --card-width: 55px;
     --card-height: calc(var(--card-width) * 1.5);
   }
-  .table-center {
-    flex-direction: row !important;
-    flex-wrap: wrap;
-    gap: 20px !important;
-  }
+
   .player-hand.top {
     min-width: auto !important;
     width: 100% !important;
@@ -579,17 +555,7 @@
   .player-right {
     order: 2 !important;
   }
-  .table-center {
-    order: 3 !important;
-    flex: 0 0 100% !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    min-height: 120px !important;
-    padding: 10px !important;
-    gap: 20px !important;
-    flex-direction: row !important;
-    justify-content: center !important;
-  }
+
   .player-top {
     width: 100% !important;
     justify-content: center !important;
@@ -691,9 +657,7 @@
   .player-hand.bottom {
     width: 85% !important;
   }
-  .table-center {
-    gap: 40px !important;
-  }
+
   .chat-container {
     max-width: 350px !important;
   }
@@ -734,10 +698,7 @@
     --card-width: 90px;
     --card-height: calc(var(--card-width) * 1.5);
   }
-  .table-center {
-    gap: 60px !important;
-    max-width: 900px !important;
-  }
+
   .chat-container {
     max-width: 400px !important;
   }
@@ -959,7 +920,6 @@
     width: 100% !important;
     max-width: 100% !important;
     min-height: 120px !important;
-    padding: 10px !important;
     gap: 20px !important;
     flex-direction: row !important;
     justify-content: center !important;
@@ -1011,7 +971,7 @@
     flex-direction: row !important;
     gap: 5px !important;
     align-items: center !important;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
   .player-left .cards-container.bot-hand,
   .player-right .cards-container.bot-hand {
@@ -1239,7 +1199,6 @@
     font-size: 0.5rem !important;
   }
   .btn-start, .btn-tournament, .btn-ranking {
-    font-size: 0.6rem !important;
     padding: 15px 15px !important;
     touch-action: manipulation;
   }
@@ -1251,11 +1210,11 @@
     margin-bottom: 5px !important;
   }
   .btn-home-header, .btn-rules, .btn-tournament-status {
-    font-size: 0.9rem !important;
+    font-size: 1rem !important;
     touch-action: manipulation;
   }
   .btn-home-header i {
-    font-size: 0.95rem !important;
+    font-size: 1rem !important;
   }
   .turn-indicator {
     font-size: 0.65rem !important;
@@ -1264,9 +1223,7 @@
   .direction-indicator {
     display: none !important;
   }
-  .game-table {
-    height: calc(100dvh - 60px) !important;
-  }
+
   .player-hand {
     padding: 8px !important;
   }
@@ -1352,7 +1309,7 @@
     gap: 5px !important;
   }
   .header-buttons {
-    gap: 3px !important;
+    gap: 5px !important;
   }
   .tournament-title {
     font-size: 1rem;
@@ -1446,11 +1403,7 @@
     min-height: calc(var(--card-height) * 0.3 + 5px) !important;
     gap: 2px !important;
   }
-  .table-center {
-    gap: 10px !important;
-    padding: 5px !important;
-    min-height: 80px !important;
-  }
+
   .discard-pile-wrapper,
   .draw-pile-wrapper {
     width: calc(var(--card-width) * 0.6) !important;

@@ -8,7 +8,6 @@
 
   <div class="tournament-start" *ngIf="!tournamentState || (!tournamentState.isActive && !tournamentState.winner)">
 
-    <!-- Info Cards -->
     <div class="tournament-info-cards">
       <div class="info-card">
         <i class="pi pi-users info-icon"></i>
@@ -61,7 +60,6 @@
       <i class="pi pi-play"></i> {{ isStarting ? 'INICIANDO...' : 'INICIAR TORNEIO' }}
     </button>
 
-    <!-- HISTÓRICO DE TORNEIOS - ABAIXO DO BOTÃO -->
     <div class="tournament-history-list" *ngIf="getTournamentHistory().length > 0">
       <div class="history-title">
         <i class="pi pi-clock"></i> HISTÓRICO DE TORNEIOS
@@ -107,7 +105,6 @@
 
   </div>
 
-  <!-- TORNEIO ATIVO / FINALIZADO -->
   <div class="tournament-active" *ngIf="tournamentState && (tournamentState.isActive || tournamentState.winner)">
     <div class="tournament-status">
       <span class="status-badge" [class.active]="tournamentState.isActive" [class.finished]="!tournamentState.isActive">
