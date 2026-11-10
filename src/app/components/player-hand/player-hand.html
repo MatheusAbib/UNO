@@ -1,35 +1,86 @@
-<div class="player-hand" [class]="position" [class.active-player]="isCurrent" [class.uno-warning]="player.isUno" *ngIf="player">
+
+<div
+  class="player-hand"
+  [class]="position"
+  [class.active-player]="isCurrent"
+  [class.uno-warning]="player.isUno"
+  [class.human-hand]="isHuman"
+  [class.opponent-hand]="!isHuman"
+  *ngIf="player"
+>
   <div class="player-header">
     <div class="player-avatar-wrapper">
-      <div class="player-avatar" [class.active]="isCurrent" [style.background]="getAvatarColor(player.name)">
-        <img *ngIf="hasImage(player.name)" [src]="getAvatarImage(player.name)" [alt]="player.name" class="avatar-image">
-        <span *ngIf="!hasImage(player.name)" class="avatar-text">{{ getAvatarInitial(player.name) }}</span>
-        <div class="avatar-glow" *ngIf="isCurrent"></div>
+      <div
+        class="player-avatar"
+        [class.active]="isCurrent"
+        [style.background]="getAvatarColor(player.name)"
+      >
+        <img
+          *ngIf="hasImage(player.name)"
+          [src]="getAvatarImage(player.name)"
+          [alt]="player.name"
+          class="avatar-image"
+        />
+
+        <span
+          *ngIf="!hasImage(player.name)"
+          class="avatar-text"
+        >
+          {{ getAvatarInitial(player.name) }}
+        </span>
+
+        <div
+          class="avatar-glow"
+          *ngIf="isCurrent"
+        ></div>
       </div>
-      <div class="speech-bubble" [class.show]="showSpeech()">
+
+      <div
+        class="speech-bubble"
+        [class.show]="showSpeech()"
+      >
         {{ speechMessage }}
       </div>
     </div>
+
     <div class="player-info">
-      <span class="player-name" [class.active]="isCurrent">
+      <span
+        class="player-name"
+        [class.active]="isCurrent"
+      >
         {{ player.name }}
-        <span class="uno-indicator" *ngIf="player.isUno">
-          <i class="pi pi-star-fill" style="font-size: 0.6rem; margin-right: 3px;"></i> UNO
-        </span>
       </span>
-      <span class="card-count">{{ player.hand.length }}</span>
+
+      <span
+        class="uno-indicator"
+        *ngIf="player.isUno"
+      >
+        <i class="pi pi-star-fill"></i>
+        UNO
+      </span>
+
+      <span class="card-count">
+        {{ player.hand.length }}
+      </span>
     </div>
   </div>
 
-  <div class="cards-container" [class]="position" [class.bot-hand]="!isHuman">
+  <div
+    class="cards-container"
+    [class]="position"
+    [class.bot-hand]="!isHuman"
+    [class.human-cards]="isHuman"
+    [class.current-hand]="isCurrent"
+  >
     <div
       class="card-wrapper"
       *ngFor="let card of player.hand; let i = index"
       [class.player-card-container]="isHuman"
-      [class.playable]="isHuman && isCurrent"
+      [class.playable]="isHuman && isCurrent && isCardPlayable(card)"
       [class.invalid]="isHuman && isCurrent && !isCardPlayable(card)"
+      [class.opponent-card-container]="!isHuman"
       [style.transform]="getCardTransform(i, player.hand.length)"
-      [style.z-index]="i"
+      [style.z-index]="i + 1"
       (click)="isHuman && isCurrent ? playCard(i) : null"
     >
       <div
@@ -42,12 +93,22 @@
         [class.preto]="card.color === 'wild'"
         [class.card-deal]="isNewCard(i)"
       >
-        <span class="value" *ngIf="card.value !== 'peek'">{{ getCardDisplay(card) }}</span>
-        <i *ngIf="card.value === 'peek'" class="pi pi-eye peek-icon-card" style="font-size: 1.2rem; color: white;"></i>
+        <span
+          class="value"
+          *ngIf="card.value !== 'peek'"
+        >
+          {{ getCardDisplay(card) }}
+        </span>
+
+        <i
+          *ngIf="card.value === 'peek'"
+          class="pi pi-eye peek-icon-card"
+        ></i>
       </div>
+
       <div
         *ngIf="!isHuman"
-        class="card hidden"
+        class="card hidden opponent-card"
       >
         <div class="card-back"></div>
       </div>

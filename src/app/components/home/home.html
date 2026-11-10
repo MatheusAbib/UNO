@@ -1,55 +1,107 @@
-<div class="home-container">
-  <div class="home-content">
-    <h1 class="home-title">UNO</h1>
-    <div class="home-subtitle">Arcade Edition</div>
 
-    <div class="home-settings">
-      <div class="setting-group">
-        <label>Seu Nome</label>
-        <div class="player-name-display">
-          <span class="player-name-fixed">MÃE</span>
-        </div>
+<div class="uno-arcade">
+  <main class="arcade-main">
+    <header class="arcade-heading">
+      <div class="arcade-heading__eyebrow">
+        <span class="arcade-heading__line"></span>
+        <span>THE CLASSIC CARD GAME</span>
+        <span class="arcade-heading__line"></span>
       </div>
 
-      <div class="setting-group">
-        <label>Número de adversários</label>
-        <div class="bot-control">
-          <button (click)="changeBotCount(-1)" class="btn-control">-</button>
-          <span class="bot-count">{{ botCount }}</span>
-          <button (click)="changeBotCount(1)" class="btn-control">+</button>
+      <div class="arcade-logo" aria-label="UNO Arcade">
+        <div class="arcade-logo__perspective">
+          <span class="arcade-logo__depth" aria-hidden="true">UNO</span>
+          <h1 class="arcade-logo__front">UNO</h1>
+        </div>
+
+        <div class="arcade-logo__subtitle">
+          <span class="arcade-logo__subtitle-line"></span>
+          <strong>ARCADE</strong>
+          <span class="arcade-logo__subtitle-line"></span>
         </div>
       </div>
+    </header>
 
-      <button
-        (click)="startGame()"
-        class="btn-start"
-        [disabled]="isLoading"
-      >
-        {{ isLoading ? 'Iniciando...' : '► INICIAR JOGO' }}
-      </button>
+    <section class="arcade-menu" aria-label="Menu principal">
+      <div class="arcade-menu__players">
+        <div class="arcade-menu__players-heading">
+          <span class="arcade-menu__indicator"></span>
+          <span>SELECIONE OS JOGADORES</span>
+          <span class="arcade-menu__indicator"></span>
+        </div>
 
-      <button
-        (click)="startTournament()"
-        class="btn-tournament"
-      >
-        ► MODO TORNEIO
-      </button>
+        <div class="arcade-menu__player-selection">
+          <button
+            type="button"
+            class="arcade-menu__arrow"
+            (click)="changeBotCount(-1)"
+            [disabled]="botCount <= 1 || isLoading"
+            aria-label="Diminuir quantidade de jogadores">
+            <i class="pi pi-chevron-left" aria-hidden="true"></i>
+          </button>
 
-      <button
-        (click)="openRanking()"
-        class="btn-ranking"
-      >
-        ► RANKING
-      </button>
-    </div>
+          <div class="arcade-menu__player-count" aria-live="polite">
+            <span class="arcade-menu__number">{{ botCount + 1 }}</span>
+            <span class="arcade-menu__number-label">JOGADORES</span>
+          </div>
 
-    <div class="home-footer">
-      <span class="neon-text">✦ INICIAR JOGO para jogar ✦</span>
-    </div>
-  </div>
+          <button
+            type="button"
+            class="arcade-menu__arrow"
+            (click)="changeBotCount(1)"
+            [disabled]="botCount >= 3 || isLoading"
+            aria-label="Aumentar quantidade de jogadores">
+            <i class="pi pi-chevron-right" aria-hidden="true"></i>
+          </button>
+        </div>
+
+        <p class="arcade-menu__player-description">
+          VOCÊ + {{ botCount }} {{ botCount === 1 ? 'ADVERSÁRIO' : 'ADVERSÁRIOS' }}
+        </p>
+      </div>
+
+      <nav class="arcade-menu__actions" aria-label="Modos de jogo">
+        <button
+          type="button"
+          class="arcade-action arcade-action--primary"
+          (click)="startGame()"
+          [disabled]="isLoading">
+          <span class="arcade-action__pointer" aria-hidden="true">▶</span>
+          <span>{{ isLoading ? 'CARREGANDO...' : 'INICIAR JOGO' }}</span>
+          <span class="arcade-action__pointer" aria-hidden="true">◀</span>
+        </button>
+
+        <div class="arcade-menu__secondary-actions">
+          <button
+            type="button"
+            class="arcade-action arcade-action--secondary"
+            (click)="startTournament()"
+            [disabled]="isLoading">
+            <i class="pi pi-trophy" aria-hidden="true"></i>
+            <span>TORNEIO</span>
+          </button>
+
+          <button
+            type="button"
+            class="arcade-action arcade-action--secondary"
+            (click)="openRanking()"
+            [disabled]="isLoading">
+            <i class="pi pi-chart-bar" aria-hidden="true"></i>
+            <span>PLACAR</span>
+          </button>
+        </div>
+      </nav>
+    </section>
+
+    <footer class="arcade-footer">
+      <span class="arcade-footer__line"></span>
+      <span>UNO ARCADE</span>
+      <span class="arcade-footer__line"></span>
+    </footer>
+  </main>
 
   <app-ranking
     *ngIf="showRanking"
-    (close)="closeRanking()"
-  ></app-ranking>
+    (close)="closeRanking()">
+  </app-ranking>
 </div>

@@ -1,7 +1,15 @@
-<div class="animated-background" id="animated-bg">
-  <div class="floating-cards" id="floating-cards"></div>
-  <div class="neon-particles" id="neon-particles"></div>
-  <div class="colorful-dots" id="colorful-dots"></div>
+
+<div
+  class="crt-app"
+  [class.crt-app--closing]="transitionState === 'closing'"
+  [class.crt-app--closed]="transitionState === 'closed'"
+  [class.crt-app--opening]="transitionState === 'opening'">
+
+  <div class="crt-app__content">
+    <router-outlet></router-outlet>
+  </div>
+
+  <div class="crt-app__blackout" aria-hidden="true"></div>
+  <div class="crt-app__flash" aria-hidden="true"></div>
+  <div class="crt-app__line" aria-hidden="true"></div>
 </div>
-<div class="scanlines"></div>
-<router-outlet></router-outlet>

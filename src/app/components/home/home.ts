@@ -1,9 +1,10 @@
+
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { GameService } from '../../services/game.service';
 import { RankingComponent } from '../ranking/ranking';
+import { CrtTransitionService } from '../../services/crt-transition.service';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +14,6 @@ import { RankingComponent } from '../ranking/ranking';
   styleUrls: ['./home.css']
 })
 export class HomeComponent {
-  // ✅ NOME FIXO
   playerName: string = 'Mãe';
   botCount: number = 3;
   isLoading: boolean = false;
@@ -21,28 +21,35 @@ export class HomeComponent {
   isTournamentMode: boolean = false;
 
   constructor(
-    private router: Router,
-    private gameService: GameService
+    private gameService: GameService,
+    private crtTransition: CrtTransitionService
   ) {}
 
   startGame(): void {
+    if (this.isLoading) {
+      return;
+    }
+
     this.isLoading = true;
+
     const players = ['Mãe'];
     const botNames = ['Hanna', 'Lucia', 'Pedro'];
+
     for (let i = 0; i < this.botCount; i++) {
       players.push(botNames[i]);
     }
 
     this.gameService.initializeGame(players);
-    setTimeout(() => {
-      this.router.navigate(['/game']);
-      this.isLoading = false;
-    }, 500);
+    this.crtTransition.navigate('/game');
   }
 
   startTournament(): void {
-    // ✅ NOME FIXO - SEM QUERY PARAMS
-    this.router.navigate(['/tournament']);
+    if (this.isLoading) {
+      return;
+    }
+
+    this.isLoading = true;
+    this.crtTransition.navigate('/tournament');
   }
 
   changeBotCount(change: number): void {

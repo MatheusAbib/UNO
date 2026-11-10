@@ -1,31 +1,88 @@
+
 <div class="modal-overlay">
   <div class="modal-content">
-    <h2 class="modal-title">ESCOLHA UMA COR</h2>
+    <div class="modal-header">
+      <div class="modal-badge">
+        <i class="bi bi-palette-fill"></i>
+        <span>CARTA ESPECIAL</span>
+      </div>
+
+      <h2 class="modal-title">ESCOLHA UMA COR</h2>
+
+      <p class="modal-description">
+        Qual cor vai dominar a próxima rodada?
+      </p>
+    </div>
+
     <div class="color-options">
       <button
+        type="button"
         class="color-btn vermelho"
         (click)="selectColor('red')"
+        aria-label="Escolher vermelho"
       >
-        VERMELHO
+        <span class="color-card">
+          <span class="card-inner">
+            <span class="card-symbol">R</span>
+          </span>
+        </span>
+
+        <span class="color-name">VERMELHO</span>
       </button>
+
       <button
+        type="button"
         class="color-btn verde"
         (click)="selectColor('green')"
+        aria-label="Escolher verde"
       >
-        VERDE
+        <span class="color-card">
+          <span class="card-inner">
+            <span class="card-symbol">V</span>
+          </span>
+        </span>
+
+        <span class="color-name">VERDE</span>
       </button>
+
       <button
+        type="button"
         class="color-btn azul"
         (click)="selectColor('blue')"
+        aria-label="Escolher azul"
       >
-        AZUL
+        <span class="color-card">
+          <span class="card-inner">
+            <span class="card-symbol">A</span>
+          </span>
+        </span>
+
+        <span class="color-name">AZUL</span>
       </button>
+
       <button
+        type="button"
         class="color-btn amarelo"
         (click)="selectColor('yellow')"
+        aria-label="Escolher amarelo"
       >
-        AMARELO
+        <span class="color-card">
+          <span class="card-inner">
+            <span class="card-symbol">A</span>
+          </span>
+        </span>
+
+        <span class="color-name">AMARELO</span>
       </button>
+    </div>
+
+    <div class="modal-footer">
+      <span class="footer-line"></span>
+      <span class="footer-text">
+        <i class="bi bi-controller"></i>
+        SELECIONE PARA CONTINUAR
+      </span>
+      <span class="footer-line"></span>
     </div>
   </div>
 </div>
