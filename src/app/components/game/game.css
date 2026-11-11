@@ -2512,7 +2512,7 @@ app-player-hand.swap-shaking {
 
   .btn-home-header,
   .btn-rules,
-  .btn-tournament-status, 
+  .btn-tournament-status,
     .turn-indicator{
     min-height: 29px;
     padding: 5px;
