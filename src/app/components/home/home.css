@@ -6,72 +6,7 @@
   min-height: 100dvh;
 }
 
-.uno-arcade {
-  --home-bg: #050713;
-  --home-blue: #6ecfff;
-  --home-red: #ff665d;
-  --home-yellow: #ffe47c;
-  --home-green: #8bffbf;
-  --home-pink: #ff8dd7;
-  --home-white: #e9f3ff;
-  --home-pixel: 'Press Start 2P', monospace;
 
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  min-height: 100dvh;
-  overflow: hidden;
-  color: var(--home-white);
-  background:
-    radial-gradient(
-      ellipse at 50% 42%,
-      rgba(19, 32, 85, 0.5),
-      transparent 68%
-    ),
-    linear-gradient(
-      180deg,
-      #03050f 0%,
-      #090e25 48%,
-      #03050e 100%
-    );
-  isolation: isolate;
-}
-
-.uno-arcade::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background-image:
-    radial-gradient(2px 2px at 7% 13%, #c9e5ff 99%, transparent),
-    radial-gradient(2px 2px at 15% 68%, #8cbfff 99%, transparent),
-    radial-gradient(2px 2px at 26% 34%, #ffffff 99%, transparent),
-    radial-gradient(2px 2px at 36% 81%, #ffb2a2 99%, transparent),
-    radial-gradient(2px 2px at 48% 17%, #9bcdff 99%, transparent),
-    radial-gradient(2px 2px at 59% 62%, #ffffff 99%, transparent),
-    radial-gradient(2px 2px at 72% 27%, #a9c7ff 99%, transparent),
-    radial-gradient(2px 2px at 81% 74%, #ffc8a3 99%, transparent),
-    radial-gradient(2px 2px at 93% 43%, #d8f0ff 99%, transparent);
-  background-size: 360px 260px;
-  opacity: 0.8;
-}
-
-.uno-arcade::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background:
-    radial-gradient(
-      ellipse at center,
-      transparent 30%,
-      rgba(0, 0, 0, 0.52) 100%
-    );
-}
 
 .arcade-screen-frame {
   position: fixed;
