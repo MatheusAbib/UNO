@@ -1,17 +1,6 @@
 
 :host {
   display: block;
-  --rank-bg: #080f24;
-  --rank-panel: #101d3c;
-  --rank-panel-light: #19345f;
-  --rank-border: #416fa9;
-  --rank-blue: #8db8eb;
-  --rank-yellow: #ffe08a;
-  --rank-red: #ff777d;
-  --rank-green: #82e7b0;
-  --rank-text: #e4efff;
-  --rank-muted: #819bbd;
-  --rank-font: 'Press Start 2P', monospace;
 }
 
 .ranking-modal,
@@ -64,11 +53,11 @@
   overflow: hidden;
   border: 4px solid #0a142d;
   border-radius: 0;
-  background: var(--rank-bg);
-  color: var(--rank-text);
+  background: var(--rpg-ink);
+  color: var(--rpg-white);
   box-shadow:
-    0 0 0 3px #416fa9,
-    0 0 0 6px #101d3c,
+    0 0 0 3px var(--rpg-border),
+    0 0 0 6px var(--rpg-panel),
     0 0 0 9px #060d20,
     inset 0 0 0 3px #213e6b;
   animation: ranking-enter 0.28s steps(5, end) both;
@@ -106,23 +95,23 @@
   padding: 8px 17px;
   background: #142c51;
   color: #b1d2f5;
-  font-family: var(--rank-font);
+  font-family: var(--font-arcade);
   font-size: 7px;
   line-height: 1.5;
   letter-spacing: 0.3px;
 }
 
 .ranking-topbar {
-  border-bottom: 3px solid #416fa9;
+  border-bottom: 3px solid var(--rpg-border);
 }
 
 .ranking-bottom-strip {
-  border-top: 3px solid #416fa9;
+  border-top: 3px solid var(--rpg-border);
 }
 
 .ranking-topbar span:nth-child(2),
 .ranking-bottom-strip span:nth-child(2) {
-  color: var(--rank-yellow);
+  color: var(--rpg-gold);
 }
 
 .ranking-header {
@@ -149,7 +138,7 @@
   justify-content: center;
   gap: 12px;
   color: #a6c9f4;
-  font-family: var(--rank-font);
+  font-family: var(--font-arcade);
   font-size: 8px;
   line-height: 1.7;
   letter-spacing: 0.5px;
@@ -165,8 +154,8 @@
 
 .ranking-title {
   margin: 0;
-  color: var(--rank-yellow);
-  font-family: var(--rank-font);
+  color: var(--rpg-gold);
+  font-family: var(--font-arcade);
   font-size: clamp(23px, 4vw, 38px);
   font-weight: 400;
   line-height: 1.5;
@@ -179,7 +168,7 @@
 .ranking-subtitle {
   margin: 0;
   color: #a9c8ed;
-  font-family: var(--rank-font);
+  font-family: var(--font-arcade);
   font-size: 8px;
   line-height: 1.7;
   letter-spacing: 2px;
@@ -199,13 +188,13 @@
   border-radius: 0;
   background: #4e233a;
   color: #ffadb0;
-  font-family: var(--rank-font);
+  font-family: var(--font-arcade);
   font-size: 24px;
   line-height: 1;
   cursor: pointer;
   box-shadow:
     inset 0 3px 0 #7b3b50,
-    3px 3px 0 #050b19;
+    3px 3px 0 var(--rpg-shadow);
 }
 
 .ranking-close:hover {
@@ -259,13 +248,13 @@
 
 .mode-index {
   color: #698ab6;
-  font-family: var(--rank-font);
+  font-family: var(--font-arcade);
   font-size: 6px;
   line-height: 1.5;
 }
 
 .mode-btn.active .mode-index {
-  color: var(--rank-yellow);
+  color: var(--rpg-gold);
 }
 
 .mode-label {
@@ -274,7 +263,7 @@
   gap: 8px;
   max-width: 100%;
   color: inherit;
-  font-family: var(--rank-font);
+  font-family: var(--font-arcade);
   font-size: 9px;
   line-height: 1.6;
   overflow-wrap: anywhere;
@@ -286,14 +275,14 @@
 }
 
 .mode-btn.active .mode-cursor {
-  color: var(--rank-yellow);
+  color: var(--rpg-gold);
   animation: ranking-cursor 0.9s steps(2, end) infinite;
 }
 
 .mode-description {
   padding-left: 18px;
   color: #7f99bd;
-  font-family: var(--rank-font);
+  font-family: var(--font-arcade);
   font-size: 6px;
   line-height: 1.7;
   overflow-wrap: anywhere;
@@ -323,8 +312,8 @@
   border: 2px solid #345b8d;
   background: #101f3d;
   box-shadow:
-    inset 0 0 0 2px #09152d,
-    3px 3px 0 #050b19;
+    inset 0 0 0 2px var(--rpg-inset),
+    3px 3px 0 var(--rpg-shadow);
 }
 
 .summary-item--games {
@@ -342,7 +331,7 @@
 
 .summary-index {
   color: #7798c3;
-  font-family: var(--rank-font);
+  font-family: var(--font-arcade);
   font-size: 6px;
   line-height: 1.6;
 }
@@ -364,14 +353,14 @@
 
 .summary-label {
   color: #b3c7e4;
-  font-family: var(--rank-font);
+  font-family: var(--font-arcade);
   font-size: 7px;
   line-height: 1.5;
 }
 
 .summary-value {
   color: #fff;
-  font-family: var(--rank-font);
+  font-family: var(--font-arcade);
   font-size: clamp(16px, 2vw, 23px);
   font-weight: 400;
   line-height: 1.5;
@@ -383,7 +372,7 @@
 }
 
 .summary-value.leader-name {
-  color: var(--rank-yellow);
+  color: var(--rpg-gold);
   font-size: clamp(10px, 1.4vw, 15px);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -416,7 +405,7 @@
   background: #09152e;
   box-shadow:
     inset 0 0 0 3px #132a4c,
-    3px 3px 0 #050b19;
+    3px 3px 0 var(--rpg-shadow);
   flex: 1 1 auto;
 }
 
@@ -435,20 +424,20 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  color: #e4f0ff;
-  font-family: var(--rank-font);
+  color: var(--rpg-white);
+  font-family: var(--font-arcade);
   font-size: 9px;
   line-height: 1.6;
 }
 
 .board-heading-symbol {
-  color: var(--rank-yellow);
+  color: var(--rpg-gold);
   font-size: 17px;
 }
 
 .board-mode {
-  color: var(--rank-yellow);
-  font-family: var(--rank-font);
+  color: var(--rpg-gold);
+  font-family: var(--font-arcade);
   font-size: 7px;
   line-height: 1.5;
   text-align: right;
@@ -488,7 +477,7 @@
   border-bottom: 2px solid #304e7a;
   background: #101e3b;
   color: #8db2df;
-  font-family: var(--rank-font);
+  font-family: var(--font-arcade);
   font-size: 7px;
   font-weight: 400;
   line-height: 1.6;
@@ -500,7 +489,7 @@
   padding: 12px;
   border-bottom: 1px solid #1d3457;
   color: #d9e7fa;
-  font-family: var(--rank-font);
+  font-family: var(--font-arcade);
   font-size: 9px;
   line-height: 1.7;
 }
@@ -543,9 +532,9 @@
   border: 2px solid #355681;
   background: #172b4c;
   color: #b7cbe5;
-  font-family: var(--rank-font);
+  font-family: var(--font-arcade);
   font-size: 9px;
-  box-shadow: 2px 2px 0 #050b19;
+  box-shadow: 2px 2px 0 var(--rpg-shadow);
 }
 
 .rank-first .rank-position {
@@ -589,11 +578,11 @@
       #203d69 100%
     );
   color: #f3f7ff;
-  font-family: var(--rank-font);
+  font-family: var(--font-arcade);
   font-size: 13px;
   box-shadow:
     inset 0 0 0 2px #152b4c,
-    2px 2px 0 #050b19;
+    2px 2px 0 var(--rpg-shadow);
 }
 
 .rank-first .player-avatar-ranking {
@@ -623,7 +612,7 @@
 }
 
 .rank-first .player-name-text {
-  color: var(--rank-yellow);
+  color: var(--rpg-gold);
 }
 
 .player-name-ranking.is-human .player-name-text {
@@ -638,7 +627,7 @@
   border: 1px solid #3f866d;
   background: #173c37;
   color: #8fe5b8;
-  font-family: var(--rank-font);
+  font-family: var(--font-arcade);
   font-size: 5px;
   line-height: 1.6;
 }
@@ -646,7 +635,7 @@
 .leader-badge {
   border-color: #8d743f;
   background: #443720;
-  color: #ffe08a;
+  color: var(--rpg-gold);
 }
 
 .ranking-table tbody td.wins {
@@ -725,15 +714,15 @@
   height: 49px;
   border: 3px solid #436b9e;
   background: #1c345b;
-  color: var(--rank-yellow);
-  font-family: var(--rank-font);
+  color: var(--rpg-gold);
+  font-family: var(--font-arcade);
   font-size: 25px;
-  box-shadow: 4px 4px 0 #050b19;
+  box-shadow: 4px 4px 0 var(--rpg-shadow);
 }
 
 .empty-state strong {
-  color: var(--rank-yellow);
-  font-family: var(--rank-font);
+  color: var(--rpg-gold);
+  font-family: var(--font-arcade);
   font-size: 13px;
   font-weight: 400;
   line-height: 1.6;
@@ -741,7 +730,7 @@
 
 .empty-state > span:not(.empty-symbol) {
   color: #a4c1e4;
-  font-family: var(--rank-font);
+  font-family: var(--font-arcade);
   font-size: 7px;
   line-height: 1.8;
 }
@@ -755,7 +744,7 @@
 }
 
 .empty-state .empty-instruction {
-  color: var(--rank-yellow) !important;
+  color: var(--rpg-gold) !important;
   animation: ranking-cursor 1.3s steps(2, end) infinite;
 }
 
@@ -769,7 +758,7 @@
   border-top: 2px solid #355b8c;
   background: #142a4e;
   color: #769bc9;
-  font-family: var(--rank-font);
+  font-family: var(--font-arcade);
   font-size: 6px;
   line-height: 1.5;
 }
@@ -789,7 +778,7 @@
   align-items: center;
   gap: 10px;
   color: #9db9da;
-  font-family: var(--rank-font);
+  font-family: var(--font-arcade);
   font-size: 7px;
   line-height: 1.8;
 }
@@ -814,13 +803,13 @@
   border-radius: 0;
   background: #4d2639;
   color: #ffadb0;
-  font-family: var(--rank-font);
+  font-family: var(--font-arcade);
   font-size: 7px;
   line-height: 1.6;
   cursor: pointer;
   box-shadow:
     inset 0 3px 0 #773d50,
-    3px 3px 0 #050b19;
+    3px 3px 0 var(--rpg-shadow);
 }
 
 .btn-clear > span:first-child {

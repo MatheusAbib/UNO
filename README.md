@@ -1,83 +1,109 @@
+
 # 🎮 UNO Arcade
 
-Bem-vindo ao **UNO Arcade**, uma versão digital do clássico jogo de cartas UNO com um visual **neon retro** inspirado nos anos 80!
+**UNO Arcade** é uma releitura digital do clássico jogo de cartas UNO, desenvolvida com **Angular 21 e TypeScript**, combinando mecânicas tradicionais com cartas especiais exclusivas, adversários controlados por inteligência artificial e uma interface inspirada em **jogos RPG retrô e pixel art**.
 
-Este projeto foi desenvolvido com **Angular** e traz toda a experiência do UNO com efeitos visuais impressionantes, bots inteligentes, sistema de torneio e uma interface totalmente responsiva.
+O projeto oferece partidas individuais contra bots, um sistema de torneio, ranking de vitórias e uma experiência adaptada para diferentes dispositivos.
 
-> 🔗 **Acesse o projeto online:** (https://matheusabib.github.io/UNO/)
+> 🔗 **Acesse o projeto online:** (https://matheusabib.github.io/UNO/#/)
 
 ---
 
 ## ✨ Funcionalidades
 
-### 🎮 Jogo Completo
-- Todas as regras do UNO implementadas
-- Cartas especiais: Pular, Inverter, +2, +4 e Coringa
-- Cartas exclusivas: **SWAP** (troca de mãos) e **PEEK** (olhar a mão do adversário)
-- Sistema de UNO com aviso visual e sonoro
+### 🃏 Sistema de Jogo
 
-### 🤖 Bots Inteligentes
-- 3 bots com personalidades próprias: **Hanna**, **Lucia** e **Pedro**
-- IA estratégica que prioriza cartas especiais
-- Bots reagem com mensagens e expressões durante o jogo
-- Comportamento adaptativo baseado na situação da partida
+- Mecânicas tradicionais do UNO implementadas.
+- Cartas especiais: Pular, Inverter, +2, +4 e Coringa.
+- Cartas exclusivas:
+  - **SWAP:** permite trocar sua mão de cartas com outro jogador.
+  - **PEEK:** permite visualizar temporariamente as cartas de um adversário.
+- Sistema de aviso de UNO com feedback visual e sonoro.
+- Controle de turnos, compra de cartas e gerenciamento das partidas.
+
+### 🤖 Adversários Inteligentes
+
+- Três bots com personalidades próprias: **Hanna, Lucia e Pedro**.
+- Estratégias de jogo baseadas nas cartas disponíveis.
+- Priorização de cartas especiais em determinadas situações.
+- Reações e mensagens durante as partidas.
+- Comportamento adaptativo conforme o andamento do jogo.
 
 ### 🏆 Modo Torneio
-- Torneio com 4 jogadores em 6 rodadas eliminatórias
-- Sistema de classificação: 4º, 3º, 2º lugar e CAMPEÃO
-- Jogadores eliminados viram observadores
-- Histórico completo das rodadas
-- Ranking de vitórias salvo no navegador
 
-### 🌈 Design Neon Retro
-- Cores vibrantes e efeitos de brilho
-- Animações suaves e transições
-- Efeitos de partículas e confetes
-- Cursor personalizado com tema arcade
+- Torneio com quatro jogadores e seis rodadas.
+- Sistema de classificação do 1º ao 4º lugar.
+- Jogadores eliminados podem acompanhar as partidas como observadores.
+- Histórico das rodadas e resultados.
+- Registro de vitórias no navegador.
 
-### 📱 100% Responsivo
-- Layout adaptado para desktop, tablet e mobile
-- Bots laterais em telas menores (Lucia e Pedro lado a lado)
-- Experiência otimizada em qualquer dispositivo
+### 🕹️ Interface RPG e Pixel Art
 
-### 💬 Interação em Tempo Real
-- Chat de ações com histórico completo das jogadas
-- Balões de fala dos bots
-- Animações de troca de mãos e compra de cartas
+- Identidade visual inspirada em jogos RPG clássicos.
+- Tipografia pixelada e elementos de interface arcade.
+- Painéis de jogo com bordas e elementos visuais retrô.
+- Cartas estilizadas e indicadores de turno.
+- Animações e transições durante as partidas.
+- Efeitos visuais inspirados em monitores CRT.
 
-### 🏅 Ranking
-- Estatísticas de vitórias por modo de jogo (2, 3 e 4 jogadores)
-- Taxa de vitórias calculada automaticamente
-- Dados salvos localmente no navegador
+### 📱 Design Responsivo
+
+- Interface adaptada para computadores, tablets e celulares.
+- Reorganização dos painéis dos adversários em telas menores.
+- Ajuste automático das dimensões e distribuição das cartas.
+- Controles e elementos visuais adaptados para dispositivos móveis.
+
+### 💬 Interações Durante a Partida
+
+- Histórico de ações e jogadas.
+- Balões de fala dos adversários.
+- Animações de compra e troca de cartas.
+- Indicadores visuais para turnos e eventos especiais.
+
+### 🏅 Ranking e Estatísticas
+
+- Registro de vitórias por modo de jogo.
+- Estatísticas para partidas com diferentes quantidades de jogadores.
+- Cálculo de taxa de vitórias.
+- Armazenamento local dos resultados por meio do LocalStorage.
 
 ---
 
 ## 🎯 Como Jogar
 
 ### Partida Normal
-1. **Inicie o jogo** na tela inicial
-2. **Escolha o número de adversários** (1 a 3 bots)
-3. **Jogue suas cartas** clicando nelas
-4. **Use cartas especiais** para ganhar vantagem:
-   - **Pular (⊘)** : Pula o próximo jogador
-   - **Inverter (⟳)** : Inverte a direção do jogo
-   - **+2** : O próximo jogador compra 2 cartas
-   - **+4** : Escolha a cor e o próximo compra 4 cartas
-   - **Coringa (★)** : Escolha a cor que vai continuar
-   - **SWAP (⇆)** : Troca todas as suas cartas com um adversário
-   - **PEEK (👁)** : Olha a mão de um adversário por 2 segundos
-5. **Grite UNO!** quando tiver 1 carta restante
-6. **Vença** sendo o primeiro a ficar sem cartas!
+
+1. Acesse o jogo e inicie uma nova partida.
+2. Escolha a quantidade de adversários, de um a três bots.
+3. Observe a carta presente na mesa e selecione uma carta válida da sua mão.
+4. Utilize cartas especiais para modificar o andamento da partida.
+5. Quando restar apenas uma carta, anuncie **UNO!**
+6. Seja o primeiro jogador a ficar sem cartas para vencer.
+
+### Cartas Especiais
+
+| Carta | Efeito |
+|---|---|
+| ⊘ Pular | Faz o próximo jogador perder a vez. |
+| ⟳ Inverter | Altera o sentido da partida. |
+| +2 | Faz o próximo jogador comprar duas cartas. |
+| +4 | Permite escolher uma cor e obriga o próximo jogador a comprar quatro cartas. |
+| ★ Coringa | Permite escolher a próxima cor da partida. |
+| ⇆ SWAP | Troca todas as cartas da sua mão com as de outro jogador. |
+| 👁 PEEK | Revela as cartas de um adversário por dois segundos. |
 
 ### Modo Torneio
-1. Clique em **"MODO TORNEIO"** na tela inicial
-2. Acompanhe as 6 rodadas eliminatórias
-3. **Rodada 1**: Todos os 4 jogadores disputam
-4. **Rodada 2**: Perdedores da rodada 1 jogam entre si
-5. **Rodada 3**: Define o **4º lugar**
-6. **Rodada 4**: Vencedores disputam
-7. **Rodada 5**: Define o **3º lugar**
-8. **Rodada 6**: Final - Define o **CAMPEÃO** e o **2º lugar**
+
+O modo torneio reúne quatro jogadores em uma sequência de seis rodadas, definindo a classificação final.
+
+| Rodada | Objetivo |
+|---|---|
+| 1 | Partida inicial com os quatro jogadores. |
+| 2 | Confronto entre os perdedores da primeira rodada. |
+| 3 | Definição do quarto colocado. |
+| 4 | Confronto entre os vencedores. |
+| 5 | Definição do terceiro colocado. |
+| 6 | Final para definir o campeão e o vice-campeão. |
 
 ---
 
@@ -90,10 +116,10 @@ Este projeto foi desenvolvido com **Angular** e traz toda a experiência do UNO 
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3" width="40" height="40">
 </div>
 
-- **Angular 17+** - Framework frontend (Standalone Components)
-- **TypeScript** - Tipagem e segurança
-- **HTML5 & CSS3** - Estrutura e estilização neon
-- **RxJS** - Gerenciamento de estado e reatividade
-- **LocalStorage** - Persistência de dados (ranking e histórico)
-
----
+- **Angular 21:** framework utilizado na construção da aplicação.
+- **TypeScript:** desenvolvimento da lógica e gerenciamento das funcionalidades.
+- **HTML5:** estrutura e organização dos componentes.
+- **CSS3:** estilização, responsividade, animações e identidade visual RPG.
+- **RxJS:** programação reativa e gerenciamento de fluxos de dados.
+- **LocalStorage:** armazenamento local de rankings e estatísticas.
+- **GitHub Pages:** hospedagem e publicação da aplicação.
