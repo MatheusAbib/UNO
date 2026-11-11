@@ -13,10 +13,9 @@
   width: 100%;
   height: 100dvh;
   padding: 20px;
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
+  background: rgba(3, 8, 22, 0.82);
   box-sizing: border-box;
-  animation: overlay-enter 0.25s ease-out both;
+  animation: overlay-enter 0.2s steps(4, end) both;
 }
 
 .modal-content {
@@ -24,41 +23,35 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: min(100%, 590px);
+  width: min(100%, 540px);
   max-height: calc(100dvh - 40px);
-  padding: clamp(20px, 3.5vh, 36px);
+  padding: clamp(20px, 3.5vh, 34px);
   overflow-y: auto;
   overflow-x: hidden;
-  border: 2px solid var(--arcade-border, #8e55cb);
-  border-radius: 16px;
-  background:
-    radial-gradient(
-      ellipse at 50% 0%,
-      rgba(110, 58, 193, 0.24),
-      transparent 65%
-    ),
-    linear-gradient(
-      145deg,
-      #211044 0%,
-      #110a2b 55%,
-      #0c071e 100%
-    );
+  border: 4px solid var(--rpg-edge);
+  border-radius: 0;
+  background: linear-gradient(
+    180deg,
+    var(--rpg-panel-light) 0%,
+    var(--rpg-background) 32%,
+    var(--rpg-background) 100%
+  );
+  color: var(--rpg-white);
   box-shadow:
-    0 0 0 5px rgba(142, 85, 203, 0.1),
-    0 0 45px rgba(142, 85, 203, 0.2),
-    inset 0 0 35px rgba(142, 85, 203, 0.06);
+    0 0 0 4px var(--rpg-inset),
+    0 0 0 8px var(--rpg-mid),
+    inset 0 0 0 4px var(--rpg-panel);
   box-sizing: border-box;
   scrollbar-width: thin;
-  scrollbar-color: var(--arcade-border, #8e55cb) transparent;
-  animation: modal-enter 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  scrollbar-color: var(--rpg-border) transparent;
+  animation: modal-enter 0.25s steps(5, end) both;
 }
 
 .modal-content::before {
   content: '';
   position: absolute;
-  inset: 7px;
-  border: 1px solid rgba(142, 85, 203, 0.28);
-  border-radius: 10px;
+  inset: 9px;
+  border: 1px solid var(--rpg-border-dark);
   pointer-events: none;
 }
 
@@ -66,17 +59,10 @@
   content: '';
   position: absolute;
   top: 0;
-  left: 20%;
-  width: 60%;
-  height: 2px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--neon-purple, #d300c5),
-    var(--neon-blue, #46e4f5),
-    transparent
-  );
-  box-shadow: 0 0 15px rgba(211, 0, 197, 0.6);
+  left: 15%;
+  width: 70%;
+  height: 4px;
+  background: var(--rpg-gold);
   pointer-events: none;
 }
 
@@ -87,7 +73,7 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-  margin-bottom: clamp(18px, 3vh, 28px);
+  margin-bottom: 24px;
   text-align: center;
 }
 
@@ -95,42 +81,41 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 9px;
-  margin-bottom: 18px;
-  padding: 8px 12px;
-  border: 1px solid rgba(70, 228, 245, 0.55);
-  border-radius: 5px;
-  background: rgba(70, 228, 245, 0.07);
-  color: var(--neon-blue, #46e4f5);
-  font-family: var(--arcade-font, 'Press Start 2P', cursive);
+  gap: 10px;
+  margin-bottom: 19px;
+  padding: 9px 13px;
+  border: 2px solid var(--rpg-border);
+  border-radius: 0;
+  background: var(--rpg-panel);
+  color: var(--rpg-muted);
+  font-family: var(--rpg-font);
   font-size: 8px;
-  letter-spacing: 0.05em;
-  line-height: 1.6;
+  line-height: 1.8;
+  box-shadow: inset 0 3px var(--rpg-mid);
 }
 
 .modal-badge i {
+  color: var(--rpg-gold);
   font-size: 15px;
 }
 
 .modal-title {
   margin: 0;
-  color: var(--neon-yellow, #ffe45c);
-  font-family: var(--arcade-font, 'Press Start 2P', cursive);
-  font-size: clamp(13px, 2.5vw, 20px);
-  font-weight: 700;
-  line-height: 1.8;
-  letter-spacing: 0.02em;
+  color: var(--rpg-gold);
+  font-family: var(--rpg-font);
+  font-size: clamp(12px, 2.4vw, 18px);
+  font-weight: 400;
+  line-height: 1.9;
   text-align: center;
-  text-shadow:
-    0 0 12px rgba(255, 228, 92, 0.45),
-    0 0 30px rgba(255, 228, 92, 0.12);
+  text-shadow: 3px 3px var(--rpg-mid);
 }
 
 .modal-description {
-  margin: 12px 0 0;
-  color: var(--arcade-text-muted, #b6a8d1);
-  font-family: var(--arcade-display-font, sans-serif);
-  font-size: clamp(12px, 1.5vw, 14px);
+  max-width: 340px;
+  margin: 13px 0 0;
+  color: var(--rpg-muted);
+  font-family: var(--font-pixel);
+  font-size: clamp(12px, 1.5vw, 15px);
   line-height: 1.6;
   text-align: center;
 }
@@ -140,108 +125,87 @@
   z-index: 1;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(10px, 1.8vw, 16px);
+  gap: 12px;
   width: 100%;
-  max-width: 450px;
+  max-width: 430px;
 }
 
 .color-btn {
-  --color-main: #8e55cb;
-  --color-glow: rgba(142, 85, 203, 0.35);
-
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: clamp(8px, 1.5vh, 13px);
+  gap: 13px;
   min-width: 0;
-  min-height: 0;
-  padding: clamp(12px, 2vh, 20px) 10px;
-  border: 2px solid rgba(142, 85, 203, 0.4);
-  border-radius: 10px;
-  background: rgba(30, 18, 68, 0.75);
-  color: #fff;
+  padding: 18px 10px;
+  border: 3px solid var(--rpg-border);
+  border-radius: 0;
+  background: var(--rpg-panel);
+  color: var(--rpg-white);
   cursor: pointer;
-  overflow: hidden;
-  isolation: isolate;
+  box-shadow:
+    inset 0 0 0 3px var(--rpg-panel-light),
+    4px 4px var(--rpg-shadow);
   transition:
-    border-color 0.25s ease,
-    background 0.25s ease,
-    box-shadow 0.25s ease,
-    transform 0.25s ease;
+    border-color 0.15s steps(2, end),
+    background 0.15s steps(2, end),
+    transform 0.15s steps(2, end);
   touch-action: manipulation;
 }
 
 .color-btn::before {
   content: '';
   position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: radial-gradient(
-    circle at 50% 100%,
-    var(--color-glow),
-    transparent 75%
-  );
-  opacity: 0.3;
-  transition: opacity 0.25s ease;
+  top: 7px;
+  left: 7px;
+  width: 8px;
+  height: 8px;
+  background: var(--rpg-border);
+  box-shadow:
+    calc(100% + 1px) 0 transparent;
 }
 
 .color-btn::after {
   content: '';
   position: absolute;
-  top: 0;
-  left: 20%;
-  width: 60%;
-  height: 2px;
-  background: var(--color-main);
-  box-shadow: 0 0 12px var(--color-main);
-  opacity: 0.65;
-  transition: opacity 0.25s ease;
+  inset: 7px;
+  border: 1px solid var(--rpg-border-dark);
+  pointer-events: none;
 }
 
 .color-btn:hover {
-  transform: translateY(-4px);
-  border-color: var(--color-main);
-  background: rgba(40, 25, 84, 0.9);
-  box-shadow:
-    0 0 18px var(--color-glow),
-    inset 0 0 20px var(--color-glow);
-}
-
-.color-btn:hover::before,
-.color-btn:hover::after {
-  opacity: 1;
+  border-color: var(--rpg-gold);
+  background: var(--rpg-panel-light);
+  transform: translateY(-2px);
 }
 
 .color-btn:active {
-  transform: translateY(0) scale(0.97);
+  transform: translateY(2px);
+  box-shadow:
+    inset 0 0 0 3px var(--rpg-panel-light),
+    2px 2px var(--rpg-shadow);
 }
 
 .color-btn:focus-visible {
-  outline: 2px solid #fff;
-  outline-offset: 4px;
-  border-color: var(--color-main);
+  outline: 3px solid var(--rpg-gold);
+  outline-offset: 5px;
 }
 
 .color-btn.vermelho {
-  --color-main: #ff315d;
-  --color-glow: rgba(255, 49, 93, 0.35);
+  --color-main: var(--uno-red);
 }
 
 .color-btn.verde {
-  --color-main: #13e99a;
-  --color-glow: rgba(19, 233, 154, 0.35);
+  --color-main: var(--uno-green);
 }
 
 .color-btn.azul {
-  --color-main: #46cfff;
-  --color-glow: rgba(70, 207, 255, 0.35);
+  --color-main: var(--uno-blue);
 }
 
 .color-btn.amarelo {
-  --color-main: #ffe45c;
-  --color-glow: rgba(255, 228, 92, 0.35);
+  --color-main: var(--uno-yellow);
 }
 
 .color-card {
@@ -249,32 +213,25 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: clamp(58px, 9vh, 85px);
-  height: clamp(85px, 13.5vh, 125px);
+  width: clamp(60px, 9vh, 82px);
+  height: clamp(88px, 13.5vh, 120px);
   flex: 0 0 auto;
-  border: 4px solid #fff;
-  border-radius: 10px;
+  border: 3px solid var(--rpg-white);
+  border-radius: 3px;
   background: var(--color-main);
   box-shadow:
-    0 5px 0 rgba(0, 0, 0, 0.25),
-    0 8px 18px rgba(0, 0, 0, 0.25),
-    0 0 14px var(--color-glow);
-  transform: rotate(-5deg);
-  transition:
-    transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
-    box-shadow 0.3s ease;
+    4px 4px var(--rpg-shadow),
+    inset 0 0 0 3px var(--rpg-border-dark);
+  transform: rotate(-3deg);
+  transition: transform 0.15s steps(3, end);
 }
 
 .color-btn:nth-child(even) .color-card {
-  transform: rotate(5deg);
+  transform: rotate(3deg);
 }
 
 .color-btn:hover .color-card {
-  transform: rotate(0deg) translateY(-4px) scale(1.06);
-  box-shadow:
-    0 10px 0 rgba(0, 0, 0, 0.18),
-    0 15px 25px rgba(0, 0, 0, 0.35),
-    0 0 25px var(--color-glow);
+  transform: rotate(0deg) translateY(-3px);
 }
 
 .card-inner {
@@ -283,8 +240,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid rgba(255, 255, 255, 0.85);
-  border-radius: 6px;
+  border: 2px solid var(--rpg-white);
+  border-radius: 2px;
   overflow: hidden;
 }
 
@@ -294,31 +251,33 @@
   width: 75%;
   height: 80%;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.2);
   transform: rotate(-25deg);
 }
 
 .card-symbol {
   position: relative;
   z-index: 1;
-  color: #fff;
-  font-family: var(--arcade-display-font, sans-serif);
-  font-size: clamp(28px, 5vh, 48px);
+  color: var(--rpg-white);
+  font-family: var(--font-pixel);
+  font-size: clamp(32px, 5vh, 48px);
   font-weight: 900;
   line-height: 1;
-  text-shadow: 2px 3px 0 rgba(0, 0, 0, 0.25);
+  text-shadow: 3px 3px var(--rpg-shadow);
 }
 
 .color-name {
   display: block;
-  color: var(--color-main);
-  font-family: var(--arcade-font, 'Press Start 2P', cursive);
+  color: var(--rpg-white);
+  font-family: var(--rpg-font);
   font-size: clamp(8px, 1vw, 10px);
-  font-weight: 700;
-  line-height: 1.6;
+  font-weight: 400;
+  line-height: 1.8;
   text-align: center;
-  letter-spacing: 0.02em;
-  text-shadow: 0 0 12px var(--color-glow);
+}
+
+.color-btn:hover .color-name {
+  color: var(--rpg-gold);
 }
 
 .modal-footer {
@@ -329,39 +288,33 @@
   justify-content: center;
   gap: 12px;
   width: 100%;
-  margin-top: clamp(18px, 3vh, 28px);
+  margin-top: 25px;
+  padding-top: 18px;
+  border-top: 2px solid var(--rpg-border-dark);
 }
 
 .footer-line {
   flex: 1;
-  max-width: 60px;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(142, 85, 203, 0.7)
-  );
-}
-
-.footer-line:last-child {
-  transform: rotate(180deg);
+  max-width: 45px;
+  height: 2px;
+  background: var(--rpg-border);
 }
 
 .footer-text {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  color: var(--arcade-text-muted, #b6a8d1);
-  font-family: var(--arcade-font, 'Press Start 2P', cursive);
-  font-size: clamp(6px, 0.8vw, 8px);
+  gap: 9px;
+  color: var(--rpg-muted);
+  font-family: var(--rpg-font);
+  font-size: 7px;
   line-height: 1.8;
   text-align: center;
 }
 
 .footer-text i {
-  color: var(--neon-purple, #d300c5);
-  font-size: 14px;
+  color: var(--rpg-gold);
+  font-size: 15px;
 }
 
 @keyframes overlay-enter {
@@ -377,7 +330,7 @@
 @keyframes modal-enter {
   from {
     opacity: 0;
-    transform: translateY(20px) scale(0.95);
+    transform: translateY(12px) scale(0.96);
   }
 
   to {
@@ -388,11 +341,11 @@
 
 @media (max-height: 750px) {
   .modal-content {
-    padding: 18px 24px;
+    padding: 20px 24px;
   }
 
   .modal-header {
-    margin-bottom: 14px;
+    margin-bottom: 15px;
   }
 
   .modal-badge {
@@ -401,12 +354,12 @@
   }
 
   .modal-description {
-    margin-top: 6px;
+    margin-top: 7px;
   }
 
   .color-btn {
-    padding: 10px;
     gap: 8px;
+    padding: 10px;
   }
 
   .color-card {
@@ -415,7 +368,8 @@
   }
 
   .modal-footer {
-    margin-top: 14px;
+    margin-top: 15px;
+    padding-top: 12px;
   }
 }
 
@@ -431,6 +385,7 @@
 
   .modal-badge {
     margin-bottom: 7px;
+    font-size: 7px;
   }
 
   .modal-header {
@@ -456,12 +411,13 @@
   }
 
   .color-btn {
-    padding: 7px;
     gap: 6px;
+    padding: 7px;
   }
 
   .modal-footer {
     margin-top: 10px;
+    padding-top: 8px;
   }
 }
 
@@ -472,7 +428,6 @@
 
   .modal-content {
     padding: 22px 14px;
-    border-radius: 12px;
   }
 
   .modal-badge {
@@ -493,7 +448,6 @@
 
   .color-btn {
     padding: 12px 6px;
-    border-radius: 8px;
   }
 
   .color-card {
@@ -513,7 +467,8 @@
 @media (hover: none) and (pointer: coarse) {
   .color-btn:hover {
     transform: none;
-    box-shadow: none;
+    border-color: var(--rpg-border);
+    background: var(--rpg-panel);
   }
 
   .color-btn:hover .color-card {
@@ -521,8 +476,8 @@
   }
 
   .color-btn:active {
-    transform: scale(0.96);
-    border-color: var(--color-main);
+    transform: translateY(2px);
+    border-color: var(--rpg-gold);
   }
 }
 
@@ -533,9 +488,7 @@
   }
 
   .color-btn,
-  .color-card,
-  .color-btn::before,
-  .color-btn::after {
+  .color-card {
     transition: none;
   }
 }

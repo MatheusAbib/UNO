@@ -7,11 +7,18 @@
     aria-labelledby="ranking-title"
     (click)="$event.stopPropagation()"
   >
+    <div class="ranking-topbar">
+      <span>1P</span>
+      <span>UNO ARCADE SYSTEM</span>
+      <span>HI-SCORE</span>
+    </div>
+
     <div class="ranking-header">
       <div class="ranking-heading">
         <div class="ranking-badge">
-          <i class="pi pi-trophy"></i>
+          <span class="ranking-badge-line"></span>
           <span>ARCADE LEADERBOARD</span>
+          <span class="ranking-badge-line"></span>
         </div>
 
         <h2 class="ranking-title" id="ranking-title">
@@ -19,7 +26,7 @@
         </h2>
 
         <p class="ranking-subtitle">
-          Confira quem está dominando a mesa.
+          HALL OF FAME
         </p>
       </div>
 
@@ -29,7 +36,7 @@
         (click)="onClose()"
         aria-label="Fechar ranking"
       >
-        <i class="pi pi-times"></i>
+        <span aria-hidden="true">×</span>
       </button>
     </div>
 
@@ -37,12 +44,17 @@
       <button
         type="button"
         class="mode-btn"
-        *ngFor="let mode of getModes()"
+        *ngFor="let mode of getModes(); let i = index"
         [class.active]="isSelected(mode)"
         [attr.aria-pressed]="isSelected(mode)"
         (click)="selectMode(mode)"
       >
+        <span class="mode-index">
+          MODE {{ (i + 1).toString().padStart(2, '0') }}
+        </span>
+
         <span class="mode-label">
+          <span class="mode-cursor" aria-hidden="true">▶</span>
           {{ getModeLabel(mode) }}
         </span>
 
@@ -53,50 +65,44 @@
     </div>
 
     <div class="ranking-summary">
-      <div class="summary-item">
-        <div class="summary-icon purple">
-          <i class="pi pi-chart-bar"></i>
-        </div>
-
+      <div class="summary-item summary-item--games">
+        <span class="summary-index">01 / GAMES</span>
         <div class="summary-info">
           <span class="summary-label">PARTIDAS</span>
           <strong class="summary-value">
             {{ getTotalGames(selectedMode) }}
           </strong>
         </div>
+        <span class="summary-decoration" aria-hidden="true">■ ■ ■</span>
       </div>
 
-      <div class="summary-item">
-        <div class="summary-icon green">
-          <i class="pi pi-check-circle"></i>
-        </div>
-
+      <div class="summary-item summary-item--wins">
+        <span class="summary-index">02 / WINS</span>
         <div class="summary-info">
           <span class="summary-label">VITÓRIAS</span>
           <strong class="summary-value">
             {{ getTotalWins(selectedMode) }}
           </strong>
         </div>
+        <span class="summary-decoration" aria-hidden="true">★ ★ ★</span>
       </div>
 
-      <div class="summary-item">
-        <div class="summary-icon yellow">
-          <i class="pi pi-crown"></i>
-        </div>
-
+      <div class="summary-item summary-item--leader">
+        <span class="summary-index">03 / TOP PLAYER</span>
         <div class="summary-info">
           <span class="summary-label">LÍDER</span>
           <strong class="summary-value leader-name">
             {{ getLeader(selectedMode) }}
           </strong>
         </div>
+        <span class="summary-decoration" aria-hidden="true">★ NO.1</span>
       </div>
     </div>
 
     <div class="ranking-board">
       <div class="board-header">
         <div class="board-heading">
-          <i class="pi pi-list"></i>
+          <span class="board-heading-symbol" aria-hidden="true">★</span>
           <span>PLACAR GERAL</span>
         </div>
 
@@ -124,7 +130,7 @@
             >
               <td class="rank-number">
                 <span class="rank-position">
-                  <i *ngIf="i === 0" class="pi pi-crown"></i>
+                  <span *ngIf="i === 0" aria-label="Primeiro lugar">★</span>
                   <span *ngIf="i !== 0">
                     {{ (i + 1).toString().padStart(2, '0') }}
                   </span>
@@ -136,16 +142,29 @@
                 [class.is-human]="isHumanPlayer(player.name)"
               >
                 <div class="player-identity">
-                  <span class="player-name-text">
-                    {{ player.name }}
+                  <span class="player-avatar-ranking" aria-hidden="true">
+                    {{ player.name.charAt(0).toUpperCase() }}
                   </span>
 
-                  <span
-                    class="human-badge"
-                    *ngIf="isHumanPlayer(player.name)"
-                  >
-                    VOCÊ
-                  </span>
+                  <div class="player-identity-text">
+                    <span class="player-name-text">
+                      {{ player.name }}
+                    </span>
+
+                    <span
+                      class="human-badge"
+                      *ngIf="isHumanPlayer(player.name)"
+                    >
+                      1P / VOCÊ
+                    </span>
+
+                    <span
+                      class="leader-badge"
+                      *ngIf="i === 0"
+                    >
+                      TOP PLAYER
+                    </span>
+                  </div>
                 </div>
               </td>
 
@@ -174,10 +193,15 @@
             <tr *ngIf="getPlayers(selectedMode).length === 0">
               <td colspan="5" class="empty-message">
                 <div class="empty-state">
-                  <i class="pi pi-trophy"></i>
-                  <strong>NENHUMA PARTIDA</strong>
-                  <span>
-                    Jogue algumas partidas para começar a disputar o ranking.
+                  <span class="empty-symbol" aria-hidden="true">?</span>
+                  <strong>NO RECORD</strong>
+                  <span>NENHUMA PARTIDA REGISTRADA</span>
+                  <p>
+                    Jogue algumas partidas para conquistar
+                    seu lugar no placar.
+                  </p>
+                  <span class="empty-instruction">
+                    INSERT COIN · PRESS START
                   </span>
                 </div>
               </td>
@@ -185,11 +209,16 @@
           </tbody>
         </table>
       </div>
+
+      <div class="board-bottom">
+        <span>PLAYER RECORDS</span>
+        <span>© 1992 UNO ARCADE</span>
+      </div>
     </div>
 
     <div class="ranking-footer">
       <div class="ranking-footer-info">
-        <i class="pi pi-info-circle"></i>
+        <span class="footer-indicator" aria-hidden="true"></span>
         <span>ESTATÍSTICAS SALVAS AUTOMATICAMENTE</span>
       </div>
 
@@ -199,9 +228,15 @@
         (click)="clearRanking()"
         *ngIf="getTotalGames(selectedMode) > 0"
       >
-        <i class="pi pi-trash"></i>
+        <span aria-hidden="true">×</span>
         <span>LIMPAR RANKING</span>
       </button>
+    </div>
+
+    <div class="ranking-bottom-strip" aria-hidden="true">
+      <span>CREDIT 00</span>
+      <span>PRESS START TO CONTINUE</span>
+      <span>1 PLAYER</span>
     </div>
   </div>
 </div>

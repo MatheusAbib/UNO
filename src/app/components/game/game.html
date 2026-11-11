@@ -8,6 +8,7 @@
 
   <div class="rules-modal" *ngIf="showRulesModal">
     <div class="rules-content">
+      <div class="rpg-modal__eyebrow"><span>◆</span> MANUAL DO JOGADOR <span>◆</span></div>
       <button class="rules-close" (click)="closeRulesModal()">
         <i class="pi pi-times"></i>
       </button>
@@ -95,6 +96,7 @@
 
   <div class="swap-modal" *ngIf="showSwapModal">
     <div class="swap-content">
+      <div class="rpg-modal__eyebrow"><span>◆</span> EVENTO ESPECIAL <span>◆</span></div>
       <div class="swap-icon">
         <i class="pi pi-sync"></i>
       </div>
@@ -113,6 +115,7 @@
 
   <div class="swap-choose-modal" *ngIf="showSwapChooseModal">
     <div class="swap-choose-content">
+      <div class="rpg-modal__eyebrow"><span>◆</span> SELEÇÃO DE PERSONAGEM <span>◆</span></div>
       <div class="swap-icon">
         <i class="pi pi-sync"></i>
       </div>
@@ -125,7 +128,11 @@
           *ngFor="let target of swapChooseTargets"
           (click)="onSwapChoose(target.id)"
         >
-          TROCAR COM {{ target.name.toUpperCase() }}
+            <span class="rpg-player-portrait" [style.background]="getAvatarColor(target.name)">
+              <img *ngIf="hasImage(target.name)" [src]="getAvatarImage(target.name)" [alt]="target.name">
+              <span *ngIf="!hasImage(target.name)">{{ getAvatarInitial(target.name) }}</span>
+            </span>
+            <span class="rpg-player-label">TROCAR COM {{ target.name.toUpperCase() }}</span>
         </button>
       </div>
 
@@ -137,6 +144,7 @@
 
   <div class="peek-choose-modal" *ngIf="showPeekChooseModal">
     <div class="peek-choose-content">
+      <div class="rpg-modal__eyebrow"><span>◆</span> SELEÇÃO DE PERSONAGEM <span>◆</span></div>
       <div class="peek-icon">
         <i class="pi pi-eye"></i>
       </div>
@@ -149,7 +157,11 @@
           *ngFor="let target of peekChooseTargets"
           (click)="onPeekChoose(target.id)"
         >
-          OLHAR {{ target.name.toUpperCase() }}
+            <span class="rpg-player-portrait" [style.background]="getAvatarColor(target.name)">
+              <img *ngIf="hasImage(target.name)" [src]="getAvatarImage(target.name)" [alt]="target.name">
+              <span *ngIf="!hasImage(target.name)">{{ getAvatarInitial(target.name) }}</span>
+            </span>
+            <span class="rpg-player-label">OLHAR {{ target.name.toUpperCase() }}</span>
         </button>
       </div>
 
@@ -161,6 +173,7 @@
 
   <div class="peek-modal" *ngIf="showPeekModal">
     <div class="peek-content">
+      <div class="rpg-modal__eyebrow"><span>◆</span> VISÃO ESPECIAL <span>◆</span></div>
       <div class="peek-header">
         <span class="peek-icon">
           <i class="pi pi-eye"></i>
@@ -171,17 +184,27 @@
         </span>
       </div>
 
-      <div class="peek-cards">
-        <div
-          class="peek-card"
-          *ngFor="let card of peekHand"
-          [class]="getCardClass(card)"
-        >
-          <span class="peek-card-display">
-            {{ getCardDisplay(card) }}
-          </span>
-        </div>
-      </div>
+
+<div class="peek-cards">
+  <div
+    class="peek-card"
+    *ngFor="let card of peekHand"
+    [class]="getCardClass(card)"
+  >
+    <span class="peek-card-display">
+      <ng-container *ngIf="!isPeekCard(card)">
+        {{ getCardDisplay(card) }}
+      </ng-container>
+
+      <i
+        *ngIf="isPeekCard(card)"
+        class="pi pi-eye"
+        aria-label="Carta de espiar"
+      ></i>
+    </span>
+  </div>
+</div>
+
 
       <div class="peek-timer">
         VISUALIZAÇÃO DE 2 SEGUNDOS
@@ -233,8 +256,8 @@
         <span class="turn-indicator" [class.active]="isHumanTurn()">
           {{
             isHumanTurn()
-? '▶ SUA VEZ'
-: '▶ VEZ DE ' + (currentPlayer?.name || '').toUpperCase()
+              ? '▶ SUA VEZ'
+              : '▶ VEZ DE ' + (currentPlayer?.name || '').toUpperCase()
           }}
         </span>
 
@@ -253,8 +276,33 @@
         [player]="gameState.players[2]"
         [position]="'top'"
         [isCurrent]="gameState.currentPlayerIndex === 2"
+        [class.swap-shaking]="isSwapShaking(gameState.players[2]?.name)"
+        [class.special-effect-disabled]="!!getSpecialEffect(gameState.players[2].id)"
         [speechMessage]="speechMessages[gameState.players[2]?.name || ''] || ''"
       ></app-player-hand>
+
+      <div
+        class="special-effect-indicator special-effect-top"
+        *ngIf="!gameState.players[2].isObserver && !isEliminated(gameState.players[2]?.name) && getSpecialEffect(gameState.players[2].id) as effect"
+        [class.effect-skip]="effect === 'skip'"
+        [class.effect-draw2]="effect === 'draw2'"
+        [class.effect-draw4]="effect === 'wild_draw_four'"
+        aria-live="polite"
+      >
+        <div class="special-effect-card">
+          <div class="special-effect-card-inner">
+            <span class="special-effect-symbol" *ngIf="effect === 'skip'">
+              <i class="pi pi-ban"></i>
+            </span>
+            <span class="special-effect-symbol" *ngIf="effect === 'draw2'">
+              +2
+            </span>
+            <span class="special-effect-symbol" *ngIf="effect === 'wild_draw_four'">
+              +4
+            </span>
+          </div>
+        </div>
+      </div>
 
       <div
         class="observer-spectator"
@@ -290,11 +338,6 @@
           {{ getSpectatorStatus(gameState.players[2]?.name) }}
         </span>
 
-        <div class="spectator-cards">
-          <div class="card hidden spectator-card"></div>
-          <div class="card hidden spectator-card"></div>
-          <div class="card hidden spectator-card"></div>
-        </div>
       </div>
     </div>
 
@@ -308,8 +351,33 @@
           [player]="gameState.players[1]"
           [position]="'left'"
           [isCurrent]="gameState.currentPlayerIndex === 1"
+          [class.swap-shaking]="isSwapShaking(gameState.players[1]?.name)"
+        [class.special-effect-disabled]="!!getSpecialEffect(gameState.players[1].id)"
           [speechMessage]="speechMessages[gameState.players[1]?.name || ''] || ''"
         ></app-player-hand>
+
+        <div
+          class="special-effect-indicator special-effect-left"
+          *ngIf="!gameState.players[1].isObserver && !isEliminated(gameState.players[1]?.name) && getSpecialEffect(gameState.players[1].id) as effect"
+          [class.effect-skip]="effect === 'skip'"
+          [class.effect-draw2]="effect === 'draw2'"
+          [class.effect-draw4]="effect === 'wild_draw_four'"
+          aria-live="polite"
+        >
+          <div class="special-effect-card">
+            <div class="special-effect-card-inner">
+              <span class="special-effect-symbol" *ngIf="effect === 'skip'">
+                <i class="pi pi-ban"></i>
+              </span>
+              <span class="special-effect-symbol" *ngIf="effect === 'draw2'">
+                +2
+              </span>
+              <span class="special-effect-symbol" *ngIf="effect === 'wild_draw_four'">
+                +4
+              </span>
+            </div>
+          </div>
+        </div>
 
         <div
           class="observer-spectator"
@@ -345,16 +413,15 @@
             {{ getSpectatorStatus(gameState.players[1]?.name) }}
           </span>
 
-          <div class="spectator-cards">
-            <div class="card hidden spectator-card"></div>
-            <div class="card hidden spectator-card"></div>
-            <div class="card hidden spectator-card"></div>
-          </div>
+
         </div>
       </div>
 
       <div class="table-center">
+        <div class="table-center__heading"><span>01</span><strong>UNO CARD ARENA</strong><span>02</span></div>
+        <div class="table-center__field">
         <div class="pile-container draw-pile">
+          <div class="rpg-pile-heading">DRAW PILE</div>
           <div class="draw-pile-wrapper">
             <div
               class="pile-card"
@@ -377,6 +444,7 @@
         </div>
 
         <div class="pile-container discard-pile">
+          <div class="rpg-pile-heading">PLAY PILE</div>
           <div class="discard-pile-wrapper">
             <div
               class="pile-card"
@@ -408,17 +476,28 @@
           </span>
         </div>
 
+        </div>
+        <div class="table-center__status">UNO CARDS <span>◆ ◆ ◆</span> CARD SYSTEM</div>
         <div
           class="winner-banner"
           *ngIf="gameState.isGameOver && !gameService.isTournamentMode"
         >
-          <div>
-            ✦ {{ gameState.winner?.name }} VENCEU! ✦
+          <div class="winner-banner__hud"><span>UNO ARCADE</span><span>RESULT 01</span></div>
+          <div class="winner-banner__content">
+            <span class="winner-banner__eyebrow">GAME COMPLETE</span>
+            <h2 class="winner-banner__title">YOU WIN!</h2>
+            <span class="winner-banner__subtitle">VITÓRIA</span>
+            <div class="winner-banner__player">
+              <span class="winner-banner__portrait" [style.background]="getAvatarColor(gameState.winner?.name)">
+                <img *ngIf="hasImage(gameState.winner?.name)" [src]="getAvatarImage(gameState.winner?.name)" [alt]="gameState.winner?.name || 'Vencedor'">
+                <span *ngIf="!hasImage(gameState.winner?.name)">{{ getAvatarInitial(gameState.winner?.name) }}</span>
+              </span>
+              <span class="winner-banner__player-info"><small>WINNER</small><strong>{{ gameState.winner?.name }}</strong><small>CAMPEÃO DA PARTIDA</small></span>
+            </div>
+            <button class="btn-restart" (click)="onGameOver()"><span>▶</span> NOVO JOGO</button>
+            <span class="winner-banner__prompt">PRESS START TO CONTINUE</span>
           </div>
-
-          <button class="btn-restart" (click)="onGameOver()">
-            NOVO JOGO
-          </button>
+          <div class="winner-banner__hud"><span>© UNO ARCADE</span><span>CREDIT 00</span></div>
         </div>
       </div>
 
@@ -431,8 +510,33 @@
           [player]="gameState.players[3]"
           [position]="'right'"
           [isCurrent]="gameState.currentPlayerIndex === 3"
+          [class.swap-shaking]="isSwapShaking(gameState.players[3]?.name)"
+        [class.special-effect-disabled]="!!getSpecialEffect(gameState.players[3].id)"
           [speechMessage]="speechMessages[gameState.players[3]?.name || ''] || ''"
         ></app-player-hand>
+
+        <div
+          class="special-effect-indicator special-effect-right"
+          *ngIf="!gameState.players[3].isObserver && !isEliminated(gameState.players[3]?.name) && getSpecialEffect(gameState.players[3].id) as effect"
+          [class.effect-skip]="effect === 'skip'"
+          [class.effect-draw2]="effect === 'draw2'"
+          [class.effect-draw4]="effect === 'wild_draw_four'"
+          aria-live="polite"
+        >
+          <div class="special-effect-card">
+            <div class="special-effect-card-inner">
+              <span class="special-effect-symbol" *ngIf="effect === 'skip'">
+                <i class="pi pi-ban"></i>
+              </span>
+              <span class="special-effect-symbol" *ngIf="effect === 'draw2'">
+                +2
+              </span>
+              <span class="special-effect-symbol" *ngIf="effect === 'wild_draw_four'">
+                +4
+              </span>
+            </div>
+          </div>
+        </div>
 
         <div
           class="observer-spectator"
@@ -468,11 +572,7 @@
             {{ getSpectatorStatus(gameState.players[3]?.name) }}
           </span>
 
-          <div class="spectator-cards">
-            <div class="card hidden spectator-card"></div>
-            <div class="card hidden spectator-card"></div>
-            <div class="card hidden spectator-card"></div>
-          </div>
+
         </div>
       </div>
     </div>
@@ -512,11 +612,6 @@
           {{ getSpectatorStatus(gameState.players[0]?.name) }}
         </span>
 
-        <div class="spectator-cards">
-          <div class="card hidden spectator-card"></div>
-          <div class="card hidden spectator-card"></div>
-          <div class="card hidden spectator-card"></div>
-        </div>
       </div>
 
       <app-player-hand
@@ -524,11 +619,36 @@
         [player]="gameState.players[0]"
         [position]="'bottom'"
         [isCurrent]="gameState.currentPlayerIndex === 0"
+        [class.swap-shaking]="isSwapShaking(gameState.players[0]?.name)"
+        [class.special-effect-disabled]="!!getSpecialEffect(gameState.players[0].id)"
         [isHuman]="true"
         [gameService]="gameService"
         [gameState]="gameState"
         (cardPlayed)="playCard($event)"
       ></app-player-hand>
+
+      <div
+        class="special-effect-indicator special-effect-bottom"
+        *ngIf="gameState.players[0] && !gameState.players[0].isObserver && !isEliminated(gameState.players[0]?.name) && getSpecialEffect(gameState.players[0].id) as effect"
+        [class.effect-skip]="effect === 'skip'"
+        [class.effect-draw2]="effect === 'draw2'"
+        [class.effect-draw4]="effect === 'wild_draw_four'"
+        aria-live="polite"
+      >
+        <div class="special-effect-card">
+          <div class="special-effect-card-inner">
+            <span class="special-effect-symbol" *ngIf="effect === 'skip'">
+              <i class="pi pi-ban"></i>
+            </span>
+            <span class="special-effect-symbol" *ngIf="effect === 'draw2'">
+              +2
+            </span>
+            <span class="special-effect-symbol" *ngIf="effect === 'wild_draw_four'">
+              +4
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="swap-animation-banner" *ngIf="showSwapBanner">
@@ -550,6 +670,7 @@
 
   <div class="tournament-modal-overlay" *ngIf="showTournamentModal">
     <div class="tournament-modal-content">
+      <div class="rpg-modal__eyebrow"><span>◆</span> CAMPEONATO <span>◆</span></div>
       <button
         class="tournament-modal-close"
         (click)="closeTournamentModal()"
@@ -624,6 +745,7 @@
 
   <div class="round-result-modal" *ngIf="showRoundResultModal">
     <div class="round-result-content">
+      <div class="rpg-modal__eyebrow"><span>◆</span> RESULTADO <span>◆</span></div>
       <div class="round-result-icon">
         <i class="pi pi-star-fill"></i>
       </div>

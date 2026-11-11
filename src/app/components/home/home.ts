@@ -32,12 +32,15 @@ export class HomeComponent {
 
     this.isLoading = true;
 
-    const players = ['Mãe'];
     const botNames = ['Hanna', 'Lucia', 'Pedro'];
 
-    for (let i = 0; i < this.botCount; i++) {
-      players.push(botNames[i]);
+    for (let i = botNames.length - 1; i > 0; i--) {
+      const randomIndex = Math.floor(Math.random() * (i + 1));
+      [botNames[i], botNames[randomIndex]] = [botNames[randomIndex], botNames[i]];
     }
+
+    const selectedBots = botNames.slice(0, this.botCount);
+    const players = ['Mãe', ...selectedBots];
 
     this.gameService.initializeGame(players);
     this.crtTransition.navigate('/game');

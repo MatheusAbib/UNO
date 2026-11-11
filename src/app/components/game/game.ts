@@ -53,8 +53,17 @@ export class GameComponent implements OnInit, OnDestroy {
   showSwapBanner = false;
   swapBannerFrom = '';
   swapBannerTo = '';
+  swapShakingPlayers: string[] = [];
+
+specialEffectPlayerId: string | null = null;
+specialEffectType: 'skip' | 'draw2' | 'wild_draw_four' | null = null;
+private specialEffectVersion = 0;
+private specialEffectExpiresAt = 0;
+
   private swapBannerTimer: ReturnType<typeof setTimeout> | null = null;
   private swapBannerEndTimer: ReturnType<typeof setTimeout> | null = null;
+  private swapShakeTimer: ReturnType<typeof setTimeout> | null = null;
+  private swapShakeEndTimer: ReturnType<typeof setTimeout> | null = null;
 
   showRoundResultModal = false;
   roundResultWinner = '';
@@ -213,6 +222,58 @@ export class GameComponent implements OnInit, OnDestroy {
       })
     );
 
+
+this.subscriptions.add(
+  this.gameService.getSpecialEffect().subscribe(data => {
+    const activePlayerCount = this.gameService
+      .getCurrentGameState()
+      ?.players.filter(player => !player.isObserver).length ?? 0;
+
+    if (!data.playerId || !data.effect) {
+      if (
+        activePlayerCount === 2 &&
+        this.specialEffectPlayerId &&
+        Date.now() < this.specialEffectExpiresAt
+      ) {
+        return;
+      }
+
+      this.specialEffectVersion++;
+      this.specialEffectPlayerId = null;
+      this.specialEffectType = null;
+      this.specialEffectExpiresAt = 0;
+      this.refreshView();
+      return;
+    }
+
+    const version = ++this.specialEffectVersion;
+
+    this.specialEffectPlayerId = data.playerId;
+    this.specialEffectType = data.effect;
+    this.specialEffectExpiresAt =
+      activePlayerCount === 2 ? Date.now() + 2000 : 0;
+
+    this.refreshView();
+
+    if (activePlayerCount === 2) {
+      this.schedule(() => {
+        if (version !== this.specialEffectVersion) {
+          return;
+        }
+
+        this.specialEffectVersion++;
+        this.specialEffectPlayerId = null;
+        this.specialEffectType = null;
+        this.specialEffectExpiresAt = 0;
+        this.specialEffectExpiresAt = 0;
+        this.refreshView();
+      }, 2000);
+    }
+  })
+);
+
+
+
     this.subscriptions.add(
       this.gameService.roundResult$.subscribe(data => {
         if (!this.gameService.isTournamentMode) {
@@ -254,6 +315,17 @@ private animateDiscardPile(): void {
   ngOnDestroy(): void {
     this.destroyed = true;
     this.subscriptions.unsubscribe();
+    this.pendingTimers.forEach(timer => clearTimeout(timer));
+
+    if (this.swapShakeTimer) {
+      clearTimeout(this.swapShakeTimer);
+      this.swapShakeTimer = null;
+    }
+
+    if (this.swapShakeEndTimer) {
+      clearTimeout(this.swapShakeEndTimer);
+      this.swapShakeEndTimer = null;
+    }
 
     if (this.swapTimer) {
       clearTimeout(this.swapTimer);
@@ -283,6 +355,9 @@ private animateDiscardPile(): void {
     this.pendingTimers.forEach(timer => clearTimeout(timer));
     this.pendingTimers.clear();
     this.swapCallback = null;
+    this.specialEffectPlayerId = null;
+    this.specialEffectType = null;
+
   }
 
   private refreshView(): void {
@@ -494,19 +569,21 @@ private animateDiscardPile(): void {
     return pile.slice(-count);
   }
 
-  getDrawPileOffset(index: number): string {
-    const offsets = [
-      { x: -3, y: 3, r: -2 },
-      { x: 2, y: -2, r: 2 },
-      { x: -2, y: 1, r: -1 },
-      { x: 2, y: 2, r: 1 },
-      { x: 0, y: 0, r: 0 }
-    ];
 
-    const offset = offsets[Math.min(index, offsets.length - 1)];
+getDrawPileOffset(index: number): string {
+  const offsets = [
+    { x: -5, y: 4, r: -6 },
+    { x: 4, y: -3, r: 5 },
+    { x: -4, y: 2, r: -4 },
+    { x: 3, y: 3, r: 3 },
+    { x: 0, y: 0, r: -1 }
+  ];
 
-    return `translate(${offset.x}px, ${offset.y}px) rotate(${offset.r}deg)`;
-  }
+  const offset = offsets[Math.min(index, offsets.length - 1)];
+
+  return `translate(${offset.x}px, ${offset.y}px) rotate(${offset.r}deg)`;
+}
+
 
   getDiscardPileOffset(index: number): string {
     const visibleCards = Math.min(
@@ -832,68 +909,114 @@ private animateDiscardPile(): void {
   }
 
   triggerDrawAnimation(): void {
-    const pileCards = document.querySelectorAll(
-      '.draw-pile-wrapper .pile-card'
-    );
+    const pile = document.querySelector('.draw-pile-wrapper');
 
-    pileCards.forEach(card => {
-      card.classList.add('pile-card-draw');
-
-      this.schedule(() => {
-        card.classList.remove('pile-card-draw');
-      }, 250);
-    });
-  }
-
-  showSwapAnimation(fromPlayer: string, toPlayer: string): void {
-    if (this.swapBannerTimer) {
-      clearTimeout(this.swapBannerTimer);
-      this.swapBannerTimer = null;
+    if (!pile) {
+      return;
     }
 
-    if (this.swapBannerEndTimer) {
-      clearTimeout(this.swapBannerEndTimer);
-      this.swapBannerEndTimer = null;
-    }
-
-    this.swapBannerFrom = fromPlayer;
-    this.swapBannerTo = toPlayer;
-    this.showSwapBanner = true;
-    this.isProcessing = true;
-    this.gameService.isProcessing = true;
-
-    this.refreshView();
+    pile.classList.remove('draw-pile-moving');
+    void (pile as HTMLElement).offsetWidth;
+    pile.classList.add('draw-pile-moving');
 
     this.schedule(() => {
-      document
-        .querySelector('.swap-animation-banner')
-        ?.classList.add('show');
-    }, 50);
-
-    this.swapBannerTimer = setTimeout(() => {
-      this.swapBannerTimer = null;
-
-      document
-        .querySelector('.swap-animation-banner')
-        ?.classList.remove('show');
-
-      this.swapBannerEndTimer = setTimeout(() => {
-        this.swapBannerEndTimer = null;
-
-        if (this.destroyed) {
-          return;
-        }
-
-        this.showSwapBanner = false;
-        this.isProcessing = false;
-        this.gameService.isProcessing = false;
-
-        this.refreshView();
-        this.gameService.resumeAfterSwap();
-      }, 500);
-    }, 2000);
+      pile.classList.remove('draw-pile-moving');
+    }, 500);
   }
 
+  isSwapShaking(playerName: string | undefined): boolean {
+  return !!playerName && this.swapShakingPlayers.includes(playerName);
+}
+
+
+getSpecialEffect(
+  playerId: string | undefined
+): 'skip' | 'draw2' | 'wild_draw_four' | null {
+  if (!playerId || this.specialEffectPlayerId !== playerId) {
+    return null;
+  }
+
+  return this.specialEffectType;
+}
+
+
+showSwapAnimation(fromPlayer: string, toPlayer: string): void {
+  if (this.swapBannerTimer) {
+    clearTimeout(this.swapBannerTimer);
+    this.swapBannerTimer = null;
+  }
+
+  if (this.swapBannerEndTimer) {
+    clearTimeout(this.swapBannerEndTimer);
+    this.swapBannerEndTimer = null;
+  }
+
+  if (this.swapShakeTimer) {
+    clearTimeout(this.swapShakeTimer);
+    this.swapShakeTimer = null;
+  }
+
+  if (this.swapShakeEndTimer) {
+    clearTimeout(this.swapShakeEndTimer);
+    this.swapShakeEndTimer = null;
+  }
+
+  this.swapShakingPlayers = [];
+  this.swapBannerFrom = fromPlayer;
+  this.swapBannerTo = toPlayer;
+  this.showSwapBanner = true;
+  this.isProcessing = true;
+  this.gameService.isProcessing = true;
+
+  this.refreshView();
+
+  this.schedule(() => {
+    document
+      .querySelector('.swap-animation-banner')
+      ?.classList.add('show');
+  }, 50);
+
+  this.swapShakeTimer = setTimeout(() => {
+    this.swapShakeTimer = null;
+
+    if (this.destroyed) {
+      return;
+    }
+
+    this.swapShakingPlayers = [fromPlayer, toPlayer];
+    this.refreshView();
+
+    this.swapShakeEndTimer = setTimeout(() => {
+      this.swapShakeEndTimer = null;
+      this.swapShakingPlayers = [];
+      this.refreshView();
+    }, 700);
+  }, 650);
+
+  this.swapBannerTimer = setTimeout(() => {
+    this.swapBannerTimer = null;
+
+    document
+      .querySelector('.swap-animation-banner')
+      ?.classList.remove('show');
+
+    this.swapBannerEndTimer = setTimeout(() => {
+      this.swapBannerEndTimer = null;
+
+      if (this.destroyed) {
+        return;
+      }
+
+      this.showSwapBanner = false;
+      this.swapShakingPlayers = [];
+      this.isProcessing = false;
+      this.gameService.isProcessing = false;
+
+      this.refreshView();
+      this.gameService.resumeAfterSwap();
+    }, 500);
+  }, 2000);
+}
   showRoundResult(
     winnerName: string,
     position: string,

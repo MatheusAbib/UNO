@@ -1,5 +1,7 @@
-@import './styles-responsive.css';
+
+@import url('https://fonts.googleapis.com/css2?family=Bungee&family=Press+Start+2P&family=Silkscreen:wght@400;700&display=swap');
 @import "primeicons/primeicons.css";
+
 
 :root {
   --neon-red: #ff2a6d;
@@ -7,11 +9,75 @@
   --neon-green: #00ff9d;
   --neon-yellow: #f9f002;
   --neon-purple: #d300c5;
-  --dark-bg: #0d0221;
   --neon-coral: #ff5e5b;
-  --glow: 0 0 10px, 0 0 20px, 0 0 30px;
+
+  --dark-bg: #050611;
+
+  --arcade-white: #f5f4ff;
+  --arcade-cyan: #7defff;
+  --arcade-purple: #d300c5;
+  --arcade-navy: #11112b;
+  --arcade-border: rgba(125, 239, 255, 0.35);
+  --arcade-text: #f5f4ff;
+  --arcade-text-muted: #a9a6cb;
+  --arcade-yellow: #ffe66b;
+  --arcade-pink: #ff61c7;
+
+  --rpg-ink: #080f25;
+  --rpg-background: #09132b;
+  --rpg-panel: #101d3c;
+  --rpg-panel-light: #142b50;
+  --rpg-panel-raised: #1d3d6c;
+  --rpg-mid: #294b80;
+  --rpg-edge: #6794cf;
+  --rpg-border: #416fa9;
+  --rpg-border-light: #9ab9df;
+  --rpg-border-dark: #284571;
+
+  --rpg-gold: #ffe18a;
+  --rpg-gold-dark: #c6a65e;
+  --rpg-white: #e5f0ff;
+  --rpg-muted: #8daed5;
+  --rpg-pink: #ff9d9d;
+  --rpg-red: #ff777d;
+  --rpg-green: #86e5b1;
+  --rpg-blue: #82a8d8;
+
+  --rpg-shadow: #040917;
+  --rpg-inset: #09152b;
+
+  --uno-red: #d83f4c;
+  --uno-green: #219969;
+  --uno-blue: #3474c6;
+  --uno-yellow: #d9ac35;
+  --uno-wild: #242135;
+
+  --font-arcade: 'Press Start 2P', monospace;
+  --font-pixel: 'Silkscreen', monospace;
+
+  --arcade-font: var(--font-arcade);
+  --arcade-pixel-font: var(--font-pixel);
+  --arcade-display-font: var(--font-arcade);
+  --rpg-font: var(--font-arcade);
+
   --card-width: clamp(65px, 8.5vw, 105px);
   --card-height: calc(var(--card-width) * 1.5);
+
+  --game-card-width: clamp(48px, 7vh, 72px);
+  --game-card-height: calc(var(--game-card-width) * 1.5);
+
+  --game-top-height: 270px;
+  --game-bottom-height: 205px;
+  --game-layout-gap: 8px;
+  --game-table-max-width: 440px;
+
+  --glow: 0 0 10px, 0 0 20px, 0 0 30px;
+
+  --crt-scanline-size: 4px;
+  --crt-scanline-opacity: 0.25;
+  --crt-rgb-opacity: 0.12;
+  --crt-vignette-opacity: 0.42;
+  --crt-phosphor-blur: 0.25px;
 }
 
 * {
@@ -20,13 +86,39 @@
   padding: 0;
 }
 
-html,
-body {
+html {
   width: 100%;
   min-height: 100%;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  background: #050611;
+}
+
+body {
+  position: relative;
+  width: 100%;
+  min-height: 100dvh;
+  margin: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  color: var(--arcade-white);
+  background:
+    radial-gradient(
+      ellipse at 50% 35%,
+      rgba(25, 28, 78, 0.5),
+      transparent 68%
+    ),
+    linear-gradient(
+      180deg,
+      #070814 0%,
+      #090a1b 48%,
+      #04050e 100%
+    );
+  font-family: var(--arcade-font);
+  -webkit-font-smoothing: none;
+  font-smooth: never;
 }
 
 html::-webkit-scrollbar,
@@ -34,53 +126,83 @@ body::-webkit-scrollbar {
   display: none;
 }
 
-body {
-  position: relative;
-  margin: 0;
-  min-height: 100dvh;
-  overflow-x: hidden;
-  overflow-y: auto;
-  font-family: 'Press Start 2P', cursive;
-  color: white;
-  background-color: var(--dark-bg);
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
   background-image:
-    linear-gradient(
-      90deg,
-      rgba(255, 42, 109, 0.12) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      rgba(255, 42, 109, 0.12) 1px,
-      transparent 1px
-    ),
-    radial-gradient(
-      circle at 20% 30%,
-      rgba(255, 42, 109, 0.1) 0%,
-      transparent 30%
-    ),
-    radial-gradient(
-      circle at 80% 70%,
-      rgba(5, 217, 232, 0.1) 0%,
-      transparent 30%
-    ),
-    radial-gradient(
-      circle at 50% 90%,
-      rgba(0, 255, 157, 0.1) 0%,
-      transparent 30%
-    );
-  background-size:
-    40px 40px,
-    40px 40px,
-    100% 100%,
-    100% 100%,
-    100% 100%;
-  background-attachment: fixed;
+    radial-gradient(1px 1px at 8% 14%, rgba(195, 220, 255, 0.8) 99%, transparent),
+    radial-gradient(1px 1px at 22% 68%, rgba(121, 192, 255, 0.75) 99%, transparent),
+    radial-gradient(2px 2px at 34% 26%, rgba(255, 187, 150, 0.7) 99%, transparent),
+    radial-gradient(1px 1px at 49% 82%, rgba(172, 180, 255, 0.75) 99%, transparent),
+    radial-gradient(1px 1px at 61% 19%, rgba(205, 231, 255, 0.8) 99%, transparent),
+    radial-gradient(2px 2px at 73% 63%, rgba(112, 200, 255, 0.65) 99%, transparent),
+    radial-gradient(1px 1px at 87% 34%, rgba(255, 170, 205, 0.8) 99%, transparent),
+    radial-gradient(1px 1px at 94% 86%, rgba(175, 225, 255, 0.75) 99%, transparent);
+  background-size: 310px 230px;
+  opacity: 0.4;
 }
 
 app-root {
   display: block;
   position: relative;
   min-height: 100dvh;
+  isolation: isolate;
+}
+
+app-root::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9990;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, var(--crt-scanline-opacity)) 0,
+      rgba(0, 0, 0, var(--crt-scanline-opacity)) 1px,
+      transparent 1px,
+      transparent var(--crt-scanline-size)
+    ),
+    repeating-linear-gradient(
+      to right,
+      rgba(255, 40, 65, var(--crt-rgb-opacity)) 0,
+      rgba(255, 40, 65, var(--crt-rgb-opacity)) 1px,
+      rgba(30, 255, 100, 0.025) 1px,
+      rgba(30, 255, 100, 0.025) 2px,
+      rgba(35, 110, 255, var(--crt-rgb-opacity)) 2px,
+      rgba(35, 110, 255, var(--crt-rgb-opacity)) 3px
+    );
+  background-size:
+    100% var(--crt-scanline-size),
+    3px 100%;
+  opacity: 0.8;
+}
+
+app-root::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9991;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse at 50% 45%,
+      transparent 32%,
+      rgba(0, 0, 0, var(--crt-vignette-opacity)) 100%
+    ),
+    linear-gradient(
+      115deg,
+      rgba(255, 255, 255, 0.025),
+      transparent 30%,
+      transparent 70%,
+      rgba(255, 255, 255, 0.015)
+    );
+  box-shadow:
+    inset 0 0 65px rgba(0, 0, 0, 0.28),
+    inset 0 0 140px rgba(0, 0, 0, 0.16);
 }
 
 .crt-app {
@@ -95,6 +217,29 @@ app-root {
   opacity: 1;
   visibility: visible;
   transform-origin: center center;
+  filter:
+    blur(var(--crt-phosphor-blur))
+    saturate(1.08)
+    contrast(1.04);
+}
+
+.crt-app__content h1,
+.crt-app__content h2,
+.crt-app__content h3,
+.crt-app__content h4,
+.crt-app__content h5,
+.crt-app__content h6 {
+  text-rendering: optimizeSpeed;
+}
+
+.crt-app__content button,
+.crt-app__content input,
+.crt-app__content select {
+  font-family: inherit;
+}
+
+.crt-app__content button {
+  -webkit-tap-highlight-color: transparent;
 }
 
 .crt-app__blackout {
@@ -561,6 +706,15 @@ button,
 [role="button"],
 .clickable {
   touch-action: manipulation;
+}
+
+@media (max-width: 700px) {
+  :root {
+    --crt-scanline-opacity: 0.17;
+    --crt-rgb-opacity: 0.07;
+    --crt-vignette-opacity: 0.28;
+    --crt-phosphor-blur: 0.15px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

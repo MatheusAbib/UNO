@@ -2,22 +2,21 @@
 <div class="tournament-container">
   <div class="tournament-header">
     <button class="btn-home-header" (click)="goHome()">
-      <i class="pi pi-home"></i>
+       <i class="pi pi-home"></i>
       <span>HOME</span>
     </button>
 
     <div class="tournament-heading">
+      <span class="tournament-heading__stage">1P / CHAMPIONSHIP MODE</span>
       <div class="tournament-eyebrow">
-        <i class="pi pi-trophy"></i>
+        <span class="arcade-pixel-icon" aria-hidden="true">★</span>
         <span>UNO CHAMPIONSHIP</span>
       </div>
       <h1 class="tournament-title">TORNEIO</h1>
       <p class="tournament-subtitle">SEIS RODADAS. UM CAMPEÃO.</p>
+      <span class="tournament-heading__press">PRESS START TO COMPETE</span>
     </div>
-
-    <div class="header-decoration">
-      <i class="pi pi-bolt"></i>
-    </div>
+    <div class="tournament-header__score" aria-hidden="true"><span>HI-SCORE</span><strong>999999</strong></div>
   </div>
 
   <div
@@ -27,7 +26,7 @@
     <div class="tournament-info-cards">
       <div class="info-card">
         <div class="info-icon-wrapper purple">
-          <i class="pi pi-users"></i>
+          <span class="arcade-pixel-icon" aria-hidden="true">1P</span>
         </div>
         <div class="info-content">
           <span class="info-value">04</span>
@@ -37,7 +36,7 @@
 
       <div class="info-card">
         <div class="info-icon-wrapper blue">
-          <i class="pi pi-flag"></i>
+          <span class="arcade-pixel-icon" aria-hidden="true">06</span>
         </div>
         <div class="info-content">
           <span class="info-value">06</span>
@@ -47,7 +46,7 @@
 
       <div class="info-card">
         <div class="info-icon-wrapper yellow">
-          <i class="pi pi-trophy"></i>
+          <span class="arcade-pixel-icon" aria-hidden="true">★</span>
         </div>
         <div class="info-content">
           <span class="info-value">+1</span>
@@ -59,7 +58,7 @@
     <div class="tournament-how-it-works">
       <div class="section-heading">
         <div class="section-heading-left">
-          <i class="pi pi-sitemap"></i>
+          <span class="arcade-pixel-icon" aria-hidden="true">▦</span>
           <h2>COMO FUNCIONA</h2>
         </div>
         <span class="section-heading-tag">REGULAMENTO</span>
@@ -130,14 +129,14 @@
               termina em <strong>2º lugar</strong>.
             </span>
           </div>
-          <i class="pi pi-trophy final-step-icon"></i>
+          <span class="final-step-icon" aria-hidden="true">★</span>
         </div>
       </div>
     </div>
 
     <div class="tournament-start-action">
       <div class="start-action-info">
-        <i class="pi pi-info-circle"></i>
+        <span class="arcade-pixel-icon" aria-hidden="true">!</span>
         <span>PREPARE-SE PARA A PRIMEIRA RODADA</span>
       </div>
 
@@ -146,7 +145,7 @@
         (click)="startTournament()"
         [disabled]="isStarting"
       >
-        <i class="pi" [class.pi-play]="!isStarting" [class.pi-spin]="isStarting" [class.pi-spinner]="isStarting"></i>
+        <span class="arcade-button-cursor" aria-hidden="true">▶</span>
         <span>{{ isStarting ? 'INICIANDO...' : 'INICIAR TORNEIO' }}</span>
       </button>
     </div>
@@ -157,7 +156,7 @@
     >
       <div class="section-heading">
         <div class="section-heading-left">
-          <i class="pi pi-history"></i>
+          <span class="arcade-pixel-icon" aria-hidden="true">◷</span>
           <h2>HISTÓRICO DE TORNEIOS</h2>
         </div>
         <span class="section-heading-tag">
@@ -172,12 +171,12 @@
         >
           <div class="history-card-header">
             <div class="history-date">
-              <i class="pi pi-calendar"></i>
+              <span class="arcade-pixel-icon" aria-hidden="true">▦</span>
               <span>{{ h.date }}</span>
             </div>
 
             <div class="history-winner-label">
-              <i class="pi pi-trophy"></i>
+              <span class="arcade-pixel-icon" aria-hidden="true">★</span>
               <span>{{ h.winner }}</span>
               <span class="winner-caption">CAMPEÃO</span>
             </div>
@@ -190,7 +189,7 @@
               [class.history-champion]="p.position === 1"
             >
               <span class="history-player-pos">
-                <i class="pi pi-trophy" *ngIf="p.position === 1"></i>
+                <span class="arcade-pixel-icon" *ngIf="p.position === 1" aria-hidden="true">★</span>
                 <span *ngIf="p.position !== 1">
                   {{ p.position }}º
                 </span>
@@ -218,7 +217,7 @@
       </div>
 
       <button class="btn-clear-history" (click)="clearHistory()">
-        <i class="pi pi-trash"></i>
+        <span class="arcade-pixel-icon" aria-hidden="true">×</span>
         <span>LIMPAR HISTÓRICO</span>
       </button>
     </div>
@@ -227,7 +226,7 @@
       class="tournament-history-empty"
       *ngIf="getTournamentHistory().length === 0"
     >
-      <i class="pi pi-inbox"></i>
+      <span class="arcade-pixel-icon arcade-pixel-icon--large" aria-hidden="true">--</span>
       <strong>NENHUM TORNEIO FINALIZADO</strong>
       <span>Seus campeonatos aparecerão aqui.</span>
     </div>
@@ -243,11 +242,7 @@
         [class.active]="tournamentState.isActive"
         [class.finished]="!tournamentState.isActive"
       >
-        <i
-          class="pi"
-          [class.pi-sync]="tournamentState.isActive"
-          [class.pi-check-circle]="!tournamentState.isActive"
-        ></i>
+        <span class="arcade-pixel-icon" aria-hidden="true">{{ tournamentState.isActive ? '●' : '★' }}</span>
         {{ tournamentState.isActive ? 'EM ANDAMENTO' : 'FINALIZADO' }}
       </span>
 
@@ -259,7 +254,7 @@
     <div class="tournament-ranking">
       <div class="section-heading">
         <div class="section-heading-left">
-          <i class="pi pi-trophy"></i>
+          <span class="arcade-pixel-icon" aria-hidden="true">★</span>
           <h2>CLASSIFICAÇÃO</h2>
         </div>
         <span class="section-heading-tag">PLACAR ATUAL</span>
@@ -274,16 +269,14 @@
           [class.classified]="player.group === 'winners' && !player.eliminated"
         >
           <span class="rank-pos">
-            <i class="pi pi-trophy" *ngIf="player.position === 1"></i>
+            <span class="arcade-pixel-icon" *ngIf="player.position === 1" aria-hidden="true">★</span>
             <span *ngIf="player.position && player.position !== 1">
               {{ player.position }}º
             </span>
-            <i
-              class="pi pi-circle-fill"
-              *ngIf="!player.position"
-            ></i>
+            <span class="arcade-pixel-icon" *ngIf="!player.position" aria-hidden="true">●</span>
           </span>
 
+          <span class="rank-avatar" aria-hidden="true">{{ player.name?.charAt(0) || '?' }}</span>
           <span class="rank-name">{{ player.name }}</span>
 
           <span
@@ -302,7 +295,7 @@
     >
       <div class="section-heading">
         <div class="section-heading-left">
-          <i class="pi pi-history"></i>
+          <span class="arcade-pixel-icon" aria-hidden="true">◷</span>
           <h2>HISTÓRICO DAS RODADAS</h2>
         </div>
       </div>
@@ -317,7 +310,7 @@
           </span>
 
           <span class="history-winner">
-            <i class="pi pi-trophy"></i>
+            <span class="arcade-pixel-icon" aria-hidden="true">★</span>
             {{ h.winner }}
           </span>
 
@@ -325,7 +318,7 @@
             class="history-eliminated"
             *ngIf="h.eliminated && h.eliminated.length > 0"
           >
-            <i class="pi pi-times-circle"></i>
+            <span class="arcade-pixel-icon" aria-hidden="true">×</span>
             {{ h.eliminated.join(', ') }} ELIMINADO
           </span>
 
@@ -333,13 +326,14 @@
             class="history-description"
             *ngIf="!h.eliminated || h.eliminated.length === 0"
           >
-            <i class="pi pi-minus-circle"></i>
+            <span class="arcade-pixel-icon" aria-hidden="true">–</span>
             NINGUÉM ELIMINADO
           </span>
         </div>
       </div>
     </div>
   </div>
+  <footer class="tournament-footer" aria-hidden="true"><span>© 1992 UNO ARCADE</span><span>CREDIT 00</span></footer>
 </div>
 
 <app-confirm-modal

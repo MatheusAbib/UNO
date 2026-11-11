@@ -14,6 +14,201 @@ export class GameService {
   private gameState = new BehaviorSubject<GameState | null>(null);
   private chatMessageSubject = new Subject<{ name: string; text: string; isBot: boolean }>();
   private speechSubject = new Subject<{ name: string; text: string }>();
+
+private readonly botSpeeches: Record<string, string[]> = {
+  turn: [
+    'MINHA VEZ!',
+    'DEIXA EU PENSAR...',
+    'VAMOS LÁ!',
+    'HMM...',
+    'VOU GANHAR ESSA!',
+    'JÁ SEI!',
+    'VAMOS VER...',
+    'HORA DA ESTRATÉGIA!',
+    'AGORA É COMIGO!',
+    'TENHO UM PLANO...',
+    'CALMA AÍ...',
+    'QUE CARTA EU JOGO?',
+    'ESSA VAI SER BOA!',
+    'EU TENHO UMA IDEIA!',
+    'PREPARA!',
+    'NINGUÉM ME SEGURA!',
+    'TÁ FICANDO INTERESSANTE...',
+    'É AGORA!',
+    'VOCÊS NÃO PERDEM POR ESPERAR!',
+    'SÓ OBSERVANDO...',
+    'DEIXA COMIGO!',
+    'QUE JOGO DIFÍCIL!',
+    'EU CONSIGO!',
+    'AGORA VAI!',
+    'SERÁ QUE DÁ CERTO?'
+  ],
+  draw: [
+    'PRECISO COMPRAR!',
+    'NÃO TENHO CARTA!',
+    'QUE AZAR!',
+    'TENHO QUE COMPRAR...',
+    'NÃO TEM JOGADA!',
+    'AH, NÃO!',
+    'SÓ ME FALTAVA ESSA!',
+    'QUE MÃO HORRÍVEL!',
+    'NADA COMBINA!',
+    'O BARALHO ME ODEIA!',
+    'MAIS UMA CARTA...',
+    'ISSO NÃO É JUSTO!',
+    'CADÊ MINHA SORTE?',
+    'EU NÃO ACREDITO!',
+    'TÁ COMPLICADO!',
+    'DE NOVO ISSO?',
+    'NÃO É POSSÍVEL!',
+    'QUE FASE!',
+    'VOU VIRAR COLECIONADOR!',
+    'SOCORRO!'
+  ],
+  skip: [
+    'AH, ME PULOU!',
+    'QUE SACANAGEM!',
+    'AH NÃO, NÉ!',
+    'DEIXA EU JOGAR!',
+    'EU IA GANHAR!',
+    'SÉRIO ISSO?',
+    'NÃO VALE!',
+    'EU TAVA PRONTO!',
+    'QUE RAIVA!',
+    'MINHA VEZ SUMIU!',
+    'VOCÊ ME PAGA!',
+    'NEM DEIXAM JOGAR!',
+    'TÔ SENDO PERSEGUIDO!',
+    'ISSO FOI PESSOAL!',
+    'QUE GOLPE BAIXO!'
+  ],
+  draw2: [
+    '+2 PRA MIM?',
+    'QUE SACANAGEM!',
+    'ISSO É INJUSTO!',
+    'MALDITO +2!',
+    'DUAS CARTAS?!',
+    'NÃO MEREÇO ISSO!',
+    'QUE PRESENTE HORRÍVEL!',
+    'VOCÊ ME PAGA!',
+    'EU TAVA INDO TÃO BEM!',
+    'AGORA COMPLICOU!',
+    'EU VOU ME VINGAR!',
+    'NÃO ACREDITO NESSE +2!',
+    'ERA SÓ O QUE FALTAVA!',
+    'QUE ÓDIO!',
+    'ISSO NÃO VAI FICAR ASSIM!'
+  ],
+  draw4: [
+    '+4?! INJUSTO!',
+    'ISSO É CRUEL!',
+    '+4?! TÔ FORA!',
+    'QUE ÓDIO!',
+    'QUATRO CARTAS?!',
+    'VOCÊ TÁ DE BRINCADEIRA!',
+    'ISSO É UMA GUERRA!',
+    'NUNCA VOU ESQUECER!',
+    'ACABOU MINHA PAZ!',
+    'NÃO TENHO ESTRUTURA!',
+    'QUE HUMILHAÇÃO!',
+    'EU VOU ME VINGAR!',
+    'ALGUÉM ME DEFENDE!',
+    'QUE ABSURDO!',
+    'ISSO FOI MALDADE!'
+  ],
+  uno: [
+    'UNO!',
+    'UNO!!!',
+    'CUIDADO, TÔ DE UNO!',
+    'QUASE LÁ!',
+    'SÓ FALTA UMA!',
+    'TÔ QUASE GANHANDO!',
+    'SINTAM O PERIGO!',
+    'NINGUÉM ME PARA!',
+    'FALTA POUQUINHO!',
+    'TÁ ACABANDO!',
+    'OLHA MEU UNO!',
+    'QUEM VAI ME IMPEDIR?',
+    'A VITÓRIA TÁ PERTO!',
+    'EU AVISEI!',
+    'AGORA É TUDO OU NADA!'
+  ],
+  swap: [
+    'TROQUEI DE MÃO!',
+    'AGORA MINHA MÃO É MELHOR!',
+    'BOA TROCA!',
+    'ESSAS CARTAS SÃO MINHAS!',
+    'MUDANÇA DE PLANOS!',
+    'OBRIGADO PELAS CARTAS!',
+    'NEGÓCIO FECHADO!',
+    'QUE TROCA MARAVILHOSA!',
+    'AGORA SIM!',
+    'EU PRECISAVA DISSO!',
+    'SURPRESA!',
+    'FOI MAL, HEIN!',
+    'NADA PESSOAL!',
+    'GOSTEI DESSA MÃO!',
+    'TROCA JUSTA... PRA MIM!'
+  ],
+  swapBlocked: [
+    'NÃO POSSO GANHAR COM TROCA?',
+    'QUE INJUSTO!',
+    'TIVE QUE COMPRAR...',
+    'EU JÁ TAVA COMEMORANDO!',
+    'NÃO ACREDITO NESSA REGRA!',
+    'LOGO AGORA?',
+    'ESTRAGARAM MEU PLANO!',
+    'ERA MINHA ÚLTIMA CARTA!',
+    'QUE DECEPÇÃO!',
+    'TUDO DANDO ERRADO!'
+  ],
+  peek: [
+    'ALGUÉM OLHOU MINHA MÃO!',
+    'QUE INVASÃO!',
+    'TÔ SENDO VIGIADO!',
+    'EI, NÃO VALE ESPIAR!',
+    'MINHAS CARTAS SÃO SECRETAS!',
+    'QUE FALTA DE PRIVACIDADE!',
+    'PARA DE OLHAR!',
+    'VIU O QUE QUERIA?',
+    'QUE CURIOSIDADE!',
+    'EU VI ISSO!',
+    'NÃO CONTA PRA NINGUÉM!',
+    'AGORA SABE DEMAIS!',
+    'QUE VERGONHA DESSA MÃO!',
+    'TÁ ME INVESTIGANDO?',
+    'ESPIÃO!'
+  ],
+  win: [
+    'VENCEU! SOU O MELHOR!',
+    'MAIS UMA VITÓRIA!',
+    'NINGUÉM ME SEGURA!',
+    'VITÓRIA CERTA!',
+    'EU AVISEI!',
+    'GG!',
+    'CAMPEÃO DA MESA!',
+    'FOI FÁCIL DEMAIS!',
+    'QUE PARTIDA!',
+    'RESPEITA O CAMPEÃO!',
+    'JOGUEI MUITO!',
+    'PODE ENTREGAR O TROFÉU!',
+    'SOU UMA LENDA!',
+    'MAIS SORTE NA PRÓXIMA!',
+    'QUE JOGADA FINAL!',
+    'NUNCA DUVIDEM DE MIM!'
+  ]
+};
+
+private getBotSpeech(category: string): string {
+  const messages = this.botSpeeches[category];
+
+  if (!messages?.length) {
+    return '';
+  }
+
+  return messages[Math.floor(Math.random() * messages.length)];
+}
+
   private confettiSubject = new Subject<void>();
 
   private botTimer: any = null;
@@ -27,6 +222,10 @@ export class GameService {
   private isPaused: boolean = false;
   private peekChooseSubject = new Subject<{ playerName: string; hand: Card[] }>();
   private swapAnimationSubject = new Subject<{ fromPlayer: string; toPlayer: string }>();
+  private specialEffectSubject = new Subject<{
+    playerId: string | null;
+    effect: 'skip' | 'draw2' | 'wild_draw_four' | null;
+  }>();
   private peekedHands: Map<string, { hand: Card[], timestamp: number }> = new Map();
 
   private swapRequestSubject = new Subject<{ fromPlayer: string; targetPlayer: string; callback: () => void }>();
@@ -116,6 +315,13 @@ this.tournamentWinnerSub = this.tournamentWinner$.subscribe(
   getSwapAnimation(): Observable<{ fromPlayer: string; toPlayer: string }> {
     return this.swapAnimationSubject.asObservable();
   }
+
+  getSpecialEffect(): Observable<{
+  playerId: string | null;
+  effect: 'skip' | 'draw2' | 'wild_draw_four' | null;
+}> {
+  return this.specialEffectSubject.asObservable();
+}
 
   getConfetti(): Observable<void> {
     return this.confettiSubject.asObservable();
@@ -247,13 +453,21 @@ notifyTournamentWinner(winnerName: string, position: string, eliminatedName?: st
   }
 
 initializeGame(playerNames: string[], isTournament: boolean = false): void {
+  this.specialEffectSubject.next({
+  playerId: null,
+  effect: null
+});
   this.isTournamentMode = isTournament;
   this.confettiTriggered = false;
   this.isProcessing = false;
   this.isPaused = false;
   this.playedCards = [];
   this.peekedHands.clear();
-  const fullDeck = this.deckService.createDeck();
+  
+  const fullDeck = this.deckService.createDeck().filter(card =>
+    playerNames.length > 2 || card.value !== 'reverse'
+  );
+
 
   let observerNames: string[] = [];
   let allPlayerNames: string[] = [];
@@ -319,7 +533,6 @@ if (isTournament) {
     }
   });
 
-  // ✅ ENCONTRAR PRIMEIRO JOGADOR NÃO OBSERVADOR
   let firstPlayerIndex = players.findIndex(p => !p.isObserver);
   if (firstPlayerIndex === -1) firstPlayerIndex = 0;
 
@@ -456,6 +669,23 @@ this.roundResultSubject.next({
   this.isPaused = false;
 }
 
+private getNextActivePlayer(state: GameState): Player | null {
+  const total = state.players.length;
+
+  for (let offset = 1; offset <= total; offset++) {
+    const index =
+      (state.currentPlayerIndex + state.direction * offset + total * offset) % total;
+
+    const player = state.players[index];
+
+    if (player && !player.isObserver) {
+      return player;
+    }
+  }
+
+  return null;
+}
+
   playCard(playerId: string, cardIndex: number, chosenColor?: string): boolean {
     if (this.isProcessing) {
       return false;
@@ -492,6 +722,10 @@ this.roundResultSubject.next({
     }
 
     this.waitingForDraw = false;
+    this.specialEffectSubject.next({
+      playerId: null,
+      effect: null
+    });
     player.hand.splice(cardIndex, 1);
     state.discardPile.push(card);
     this.playedCards.push(card);
@@ -518,6 +752,14 @@ this.roundResultSubject.next({
 
     if (card.value === 'skip') {
       this.addChatMessage(player.name, 'PULOU O PRÓXIMO!', !player.isHuman);
+      const affectedPlayer = this.getNextActivePlayer(state);
+
+      if (affectedPlayer) {
+        this.specialEffectSubject.next({
+          playerId: affectedPlayer.id,
+          effect: 'skip'
+        });
+      }
       const nextPlayer = state.players[(state.currentPlayerIndex + state.direction + state.players.length) % state.players.length];
       if (nextPlayer && !nextPlayer.isHuman) {
         const skipMessages = ['AF ME PULOU', 'QUE FDP!', 'AH NÂO NÉ!', 'DEIXEM EU JOGAR!'];
@@ -533,6 +775,12 @@ this.roundResultSubject.next({
     } else if (card.value === 'draw2') {
       this.nextTurn(state);
       const nextPlayer = state.players[state.currentPlayerIndex];
+      if (nextPlayer) {
+        this.specialEffectSubject.next({
+          playerId: nextPlayer.id,
+          effect: 'draw2'
+        });
+      }
       if (nextPlayer) {
         for (let i = 0; i < 2; i++) {
           const drawn = this.tryDrawCard(state);
@@ -554,6 +802,12 @@ this.roundResultSubject.next({
     } else if (card.value === 'wild_draw_four') {
       this.nextTurn(state);
       const nextPlayer = state.players[state.currentPlayerIndex];
+      if (nextPlayer) {
+        this.specialEffectSubject.next({
+          playerId: nextPlayer.id,
+          effect: 'wild_draw_four'
+        });
+      }
       if (nextPlayer) {
         for (let i = 0; i < 4; i++) {
           const drawn = this.tryDrawCard(state);
@@ -771,8 +1025,15 @@ this.roundResultSubject.next({
     if (state.drawPile.length === 0) {
       if (state.discardPile.length > 1) {
         const lastCard = state.discardPile.pop()!;
-        const shuffledDiscard = this.deckService.shuffle(state.discardPile);
-        state.drawPile = shuffledDiscard;
+
+        const activePlayerCount = state.players.filter(player => !player.isObserver).length;
+
+        const cardsToRecycle = state.discardPile.filter(card =>
+          activePlayerCount > 2 || card.value !== 'reverse'
+        );
+
+        state.drawPile = this.deckService.shuffle(cardsToRecycle);
+
         state.discardPile = [lastCard];
         this.addChatMessage('SISTEMA', 'BARALHO RECICLADO!', false);
       } else {
@@ -806,12 +1067,10 @@ this.roundResultSubject.next({
   }
 
 private nextTurn(state: GameState): void {
-  // Avança para o próximo jogador
   state.currentPlayerIndex = (state.currentPlayerIndex + state.direction + state.players.length) % state.players.length;
   state.mustDraw = 0;
   this.waitingForDraw = false;
 
-  // ✅ PULAR OBSERVADORES COM LIMITE
   let attempts = 0;
   const maxAttempts = state.players.length;
   while (state.players[state.currentPlayerIndex]?.isObserver && attempts < maxAttempts) {
@@ -820,7 +1079,6 @@ private nextTurn(state: GameState): void {
     attempts++;
   }
 
-  // ✅ SE PULOU TODOS, NÃO HÁ JOGADORES ATIVOS
   if (attempts >= maxAttempts) {
     console.log('⚠️ Nenhum jogador ativo encontrado em nextTurn!');
   }
@@ -859,12 +1117,16 @@ private nextTurn(state: GameState): void {
       if (isPlayable && player.isHuman) {
         this.isProcessing = false;
         return true;
-      } else if (isPlayable && !player.isHuman) {
-        const cardIndex = player.hand.length - 1;
-        const chosenColor = drawnCard.color === 'wild' ? this.getRandomColor() : undefined;
-        this.isProcessing = false;
-        this.playCard(player.id, cardIndex, chosenColor);
-        return true;
+        } else if (isPlayable && !player.isHuman) {
+          const cardIndex = player.hand.length - 1;
+          const chosenColor = drawnCard.color === 'wild' ? this.getRandomColor() : undefined;
+
+          setTimeout(() => {
+            this.isProcessing = false;
+            this.playCard(player.id, cardIndex, chosenColor);
+          }, 1000);
+
+          return true;
       } else {
         if (!player.isHuman) {
           const noPlayMessages = ['PRECISO COMPRAR!', 'NÃO TENHO CARTA!', 'QUE BOSTA!', 'TENHO QUE COMPRAR...', 'NÃO TEM JOGADA!'];
@@ -910,7 +1172,6 @@ public triggerBotIfNeeded(): void {
     return;
   }
 
-  // ✅ LIMITAR PULOS PARA EVITAR LOOP INFINITO
   let skipCount = 0;
   const maxSkips = state.players.length + 1;
 
@@ -922,16 +1183,13 @@ public triggerBotIfNeeded(): void {
     skipCount++;
   }
 
-  // ✅ SE PULOU TODOS OS JOGADORES, SIGNIFICA QUE NINGUÉM PODE JOGAR
   if (skipCount >= maxSkips) {
     console.log('⚠️ Nenhum jogador ativo encontrado!');
     return;
   }
 
-  // ✅ ATUALIZAR O ESTADO APÓS OS PULOS
   this.gameState.next(state);
 
-  // ✅ VERIFICAR SE O JOGO ACABOU
   if (state.isGameOver) {
     return;
   }
@@ -940,13 +1198,11 @@ public triggerBotIfNeeded(): void {
   if (!currentPlayer) return;
 
   if (!currentPlayer.isHuman) {
-    const turnMessages = ['MINHA VEZ!', 'DEIXEM EU PENSAR...', 'VAMOS LÁ!', 'HMM...', 'VOU GANHAR ESSA!', 'AH SEI...', 'VAMOS VER...', 'HORA DA ESTRATÉGIA!'];
-    const randomMessage = turnMessages[Math.floor(Math.random() * turnMessages.length)];
-    this.addSpeech(currentPlayer.name, randomMessage);
+this.addSpeech(currentPlayer.name, this.getBotSpeech('turn'));
 
     this.botTimer = setTimeout(() => {
       this.botPlay();
-    }, 1500);
+    }, 2500);
   }
 }
 
@@ -1232,6 +1488,10 @@ public triggerBotIfNeeded(): void {
       clearTimeout(this.botTimer);
       this.botTimer = null;
     }
+    this.specialEffectSubject.next({
+      playerId: null,
+      effect: null
+    });
     this.waitingForDraw = false;
     this.confettiTriggered = false;
     this.isProcessing = false;
