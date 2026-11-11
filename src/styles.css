@@ -188,7 +188,6 @@ body {
     );
   font-family: var(--arcade-font);
   -webkit-font-smoothing: none;
-  font-smooth: never;
 }
 
 html::-webkit-scrollbar,
