@@ -1,0 +1,145 @@
+
+<div
+  class="player-hand"
+  [class]="position"
+  [class.active-player]="isCurrent"
+  [class.uno-warning]="player.isUno"
+  [class.human-hand]="isHuman"
+  [class.opponent-hand]="!isHuman"
+  *ngIf="player"
+>
+  <div class="player-header">
+    <div class="player-avatar-wrapper">
+      <div
+        class="player-avatar"
+        [class.active]="isCurrent"
+        [style.background]="getAvatarColor(player.name)"
+      >
+        <img
+          *ngIf="hasImage(player.name)"
+          [src]="getAvatarImage(player.name)"
+          [alt]="player.name"
+          class="avatar-image"
+        />
+
+        <span
+          *ngIf="!hasImage(player.name)"
+          class="avatar-text"
+        >
+          {{ getAvatarInitial(player.name) }}
+        </span>
+
+        <div
+          class="avatar-glow"
+          *ngIf="isCurrent"
+        ></div>
+      </div>
+
+      <div
+        class="speech-bubble"
+        [class.show]="showSpeech()"
+      >
+        {{ speechMessage }}
+      </div>
+    </div>
+
+    <div class="player-info">
+      <span class="player-role">
+        {{ isHuman ? '1P / PLAYER' : 'CPU / RIVAL' }}
+      </span>
+
+      <span
+        class="player-name"
+        [class.active]="isCurrent"
+      >
+        {{ player.name }}
+      </span>
+
+      <div class="player-status">
+        <span
+          class="turn-status"
+          [class.is-current]="isCurrent"
+        >
+          <span class="status-cursor" aria-hidden="true">
+            {{ isCurrent ? '▶' : '■' }}
+          </span>
+          {{ isCurrent ? 'SUA VEZ' : 'AGUARDANDO' }}
+        </span>
+
+        <span
+          class="uno-indicator"
+          *ngIf="player.isUno"
+        >
+          ★ UNO!
+        </span>
+
+
+<span
+  class="card-count"
+  *ngIf="!player.isUno"
+  [attr.aria-label]="player.hand.length + ' cartas'"
+>
+  <span class="card-count-label">CARDS</span>
+  {{ player.hand.length }}
+</span>
+
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="cards-container"
+    [class]="position"
+    [class.bot-hand]="!isHuman"
+    [class.human-cards]="isHuman"
+    [class.current-hand]="isCurrent"
+  >
+    <div
+      class="card-wrapper"
+      *ngFor="let card of player.hand; let i = index"
+      [class.player-card-container]="isHuman"
+      [class.playable]="isHuman && isCurrent && isCardPlayable(card)"
+      [class.invalid]="isHuman && (!isCurrent || !isCardPlayable(card))"
+      [class.opponent-card-container]="!isHuman"
+      [style.transform]="getCardTransform(i, player.hand.length)"
+      [style.z-index]="i + 1"
+      (click)="isHuman && isCurrent ? playCard(i) : null"
+    >
+      <div
+        *ngIf="isHuman"
+        class="card player-card"
+        [class.vermelho]="card.color === 'red'"
+        [class.verde]="card.color === 'green'"
+        [class.azul]="card.color === 'blue'"
+        [class.amarelo]="card.color === 'yellow'"
+        [class.preto]="card.color === 'wild'"
+        [class.card-deal]="isNewCard(i)"
+      >
+        <span
+          class="value"
+          *ngIf="card.value !== 'peek'"
+        >
+          {{ getCardDisplay(card) }}
+        </span>
+
+        <i
+          *ngIf="card.value === 'peek'"
+          class="pi pi-eye peek-icon-card"
+        ></i>
+      </div>
+
+      <div
+        *ngIf="!isHuman"
+        class="card hidden opponent-card"
+      >
+        <div class="card-back"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hand-bottom-strip" aria-hidden="true">
+    <span>{{ isHuman ? 'PLAYER HAND' : 'ENEMY HAND' }}</span>
+    <span *ngIf="isCurrent">● ACTIVE</span>
+    <span *ngIf="!isCurrent">STANDBY</span>
+  </div>
+</div>

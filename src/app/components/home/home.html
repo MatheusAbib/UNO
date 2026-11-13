@@ -1,0 +1,148 @@
+<div class="uno-arcade">
+  <div class="arcade-screen-frame" aria-hidden="true">
+    <div class="arcade-screen-frame__top">
+      <span>1P</span>
+      <span>UNO ARCADE</span>
+      <span>HI 999999</span>
+    </div>
+
+    <div class="arcade-screen-frame__bottom">
+      <span>© 1992 UNO ARCADE</span>
+      <span>CREDIT 00</span>
+    </div>
+  </div>
+
+  <main class="arcade-main">
+    <header class="arcade-heading">
+      <div class="arcade-heading__eyebrow">
+        <span>THE CLASSIC CARD GAME</span>
+      </div>
+
+      <div class="arcade-logo" aria-label="UNO Arcade">
+        <div class="arcade-logo__perspective">
+          <span class="arcade-logo__depth" aria-hidden="true">UNO</span>
+          <h1 class="arcade-logo__front">UNO</h1>
+        </div>
+
+        <div class="arcade-logo__subtitle">
+          <span class="arcade-logo__subtitle-line"></span>
+          <strong>ARCADE</strong>
+          <span class="arcade-logo__subtitle-line"></span>
+        </div>
+      </div>
+    </header>
+
+    <section class="arcade-menu" aria-label="Menu principal">
+      <div class="arcade-heading__insert">
+        <span>PRESS START BUTTON</span>
+      </div>
+
+      <div class="arcade-menu__players">
+        <div class="arcade-menu__players-heading">
+          <span>SELECT PLAYERS</span>
+        </div>
+
+        <div class="arcade-menu__player-selection">
+          <button
+            type="button"
+            class="arcade-menu__arrow"
+            (click)="changeBotCount(-1)"
+            [disabled]="botCount <= 1 || isLoading"
+            aria-label="Diminuir quantidade de jogadores"
+          >
+            &lt;
+          </button>
+
+          <div class="arcade-menu__player-count" aria-live="polite">
+            <span class="arcade-menu__number">{{ botCount + 1 }}</span>
+            <span class="arcade-menu__number-label">PLAYERS</span>
+          </div>
+
+          <button
+            type="button"
+            class="arcade-menu__arrow"
+            (click)="changeBotCount(1)"
+            [disabled]="botCount >= 3 || isLoading"
+            aria-label="Aumentar quantidade de jogadores"
+          >
+            &gt;
+          </button>
+        </div>
+
+        <p class="arcade-menu__player-description">
+          VOCÊ + {{ botCount }} {{ botCount === 1 ? 'ADVERSÁRIO' : 'ADVERSÁRIOS' }}
+        </p>
+
+        <div class="arcade-menu__player-leds" aria-hidden="true">
+          <span
+            *ngFor="let player of [1, 2, 3, 4]; let i = index"
+            [class.is-active]="i < botCount + 1"
+          ></span>
+        </div>
+      </div>
+
+      <nav class="arcade-menu__actions" aria-label="Modos de jogo">
+        <button
+          type="button"
+          class="arcade-action arcade-action--primary"
+          (click)="startGame()"
+          [disabled]="isLoading"
+        >
+          <span class="arcade-action__cursor" aria-hidden="true">▶</span>
+
+          <span class="arcade-action__content">
+            <span class="arcade-action__title">
+              {{ isLoading ? 'CARREGANDO...' : 'INICIAR JOGO' }}
+            </span>
+            <span class="arcade-action__description">PARTIDA CLÁSSICA</span>
+          </span>
+
+          <span class="arcade-action__number" aria-hidden="true">01</span>
+        </button>
+
+        <button
+          type="button"
+          class="arcade-action arcade-action--tournament"
+          (click)="startTournament()"
+          [disabled]="isLoading"
+        >
+          <span class="arcade-action__cursor" aria-hidden="true">▶</span>
+
+          <span class="arcade-action__content">
+            <span class="arcade-action__title">TORNEIO</span>
+            <span class="arcade-action__description">DISPUTE O CAMPEONATO</span>
+          </span>
+
+          <span class="arcade-action__number" aria-hidden="true">02</span>
+        </button>
+
+        <button
+          type="button"
+          class="arcade-action arcade-action--ranking"
+          (click)="openRanking()"
+          [disabled]="isLoading"
+        >
+          <span class="arcade-action__cursor" aria-hidden="true">▶</span>
+
+          <span class="arcade-action__content">
+            <span class="arcade-action__title">PLACAR</span>
+            <span class="arcade-action__description">RECORDES E ESTATÍSTICAS</span>
+          </span>
+
+          <span class="arcade-action__number" aria-hidden="true">03</span>
+        </button>
+      </nav>
+    </section>
+
+    <footer class="arcade-footer">
+      <span>INSERT COIN</span>
+      <span class="arcade-footer__separator">•</span>
+      <span>PRESS START</span>
+    </footer>
+  </main>
+
+  <app-ranking
+    *ngIf="showRanking"
+    (close)="closeRanking()"
+  ></app-ranking>
+</div>

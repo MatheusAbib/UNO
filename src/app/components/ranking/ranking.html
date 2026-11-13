@@ -1,0 +1,250 @@
+
+<div class="ranking-modal" (click)="onClose()">
+  <div
+    class="ranking-content"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="ranking-title"
+    (click)="$event.stopPropagation()"
+  >
+    <div class="ranking-topbar">
+      <span>1P</span>
+      <span>UNO ARCADE SYSTEM</span>
+      <span>HI-SCORE</span>
+    </div>
+
+    <div class="ranking-header">
+      <div class="ranking-heading">
+        <div class="ranking-badge">
+          <span class="ranking-badge-line"></span>
+          <span>ARCADE LEADERBOARD</span>
+          <span class="ranking-badge-line"></span>
+        </div>
+
+        <h2 class="ranking-title" id="ranking-title">
+          RANKING
+        </h2>
+
+        <p class="ranking-subtitle">
+          HALL OF FAME
+        </p>
+      </div>
+
+      <button
+        type="button"
+        class="ranking-close"
+        (click)="onClose()"
+        aria-label="Fechar ranking"
+      >
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+
+    <div class="ranking-modes">
+      <button
+        type="button"
+        class="mode-btn"
+        *ngFor="let mode of getModes(); let i = index"
+        [class.active]="isSelected(mode)"
+        [attr.aria-pressed]="isSelected(mode)"
+        (click)="selectMode(mode)"
+      >
+        <span class="mode-index">
+          MODE {{ (i + 1).toString().padStart(2, '0') }}
+        </span>
+
+        <span class="mode-label">
+          <span class="mode-cursor" aria-hidden="true">▶</span>
+          {{ getModeLabel(mode) }}
+        </span>
+
+        <span class="mode-description">
+          {{ getModeDescription(mode) }}
+        </span>
+      </button>
+    </div>
+
+    <div class="ranking-summary">
+      <div class="summary-item summary-item--games">
+        <span class="summary-index">01 / GAMES</span>
+        <div class="summary-info">
+          <span class="summary-label">PARTIDAS</span>
+          <strong class="summary-value">
+            {{ getTotalGames(selectedMode) }}
+          </strong>
+        </div>
+        <span class="summary-decoration" aria-hidden="true">■ ■ ■</span>
+      </div>
+
+      <div class="summary-item summary-item--wins">
+        <span class="summary-index">02 / WINS</span>
+        <div class="summary-info">
+          <span class="summary-label">VITÓRIAS</span>
+          <strong class="summary-value">
+            {{ getTotalWins(selectedMode) }}
+          </strong>
+        </div>
+        <span class="summary-decoration" aria-hidden="true">★ ★ ★</span>
+      </div>
+
+      <div class="summary-item summary-item--leader">
+        <span class="summary-index">03 / TOP PLAYER</span>
+        <div class="summary-info">
+          <span class="summary-label">LÍDER</span>
+          <strong class="summary-value leader-name">
+            {{ getLeader(selectedMode) }}
+          </strong>
+        </div>
+        <span class="summary-decoration" aria-hidden="true">★ NO.1</span>
+      </div>
+    </div>
+
+    <div class="ranking-board">
+      <div class="board-header">
+        <div class="board-heading">
+          <span class="board-heading-symbol" aria-hidden="true">★</span>
+          <span>PLACAR GERAL</span>
+        </div>
+
+        <span class="board-mode">
+          {{ getModeLabel(selectedMode) }}
+        </span>
+      </div>
+
+      <div class="ranking-table-wrapper">
+        <table class="ranking-table">
+          <thead>
+            <tr>
+              <th class="column-position">POS.</th>
+              <th>JOGADOR</th>
+              <th class="column-number">VITÓRIAS</th>
+              <th class="column-number">PARTIDAS</th>
+              <th class="column-number">TAXA</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr
+              *ngFor="let player of getPlayers(selectedMode); let i = index"
+              [class]="getRankClass(i)"
+            >
+              <td class="rank-number">
+                <span class="rank-position">
+                  <span *ngIf="i === 0" aria-label="Primeiro lugar">★</span>
+                  <span *ngIf="i !== 0">
+                    {{ (i + 1).toString().padStart(2, '0') }}
+                  </span>
+                </span>
+              </td>
+
+              <td
+                class="player-name-ranking"
+                [class.is-human]="isHumanPlayer(player.name)"
+              >
+                <div class="player-identity">
+                  <span class="player-avatar-ranking" aria-hidden="true">
+                    {{ player.name.charAt(0).toUpperCase() }}
+                  </span>
+
+                  <div class="player-identity-text">
+                    <span class="player-name-text">
+                      {{ player.name }}
+                    </span>
+
+                    <span
+                      class="human-badge"
+                      *ngIf="isHumanPlayer(player.name)"
+                    >
+                      1P / VOCÊ
+                    </span>
+
+                    <span
+                      class="leader-badge"
+                      *ngIf="i === 0"
+                    >
+                      TOP PLAYER
+                    </span>
+                  </div>
+                </div>
+              </td>
+
+              <td class="wins">
+                {{ player.stats.wins }}
+              </td>
+
+              <td class="games">
+                {{ player.stats.games }}
+              </td>
+
+              <td class="win-rate">
+                <div class="rate-content">
+                  <span>{{ getWinRate(player.stats) }}</span>
+
+                  <div class="rate-track">
+                    <div
+                      class="rate-fill"
+                      [style.width.%]="getWinRateNumber(player.stats)"
+                    ></div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <tr *ngIf="getPlayers(selectedMode).length === 0">
+              <td colspan="5" class="empty-message">
+                <div class="empty-state">
+                  <span class="empty-symbol" aria-hidden="true">?</span>
+                  <strong>NO RECORD</strong>
+                  <span>NENHUMA PARTIDA REGISTRADA</span>
+                  <p>
+                    Jogue algumas partidas para conquistar
+                    seu lugar no placar.
+                  </p>
+                  <span class="empty-instruction">
+                    INSERT COIN · PRESS START
+                  </span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="board-bottom">
+        <span>PLAYER RECORDS</span>
+        <span>© 1992 UNO ARCADE</span>
+      </div>
+    </div>
+
+    <div class="ranking-footer">
+      <div class="ranking-footer-info">
+        <span class="footer-indicator" aria-hidden="true"></span>
+        <span>ESTATÍSTICAS SALVAS AUTOMATICAMENTE</span>
+      </div>
+
+      <button
+        type="button"
+        class="btn-clear"
+        (click)="clearRanking()"
+        *ngIf="getTotalGames(selectedMode) > 0"
+      >
+        <span aria-hidden="true">×</span>
+        <span>LIMPAR RANKING</span>
+      </button>
+    </div>
+
+    <div class="ranking-bottom-strip" aria-hidden="true">
+      <span>CREDIT 00</span>
+      <span>PRESS START TO CONTINUE</span>
+      <span>1 PLAYER</span>
+    </div>
+  </div>
+</div>
+
+<app-confirm-modal
+  *ngIf="showClearRankingModal"
+  title="LIMPAR RANKING"
+  message="Tem certeza que deseja limpar todo o ranking? Esta ação não pode ser desfeita!"
+  (confirm)="confirmClearRanking()"
+  (cancel)="cancelClearRanking()"
+></app-confirm-modal>

@@ -1,0 +1,345 @@
+
+<div class="tournament-container">
+  <div class="tournament-header">
+    <button class="btn-home-header" (click)="goHome()">
+       <i class="pi pi-home"></i>
+      <span>HOME</span>
+    </button>
+
+    <div class="tournament-heading">
+      <span class="tournament-heading__stage">1P / CHAMPIONSHIP MODE</span>
+      <div class="tournament-eyebrow">
+        <span class="arcade-pixel-icon" aria-hidden="true">★</span>
+        <span>UNO CHAMPIONSHIP</span>
+      </div>
+      <h1 class="tournament-title">TORNEIO</h1>
+      <p class="tournament-subtitle">SEIS RODADAS. UM CAMPEÃO.</p>
+      <span class="tournament-heading__press">PRESS START TO COMPETE</span>
+    </div>
+    <div class="tournament-header__score" aria-hidden="true"><span>HI-SCORE</span><strong>999999</strong></div>
+  </div>
+
+  <div
+    class="tournament-start"
+    *ngIf="!tournamentState || (!tournamentState.isActive && !tournamentState.winner)"
+  >
+    <div class="tournament-info-cards">
+      <div class="info-card">
+        <div class="info-icon-wrapper purple">
+          <span class="arcade-pixel-icon" aria-hidden="true">1P</span>
+        </div>
+        <div class="info-content">
+          <span class="info-value">04</span>
+          <span class="info-label">JOGADORES</span>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-icon-wrapper blue">
+          <span class="arcade-pixel-icon" aria-hidden="true">06</span>
+        </div>
+        <div class="info-content">
+          <span class="info-value">06</span>
+          <span class="info-label">RODADAS</span>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-icon-wrapper yellow">
+          <span class="arcade-pixel-icon" aria-hidden="true">★</span>
+        </div>
+        <div class="info-content">
+          <span class="info-value">+1</span>
+          <span class="info-label">VITÓRIA NO RANKING</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tournament-how-it-works">
+      <div class="section-heading">
+        <div class="section-heading-left">
+          <span class="arcade-pixel-icon" aria-hidden="true">▦</span>
+          <h2>COMO FUNCIONA</h2>
+        </div>
+        <span class="section-heading-tag">REGULAMENTO</span>
+      </div>
+
+      <div class="how-steps">
+        <div class="how-step">
+          <span class="step-number">01</span>
+          <div class="step-content">
+            <span class="step-label">RODADA INICIAL</span>
+            <span class="step-text">
+              Todos os 4 jogadores disputam a
+              <strong>primeira rodada</strong>.
+            </span>
+          </div>
+        </div>
+
+        <div class="how-step">
+          <span class="step-number">02</span>
+          <div class="step-content">
+            <span class="step-label">REPESCAGEM</span>
+            <span class="step-text">
+              Os perdedores jogam entre si até sobrar
+              <strong>1 vencedor</strong>.
+            </span>
+          </div>
+        </div>
+
+        <div class="how-step">
+          <span class="step-number">03</span>
+          <div class="step-content">
+            <span class="step-label">QUARTO LUGAR</span>
+            <span class="step-text">
+              O perdedor da <strong>3ª rodada</strong>
+              termina em <strong>4º lugar</strong>.
+            </span>
+          </div>
+        </div>
+
+        <div class="how-step">
+          <span class="step-number">04</span>
+          <div class="step-content">
+            <span class="step-label">DISPUTA DOS VENCEDORES</span>
+            <span class="step-text">
+              Os vencedores disputam a
+              <strong>4ª rodada</strong> para definir a final.
+            </span>
+          </div>
+        </div>
+
+        <div class="how-step">
+          <span class="step-number">05</span>
+          <div class="step-content">
+            <span class="step-label">TERCEIRO LUGAR</span>
+            <span class="step-text">
+              O perdedor da <strong>5ª rodada</strong>
+              termina em <strong>3º lugar</strong>.
+            </span>
+          </div>
+        </div>
+
+        <div class="how-step final-step">
+          <span class="step-number">06</span>
+          <div class="step-content">
+            <span class="step-label">GRANDE FINAL</span>
+            <span class="step-text">
+              O vencedor é <strong>CAMPEÃO</strong> e o perdedor
+              termina em <strong>2º lugar</strong>.
+            </span>
+          </div>
+          <span class="final-step-icon" aria-hidden="true">★</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tournament-start-action">
+      <div class="start-action-info">
+        <span class="arcade-pixel-icon" aria-hidden="true">!</span>
+        <span>PREPARE-SE PARA A PRIMEIRA RODADA</span>
+      </div>
+
+      <button
+        class="btn-start-tournament"
+        (click)="startTournament()"
+        [disabled]="isStarting"
+      >
+        <span class="arcade-button-cursor" aria-hidden="true">▶</span>
+        <span>{{ isStarting ? 'INICIANDO...' : 'INICIAR TORNEIO' }}</span>
+      </button>
+    </div>
+
+    <div
+      class="tournament-history-list"
+      *ngIf="getTournamentHistory().length > 0"
+    >
+      <div class="section-heading">
+        <div class="section-heading-left">
+          <span class="arcade-pixel-icon" aria-hidden="true">◷</span>
+          <h2>HISTÓRICO DE TORNEIOS</h2>
+        </div>
+        <span class="section-heading-tag">
+          {{ getTournamentHistory().length }} REGISTROS
+        </span>
+      </div>
+
+      <div class="history-list-container">
+        <div
+          class="history-card"
+          *ngFor="let h of getTournamentHistory(); let i = index"
+        >
+          <div class="history-card-header">
+            <div class="history-date">
+              <span class="arcade-pixel-icon" aria-hidden="true">▦</span>
+              <span>{{ h.date }}</span>
+            </div>
+
+            <div class="history-winner-label">
+              <span class="arcade-pixel-icon" aria-hidden="true">★</span>
+              <span>{{ h.winner }}</span>
+              <span class="winner-caption">CAMPEÃO</span>
+            </div>
+          </div>
+
+          <div class="history-card-players">
+            <div
+              class="history-player"
+              *ngFor="let p of getSortedHistoryPlayers(h.players)"
+              [class.history-champion]="p.position === 1"
+            >
+              <span class="history-player-pos">
+                <span class="arcade-pixel-icon" *ngIf="p.position === 1" aria-hidden="true">★</span>
+                <span *ngIf="p.position !== 1">
+                  {{ p.position }}º
+                </span>
+              </span>
+
+              <span
+                class="history-player-name"
+                [class.is-winner]="p.position === 1"
+              >
+                {{ p.name }}
+              </span>
+
+              <span
+                class="history-player-position"
+                [class.position-first]="p.position === 1"
+                [class.position-second]="p.position === 2"
+                [class.position-third]="p.position === 3"
+                [class.position-fourth]="p.position === 4"
+              >
+                {{ p.position === 1 ? 'CAMPEÃO' : p.position + 'º LUGAR' }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-clear-history" (click)="clearHistory()">
+        <span class="arcade-pixel-icon" aria-hidden="true">×</span>
+        <span>LIMPAR HISTÓRICO</span>
+      </button>
+    </div>
+
+    <div
+      class="tournament-history-empty"
+      *ngIf="getTournamentHistory().length === 0"
+    >
+      <span class="arcade-pixel-icon arcade-pixel-icon--large" aria-hidden="true">--</span>
+      <strong>NENHUM TORNEIO FINALIZADO</strong>
+      <span>Seus campeonatos aparecerão aqui.</span>
+    </div>
+  </div>
+
+  <div
+    class="tournament-active"
+    *ngIf="tournamentState && (tournamentState.isActive || tournamentState.winner)"
+  >
+    <div class="tournament-status">
+      <span
+        class="status-badge"
+        [class.active]="tournamentState.isActive"
+        [class.finished]="!tournamentState.isActive"
+      >
+        <span class="arcade-pixel-icon" aria-hidden="true">{{ tournamentState.isActive ? '●' : '★' }}</span>
+        {{ tournamentState.isActive ? 'EM ANDAMENTO' : 'FINALIZADO' }}
+      </span>
+
+      <span class="tournament-round-info">
+        {{ tournamentState.isActive ? 'RODADA ' + (tournamentState.currentRound - 1) + ' DE 6' : 'RODADA 6 DE 6' }}
+      </span>
+    </div>
+
+    <div class="tournament-ranking">
+      <div class="section-heading">
+        <div class="section-heading-left">
+          <span class="arcade-pixel-icon" aria-hidden="true">★</span>
+          <h2>CLASSIFICAÇÃO</h2>
+        </div>
+        <span class="section-heading-tag">PLACAR ATUAL</span>
+      </div>
+
+      <div class="ranking-list">
+        <div
+          class="ranking-item"
+          *ngFor="let player of getSortedPlayers(); let i = index"
+          [class.eliminated]="player.eliminated"
+          [class.champion]="player.group === 'champion'"
+          [class.classified]="player.group === 'winners' && !player.eliminated"
+        >
+          <span class="rank-pos">
+            <span class="arcade-pixel-icon" *ngIf="player.position === 1" aria-hidden="true">★</span>
+            <span *ngIf="player.position && player.position !== 1">
+              {{ player.position }}º
+            </span>
+            <span class="arcade-pixel-icon" *ngIf="!player.position" aria-hidden="true">●</span>
+          </span>
+
+          <span class="rank-avatar" aria-hidden="true">{{ player.name?.charAt(0) || '?' }}</span>
+          <span class="rank-name">{{ player.name }}</span>
+
+          <span
+            class="rank-status"
+            [class]="getRankStatusClass(player)"
+          >
+            {{ getTournamentStatusLabel(player) }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="tournament-history"
+      *ngIf="tournamentState.roundHistory.length > 0"
+    >
+      <div class="section-heading">
+        <div class="section-heading-left">
+          <span class="arcade-pixel-icon" aria-hidden="true">◷</span>
+          <h2>HISTÓRICO DAS RODADAS</h2>
+        </div>
+      </div>
+
+      <div class="history-list">
+        <div
+          class="history-item"
+          *ngFor="let h of tournamentState.roundHistory; let i = index"
+        >
+          <span class="history-round">
+            RODADA {{ h.round }}
+          </span>
+
+          <span class="history-winner">
+            <span class="arcade-pixel-icon" aria-hidden="true">★</span>
+            {{ h.winner }}
+          </span>
+
+          <span
+            class="history-eliminated"
+            *ngIf="h.eliminated && h.eliminated.length > 0"
+          >
+            <span class="arcade-pixel-icon" aria-hidden="true">×</span>
+            {{ h.eliminated.join(', ') }} ELIMINADO
+          </span>
+
+          <span
+            class="history-description"
+            *ngIf="!h.eliminated || h.eliminated.length === 0"
+          >
+            <span class="arcade-pixel-icon" aria-hidden="true">–</span>
+            NINGUÉM ELIMINADO
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="tournament-footer" aria-hidden="true"><span>© 1992 UNO ARCADE</span><span>CREDIT 00</span></footer>
+</div>
+
+<app-confirm-modal
+  *ngIf="showClearHistoryModal"
+  title="LIMPAR HISTÓRICO"
+  message="Tem certeza que deseja limpar todo o histórico de torneios? Esta ação não pode ser desfeita!"
+  (confirm)="confirmClearHistory()"
+  (cancel)="cancelClearHistory()"
+></app-confirm-modal>
